@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/discover_tab"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:tabIndicatorHeight="0dp"
+        app:tabTextColor="@color/purple_200"
+        app:tabSelectedTextColor="@color/purple_700"
+        >
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabitem1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="我的活动" />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabitem2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="全部活动" />
+    </com.google.android.material.tabs.TabLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/discover_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
