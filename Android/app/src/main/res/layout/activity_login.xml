@@ -1,78 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".activity.LoginActivity">
+    android:fitsSystemWindows="true">
+<!--    登陆页面主页-->
+    <LinearLayout
+        android:id="@+id/login_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_seven"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+<!--    顶部间隔 80dp-->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
+        <!--logo板块-->
+        <!--用户名栏-->
+        <ImageView
+            android:id="@+id/login_logo"
+            android:layout_width="393dp"
+            android:layout_height="158dp"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@null"
+            android:scaleType="centerInside"
+            app:srcCompat="@mipmap/ic_logo2" />
 
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="96dp"
-        android:layout_marginEnd="24dp"
-        android:autofillHints="@string/prompt_email"
-        android:hint="@string/prompt_email"
-        android:inputType="textEmailAddress"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/login_username"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/input_ok"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:autofillHints="@string/prompt_password"
-        android:hint="@string/prompt_password"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+            <ImageView
+                android:id="@+id/login_username_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:contentDescription="@null"
+                app:srcCompat="@mipmap/ic_login_username" />
+            <!--用户名栏图标-->
+            <View
+                android:layout_width="1px"
+                android:layout_height="22dp"
+                android:background="@color/login_input_color" />
+            <!--用户名编辑栏-->
+            <EditText
+                android:id="@+id/login_username_edit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:ems="15"
+                android:focusable="true"
+                android:hint="用户名"
+                android:imeOptions="actionDone"
+                android:inputType="textPhonetic"
+                android:lines="1"
+                android:maxLines="1"
+                android:minLines="1"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/login_input_color"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp"
+                android:autofillHints="" />
+            <!--清空当前编辑栏图标-->
+            <ImageView
+                android:id="@+id/login_username_del"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:contentDescription="@null"
+                android:scaleType="fitCenter"
+                android:visibility="gone"
+                app:srcCompat="@mipmap/ic_clear" />
+        </LinearLayout>
+        <!--密码栏-->
+        <LinearLayout
+            android:id="@+id/login_password"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/input_ok"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <!--密码栏图标-->
+            <ImageView
+                android:id="@+id/login_password_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:contentDescription="@null"
+                app:srcCompat="@mipmap/ic_login_password" />
+            <View
+                android:layout_width="1px"
+                android:layout_height="22dp"
+                android:background="@color/login_input_color" />
+            <!--密码编辑栏-->
+            <EditText
+                android:id="@+id/login_password_edit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="密码"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:minLines="1"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/login_input_color"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp" />
+            <!--清空当前编辑栏内容图标-->
+            <ImageView
+                android:id="@+id/login_password_del"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:contentDescription="@null"
+                android:scaleType="fitCenter"
+                android:visibility="gone"
+                app:srcCompat="@mipmap/ic_clear" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="64dp"
-        android:enabled="false"
-        android:text="@string/action_sign_in"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.2" />
+        <!--登陆按钮-->
+        <Button
+            android:id="@+id/login_submit_bt"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/submit_lock"
+            android:elevation="0dp"
+            android:outlineProvider="none"
+            android:text="登陆"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            tools:targetApi="lollipop" />
 
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="64dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!--注册按钮-->
+        <Button
+            android:id="@+id/login_register_bt"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/login_register"
+            android:elevation="0dp"
+            android:outlineProvider="none"
+            android:text="注册"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:translationZ="0dp"
+            tools:targetApi="lollipop" />
+
+
+    </LinearLayout>
+
+</FrameLayout>
