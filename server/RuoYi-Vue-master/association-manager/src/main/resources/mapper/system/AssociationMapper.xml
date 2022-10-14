@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AssociationMapper">
+    
+    <resultMap type="Association" id="AssociationResult">
+        <result property="id"    column="id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="reason"    column="reason"    />
+        <result property="person"    column="person"    />
+    </resultMap>
+
+    <sql id="selectAssociationVo">
+        select id, create_by, create_time, update_by, update_time, name, type, reason, person from association
+    </sql>
+
+    <select id="selectAssociationList" parameterType="Association" resultMap="AssociationResult">
+        <include refid="selectAssociationVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="reason != null  and reason != ''"> and reason = #{reason}</if>
+            <if test="person != null  and person != ''"> and person = #{person}</if>
+        </where>
+    </select>
+    
+    <select id="selectAssociationById" parameterType="Long" resultMap="AssociationResult">
+        <include refid="selectAssociationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAssociation" parameterType="Association" useGeneratedKeys="true" keyProperty="id">
+        insert into association
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="name != null">name,</if>
+            <if test="type != null">type,</if>
+            <if test="reason != null">reason,</if>
+            <if test="person != null">person,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="name != null">#{name},</if>
+            <if test="type != null">#{type},</if>
+            <if test="reason != null">#{reason},</if>
+            <if test="person != null">#{person},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssociation" parameterType="Association">
+        update association
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="reason != null">reason = #{reason},</if>
+            <if test="person != null">person = #{person},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssociationById" parameterType="Long">
+        delete from association where id = #{id}
+    </delete>
+
+    <delete id="deleteAssociationByIds" parameterType="String">
+        delete from association where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
