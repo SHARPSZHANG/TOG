@@ -1,4 +1,4 @@
-package com.sharpszhang.tog.Bean;
+package com.sharpszhang.tog.base;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -15,8 +15,8 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        XUI.initTheme(this);
         super.onCreate(savedInstanceState, persistentState);
+        XUI.initTheme(this);
         //设置沉浸式状态栏
         StatusBarUtils.translucent(this);
 

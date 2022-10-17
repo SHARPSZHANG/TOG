@@ -16,15 +16,13 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import com.alibaba.fastjson.JSONObject;
-import com.sharpszhang.tog.Bean.BaseActivity;
+import com.sharpszhang.tog.base.BaseActivity;
 import com.sharpszhang.tog.R;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 
 import org.json.JSONException;
 
 import java.io.UnsupportedEncodingException;
-
-import butterknife.BindView;
 
 import static com.sharpszhang.tog.utils.KeyboardUtils.isShouldHideInput;
 

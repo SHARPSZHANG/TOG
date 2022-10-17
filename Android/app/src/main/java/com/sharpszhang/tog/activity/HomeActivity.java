@@ -14,9 +14,12 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.sharpszhang.tog.Bean.BaseActivity;
+import com.sharpszhang.tog.base.BaseActivity;
 import com.sharpszhang.tog.R;
-import com.sharpszhang.tog.fragment.DiscoverFragment;
+import com.sharpszhang.tog.fragment.ActivityFragment;
+import com.sharpszhang.tog.fragment.ClubFragment;
+import com.sharpszhang.tog.fragment.ManageFragment;
+import com.sharpszhang.tog.fragment.MessageFragment;
 
 import butterknife.ButterKnife;
 
@@ -24,13 +27,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     // 底部导航
     private BottomNavigationView bottomNavigationView;
     // 发现页
-    private DiscoverFragment discoverFragment;
+    private ActivityFragment activityFragment;
     // 关注页
-    //private AttentionFragment attentionFragment;
+    private ClubFragment clubFragment;
     // 消息页
-    //private InformationFragment informationFragment;
+    private MessageFragment messageFragment;
     // 个人页
-    //private MyFragment myFragment;
+    private ManageFragment manageFragment;
 
     private FragmentManager fragmentManager;
 
@@ -67,42 +70,34 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         // 导航栏绑定fragment
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()){
-                case R.id.discover:
+                case R.id.activity:
 //                         加载发现页
-                    switchFragment(discoverFragment);
+                    switchFragment(activityFragment);
                     // 刷新页面？？？？？？
-                    //informationFragment.onResume();
-                    //myFragment.onResume();
-                    //attentionFragment.onResume();
+                    messageFragment.onResume();
+                    manageFragment.onResume();
+                    clubFragment.onResume();
                     break;
-                case R.id.attention:
+                case R.id.message:
 //                         加载关注页
-//                    switchFragment(attentionFragment);
+                    switchFragment(messageFragment);
                     // 发现页面挂起
-                    discoverFragment.onResume();
-                    //informationFragment.onResume();
-                    //myFragment.onResume();
+                    activityFragment.onResume();
+                    manageFragment.onResume();
+                    clubFragment.onResume();
                     break;
-                //case R.id.release:
-                //    discoverFragment.onResume();
-                //    informationFragment.onResume();
-                //    myFragment.onResume();
-                //    attentionFragment.onResume();
-                //    intent.setClass(HomeActivity.this, ReleaseActivity.class);
-                //    startActivity(intent);
-                //    break;
-                //case R.id.information:
-                //    switchFragment(informationFragment);
-                //    discoverFragment.onResume();
-                //    attentionFragment.onResume();
-                //    myFragment.onResume();
-                //    break;
-                //case R.id.my:
-                //    switchFragment(myFragment);
-                //    discoverFragment.onResume();
-                //    informationFragment.onResume();
-                //    attentionFragment.onResume();
-                //    break;
+                case R.id.manage:
+                    switchFragment(manageFragment);
+                    activityFragment.onResume();
+                    messageFragment.onResume();
+                    clubFragment.onResume();
+                    break;
+                case R.id.club:
+                    switchFragment(clubFragment);
+                    activityFragment.onResume();
+                    messageFragment.onResume();
+                    manageFragment.onResume();
+                    break;
                 default:
                     break;
             }
@@ -116,10 +111,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @SuppressLint("RestrictedApi")
     private void initFragment(){
         // 获取发现页  关注页  消息页  个人页
-        discoverFragment = new DiscoverFragment();
-        //attentionFragment = new AttentionFragment();
-        //informationFragment = new InformationFragment();
-        //myFragment = new MyFragment();
+        activityFragment = new ActivityFragment();
+        clubFragment = new ClubFragment();
+        messageFragment = new MessageFragment();
+        manageFragment = new ManageFragment();
         fragmentManager = getSupportFragmentManager();
         // activity跳转fragment传值
         Bundle bundle = new Bundle();
@@ -129,20 +124,15 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         bottomNavigationView = findViewById(R.id.home_button);
         // 为底部导航页中的消息按钮天际角标
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
-        View view = menuView.getChildAt(3);
+        View view = menuView.getChildAt(2);
         BottomNavigationItemView itemView = (BottomNavigationItemView) view;
         View badge = LayoutInflater.from(this).inflate(R.layout.menu, menuView, false);
         itemView.addView(badge);
         TextView count = (TextView) badge.findViewById(R.id.tv_msg_count);
         // 设置消息数
         count.setText(String.valueOf(33));
-
-        View view1 = menuView.getChildAt(2);
-        BottomNavigationItemView itemView1 = (BottomNavigationItemView) view1;
-        itemView1.setIconSize(100);
-        itemView1.setPadding( 0, 7, 0, 7);
         // 设置启动默认视图为发现页
-        switchFragment(discoverFragment);
+        switchFragment(activityFragment);
     }
 
     /**

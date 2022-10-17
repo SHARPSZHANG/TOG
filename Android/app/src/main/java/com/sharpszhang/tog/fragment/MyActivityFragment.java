@@ -1,9 +1,11 @@
 package com.sharpszhang.tog.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,13 +16,14 @@ import com.alibaba.fastjson.JSONArray;
 import com.sharpszhang.tog.Bean.ActivityBean;
 import com.sharpszhang.tog.Bean.RestCode;
 import com.sharpszhang.tog.R;
-import com.sharpszhang.tog.adapet.DiscoverAdapter;
+import com.sharpszhang.tog.activity.ActivityContentActivity;
+import com.sharpszhang.tog.adapet.ActivityAdapter;
 import com.sharpszhang.tog.service.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-public class MyDiscover extends Fragment {
+public class MyActivityFragment extends Fragment implements AdapterView.OnItemClickListener {
     private List<ActivityBean> posts;
 
     @Override
@@ -31,7 +34,7 @@ public class MyDiscover extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.discover_all, null);
+        View view = inflater.inflate(R.layout.my_activity, null);
         ListView listView = view.findViewById(R.id.list_view);
         try {
             initDataList();
@@ -40,7 +43,8 @@ public class MyDiscover extends Fragment {
         }
         // 获取数据
 
-        final DiscoverAdapter adapter = new DiscoverAdapter(this.getContext(), posts);
+        final ActivityAdapter adapter = new ActivityAdapter(this.getContext(), posts);
+        listView.setOnItemClickListener(this);
         listView.setAdapter(adapter);
         return view;
     }
@@ -59,5 +63,10 @@ public class MyDiscover extends Fragment {
             System.out.println(posts);
         }
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        startActivity(new Intent(this.getActivity(), ActivityContentActivity.class));
     }
 }

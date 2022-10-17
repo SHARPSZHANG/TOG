@@ -15,7 +15,7 @@ import com.sharpszhang.tog.adapet.FragmentAdapet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscoverFragment extends Fragment {
+public class ActivityFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,14 +25,14 @@ public class DiscoverFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.discover_page, container, false);
-        TabLayout tabLayout = view.findViewById(R.id.discover_tab);
-        ViewPager viewPager = view.findViewById(R.id.discover_page);
+        View view = inflater.inflate(R.layout.page_activity, container, false);
+        TabLayout tabLayout = view.findViewById(R.id.tab_activity);
+        ViewPager viewPager = view.findViewById(R.id.page_activity);
         tabLayout.setupWithViewPager(viewPager);
         List<Fragment> fragmentList = new ArrayList<>();
         List<String> strings = new ArrayList<>();
-        fragmentList.add(new MyDiscover());
-        fragmentList.add(new AllDiscover());
+        fragmentList.add(new MyActivityFragment());
+        fragmentList.add(new AllActivityFragment());
         strings.add("我的活动");
         strings.add("全部活动");
         viewPager.setAdapter(new FragmentAdapet(getChildFragmentManager(), fragmentList, strings));

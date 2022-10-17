@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/whitesmoke"
+    android:orientation="vertical">
+
+    <!-- 个人信息 -->
+    <LinearLayout
+        android:id="@+id/manage_userInfo"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginBottom="18dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingTop="40dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+        <!-- 头像 -->
+        <com.xuexiang.xui.widget.imageview.RadiusImageView
+            android:id="@+id/user_img"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:src="@mipmap/img_beautiful_scenery"
+            app:riv_corner_radius="7dp" />
+        <!--        发帖人用户名-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="7dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="4dp"
+                android:text="用户名"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/signature"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxEms="1"
+                android:text="申请加入社团申请加入社团申请加入社团"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+            android:id="@+id/userInfo_btn"
+            style="@style/RoundButton.Green"
+            android:layout_width="50dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="修改"
+            android:textSize="12sp"
+            app:rb_radius="12dp" />
+
+    </LinearLayout>
+
+    <!--    功能 -->
+    <!-- 发布通知 -->
+    <LinearLayout
+        android:id="@+id/manage_notice"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:layout_below="@+id/manage_userInfo"
+        android:paddingRight="8dp">
+
+        <com.xuexiang.xui.widget.imageview.RadiusImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:src="@mipmap/img_beautiful_scenery"
+            app:riv_corner_radius="7dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="4dp"
+                android:text="写通知"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:gravity="center_vertical"
+                android:text="一键通知社团成员"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:background="@mipmap/ic_next"
+            android:gravity="center_horizontal|center_vertical" />
+    </LinearLayout>
+    <!-- 办活动 -->
+    <LinearLayout
+        android:id="@+id/manage_activity"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:layout_below="@+id/manage_notice"
+        android:paddingRight="8dp">
+
+        <com.xuexiang.xui.widget.imageview.RadiusImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:src="@mipmap/img_beautiful_scenery"
+            app:riv_corner_radius="7dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="4dp"
+                android:text="办活动"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:gravity="center_vertical"
+                android:text="发起一场活动"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:background="@mipmap/ic_next"
+            android:gravity="center_horizontal|center_vertical" />
+    </LinearLayout>
+    <!-- 招新生 -->
+    <LinearLayout
+        android:id="@+id/manage_recruitment"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:layout_below="@+id/manage_activity"
+        android:paddingRight="8dp">
+
+        <com.xuexiang.xui.widget.imageview.RadiusImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:src="@mipmap/img_beautiful_scenery"
+            app:riv_corner_radius="7dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="4dp"
+                android:text="招新生"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:gravity="center_vertical"
+                android:text="招纳新生注入新鲜血液"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:background="@mipmap/ic_next"
+            android:gravity="center_horizontal|center_vertical" />
+    </LinearLayout>
+    <!-- 社团管理 -->
+    <LinearLayout
+        android:id="@+id/manage_settings"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:layout_below="@+id/manage_recruitment"
+        android:paddingRight="8dp">
+
+        <com.xuexiang.xui.widget.imageview.RadiusImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:src="@mipmap/img_beautiful_scenery"
+            app:riv_corner_radius="7dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="4dp"
+                android:text="社团管理"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:gravity="center_vertical"
+                android:text="管理社团事物"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:background="@mipmap/ic_next"
+            android:gravity="center_horizontal|center_vertical" />
+    </LinearLayout>
+
+
+</RelativeLayout>

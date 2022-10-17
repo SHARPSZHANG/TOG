@@ -21,7 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
-import com.sharpszhang.tog.Bean.BaseActivity;
+import com.sharpszhang.tog.base.BaseActivity;
 import com.sharpszhang.tog.R;
 
 import org.json.JSONException;

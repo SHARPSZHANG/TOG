@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xuexiang.xui.widget.layout.XUILinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical"
+    android:padding="8dp"
+    >
+
+    <!--    帖子头部发帖人信息-->
+    <com.xuexiang.xui.widget.layout.XUILinearLayout
+        android:id="@+id/message_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+        <!--        发帖人头像-->
+        <com.xuexiang.xui.widget.imageview.RadiusImageView
+            android:id="@+id/user_img"
+            android:layout_width="110dp"
+            android:layout_height="60dp"
+            app:riv_is_circle="true"
+            android:src="@mipmap/img_beautiful_scenery" />
+        <!--        发帖人用户名-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="4dp"
+                android:text="用户名"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:ellipsize="end"
+                android:maxEms="1"
+                android:text="申请加入社团申请加入社团申请加入社团申请加入社团申请加入社团申请加入社团"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/message_statu"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="等待验证"
+            android:textSize="10sp" />
+
+    </com.xuexiang.xui.widget.layout.XUILinearLayout>
+
+
+</com.xuexiang.xui.widget.layout.XUILinearLayout>
