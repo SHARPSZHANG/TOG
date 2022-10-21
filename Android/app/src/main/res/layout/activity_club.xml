@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ActivityContentActivity"
+    android:orientation="vertical">
+
+    <com.xuexiang.xui.widget.actionbar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:tb_leftText="返回"
+        tools:ignore="MissingConstraints"
+        android:layout_alignParentTop="true"
+        app:tb_immersive="true"/>
+
+    <include
+        android:id="@+id/club_content"
+        layout="@layout/template_club"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_bar" />
+
+    <com.xuexiang.xui.widget.tabbar.EasyIndicator
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        app:indicator_background="@color/xui_config_color_transparent"
+        app:indicator_height="42dp"
+        app:indicator_line_height="5dp"
+        app:indicator_line_res="@drawable/shape_indicator_line"
+        app:indicator_line_show="true"
+        app:indicator_line_width="30dp"
+        app:indicator_selected_color="#FF6100"
+        app:indicator_textSize="14sp"
+        app:indicator_vertical_line_color="@color/xui_config_color_white"
+        app:indicator_vertical_line_h="20dp"
+        app:indicator_vertical_line_w="1.5dp"
+        app:indicator_width="300dp" />
+    <FrameLayout
+        android:id="@+id/home_page_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_page"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </FrameLayout>
+
+
+</LinearLayout>

@@ -1,9 +1,11 @@
 package com.sharpszhang.tog.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.sharpszhang.tog.Bean.ActivityBean;
 import com.sharpszhang.tog.Bean.RestCode;
 import com.sharpszhang.tog.R;
+import com.sharpszhang.tog.activity.ClubActivity;
 import com.sharpszhang.tog.adapet.ActivityAdapter;
 import com.sharpszhang.tog.adapet.ClubAdapter;
 import com.sharpszhang.tog.service.Service;
@@ -22,7 +25,7 @@ import com.sharpszhang.tog.service.Service;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-public class MyClubFragment extends Fragment {
+public class MyClubFragment extends Fragment implements AdapterView.OnItemClickListener {
     private List<ActivityBean> posts;
 
     @Override
@@ -44,6 +47,7 @@ public class MyClubFragment extends Fragment {
 
         final ClubAdapter adapter = new ClubAdapter(this.getContext(), posts);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
         return view;
     }
 
@@ -61,5 +65,10 @@ public class MyClubFragment extends Fragment {
             System.out.println(posts);
         }
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        startActivity(new Intent(this.getActivity(), ClubActivity.class));
     }
 }

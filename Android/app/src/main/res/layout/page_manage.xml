@@ -57,7 +57,7 @@
                 android:layout_height="19dp"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:maxEms="1"
+                android:maxLines="1"
                 android:text="申请加入社团申请加入社团申请加入社团"
                 android:textSize="12sp" />
         </LinearLayout>

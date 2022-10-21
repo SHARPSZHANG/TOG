@@ -52,4 +52,5 @@ dependencies {
     // umeng统计
     implementation 'com.umeng.umsdk:common:9.3.8'
     implementation  'com.umeng.umsdk:asms:1.2.1'
+    implementation 'com.github.xuexiangjys.XAOP:xaop-runtime:1.1.0'
 }

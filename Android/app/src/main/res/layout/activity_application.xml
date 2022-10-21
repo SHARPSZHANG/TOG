@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.ActivityContentActivity">
+
+    <com.xuexiang.xui.widget.actionbar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:tb_immersive="true"
+        app:tb_leftText="返回"
+
+        tools:ignore="MissingConstraints" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:text="选择社团:"
+            />
+
+        <Spinner
+            android:id="@+id/club_list"
+            style="@style/SpinnerStyle"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="?attr/xui_config_content_spacing_vertical" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:text="活动名称:"
+             />
+        <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+            android:id="@+id/activity_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:hint="请输入通知标题..."
+            app:met_clearButton="true"
+            app:met_maxCharacters="20"
+            app:met_baseColor="@color/black"
+            app:met_allowEmpty="false"
+            android:textColor="@color/black"
+            android:textAlignment="viewStart" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:text="活动时间:"
+            />
+
+        <TextView
+            android:id="@+id/activity_time_text"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:text="2022-10-12"
+            />
+
+        <com.xuexiang.xui.widget.alpha.XUIAlphaButton
+            android:id="@+id/activity_time"
+            style="@style/Button.Primary.wrap"
+            android:layout_width="100dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/white"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:text="选择时间" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:text="活动内容:"
+            />
+
+    </LinearLayout>
+
+    <com.xuexiang.xui.widget.edittext.MultiLineEditText
+        android:id="@+id/activity_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+        android:id="@+id/release"
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:layout_margin="20dp"
+        android:text="发布"/>
+
+
+
+</LinearLayout>

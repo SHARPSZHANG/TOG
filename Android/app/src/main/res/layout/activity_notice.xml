@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.ActivityContentActivity">
+
+    <com.xuexiang.xui.widget.actionbar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:tb_immersive="true"
+        app:tb_leftText="返回"
+        tools:ignore="MissingConstraints" />
+
+    <include
+        android:id="@+id/club_content"
+        layout="@layout/template_club"
+        android:layout_marginStart="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:text="通知标题:"
+             />
+        <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+            android:id="@+id/notice_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:hint="请输入通知标题..."
+            app:met_clearButton="true"
+            app:met_maxCharacters="20"
+            app:met_baseColor="@color/black"
+            app:met_allowEmpty="false"
+            android:textColor="@color/black"
+            android:textAlignment="viewStart" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:text="通知内容:"
+            />
+
+    </LinearLayout>
+
+    <com.xuexiang.xui.widget.edittext.MultiLineEditText
+        android:id="@+id/notice_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+        android:id="@+id/release"
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:layout_margin="20dp"
+        android:text="发布"/>
+
+
+
+</LinearLayout>

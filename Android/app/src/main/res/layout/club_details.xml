@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp"
+    android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="start|center_vertical"
+                    android:text="成立时间:"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_org_create_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="20dp"
+                    android:text="2020-11-10"
+                    android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="start|center_vertical"
+            android:text="社团简介:"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/tv_org_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:gravity="fill"
+            android:text="协会成立于2006年。协会成员以爱好音乐而相知相识，这是协会的初衷，经过多年的努力，协会于2016年荣获2015-2016年度华南农业大学三星级社团。音乐爱好者协会为同学构建了一个展示才华的舞台，也为热爱音乐创作的同学提供了更多交流分享的机会。在紧张有序的学习生活之余，用缤纷多彩的活动为校园为带去音乐的活力与欢乐。" />
+
+
+
+</LinearLayout>

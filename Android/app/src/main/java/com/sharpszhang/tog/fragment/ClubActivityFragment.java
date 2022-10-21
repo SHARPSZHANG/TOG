@@ -17,16 +17,14 @@ import com.alibaba.fastjson.JSONArray;
 import com.sharpszhang.tog.Bean.ActivityBean;
 import com.sharpszhang.tog.Bean.RestCode;
 import com.sharpszhang.tog.R;
-import com.sharpszhang.tog.activity.MessageDetailActivity;
+import com.sharpszhang.tog.activity.ActivityContentActivity;
 import com.sharpszhang.tog.adapet.ActivityAdapter;
-import com.sharpszhang.tog.adapet.MessageAdapter;
 import com.sharpszhang.tog.service.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-public class MessageFragment extends Fragment implements AdapterView.OnItemClickListener {
-
+public class ClubActivityFragment extends Fragment implements AdapterView.OnItemClickListener {
     private List<ActivityBean> posts;
 
     @Override
@@ -37,7 +35,7 @@ public class MessageFragment extends Fragment implements AdapterView.OnItemClick
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.page_message, null);
+        View view = inflater.inflate(R.layout.my_activity, null);
         ListView listView = view.findViewById(R.id.list_view);
         try {
             initDataList();
@@ -46,9 +44,9 @@ public class MessageFragment extends Fragment implements AdapterView.OnItemClick
         }
         // 获取数据
 
-        final MessageAdapter adapter = new MessageAdapter(this.getContext(), posts);
-        listView.setAdapter(adapter);
+        final ActivityAdapter adapter = new ActivityAdapter(this.getContext(), posts);
         listView.setOnItemClickListener(this);
+        listView.setAdapter(adapter);
         return view;
     }
 
@@ -68,9 +66,8 @@ public class MessageFragment extends Fragment implements AdapterView.OnItemClick
 
     }
 
-
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        startActivity(new Intent(this.getContext(), MessageDetailActivity.class));
+        startActivity(new Intent(this.getActivity(), ActivityContentActivity.class));
     }
 }
