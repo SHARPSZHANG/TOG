@@ -18,7 +18,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState, persistentState);
         XUI.initTheme(this);
         //设置沉浸式状态栏
-        StatusBarUtils.translucent(this);
+        //StatusBarUtils.translucent(this);
 
 
     }

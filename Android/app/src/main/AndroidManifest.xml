@@ -13,9 +13,20 @@
         android:supportsRtl="true"
         android:theme="@style/XUITheme.Phone"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.ActivityContentActivity" />
-        <activity android:name=".activity.ClubActivity" />
-        <activity android:name=".activity.MessageDetailActivity" />
+        <activity android:name=".activity.ActivityContentActivity"
+            android:theme="@style/XUITheme.Phone"/>
+        <activity android:name=".activity.ClubActivity"
+            android:theme="@style/XUITheme.Phone"/>
+        <activity android:name=".activity.MessageDetailActivity"
+            android:theme="@style/XUITheme.Phone"/>
+        <activity android:name=".activity.ApplicationActivity"
+            android:theme="@style/XUITheme.Phone"/>
+        <activity android:name=".activity.NoticeActivity"
+            android:theme="@style/XUITheme.Phone"/>
+        <activity android:name=".activity.RecruitmentActivity"
+            android:theme="@style/XUITheme.Phone"/>
+        <activity android:name=".activity.ClubSettingsActivity"
+            android:theme="@style/XUITheme.Phone"/>
         <activity
             android:name=".activity.HomeActivity"
             android:theme="@style/XUITheme.Phone">

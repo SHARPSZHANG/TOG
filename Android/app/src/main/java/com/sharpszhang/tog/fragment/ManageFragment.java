@@ -1,5 +1,6 @@
 package com.sharpszhang.tog.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,10 @@ import com.sharpszhang.tog.Bean.ActivityBean;
 import com.sharpszhang.tog.Bean.RestCode;
 import com.sharpszhang.tog.Bean.UserContent;
 import com.sharpszhang.tog.R;
+import com.sharpszhang.tog.activity.ActivityContentActivity;
+import com.sharpszhang.tog.activity.ApplicationActivity;
+import com.sharpszhang.tog.activity.NoticeActivity;
+import com.sharpszhang.tog.activity.RecruitmentActivity;
 import com.sharpszhang.tog.adapet.MessageAdapter;
 import com.sharpszhang.tog.service.Service;
 
@@ -26,6 +31,11 @@ import java.util.List;
 
 public class ManageFragment extends Fragment implements View.OnClickListener {
     private UserContent userContent;
+
+    private View notice;
+    private View activity;
+    private View recruitment;
+    private View clubSettings;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +52,15 @@ public class ManageFragment extends Fragment implements View.OnClickListener {
         TextView userName = (TextView) view.findViewById(R.id.username);
         TextView signature = (TextView) view.findViewById(R.id.signature);
         Button userInfoBtn = (Button) view.findViewById(R.id.userInfo_btn);
+        notice = view.findViewById(R.id.manage_notice);
+        activity = view.findViewById(R.id.manage_activity);
+        clubSettings = view.findViewById(R.id.manage_settings);
+        recruitment = view.findViewById(R.id.manage_recruitment);
+        notice.setOnClickListener(this);
+        activity.setOnClickListener(this);
+        recruitment.setOnClickListener(this);
+        clubSettings.setOnClickListener(this);
+
         userInfoBtn.setOnClickListener(this);
         try {
             initDataList();
@@ -73,7 +92,17 @@ public class ManageFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.userInfo_btn:;
+            case R.id.userInfo_btn:
+                break;
+            case R.id.manage_notice:
+                startActivity(new Intent(this.getContext(), NoticeActivity.class));
+                break;
+            case R.id.manage_activity:
+                startActivity(new Intent(this.getContext(), ApplicationActivity.class));
+                break;
+            case R.id.manage_recruitment:
+                startActivity(new Intent(this.getContext(), RecruitmentActivity.class));
+                break;
         }
     }
 }

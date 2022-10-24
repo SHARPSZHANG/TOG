@@ -13,6 +13,7 @@
         android:layout_height="40dp"
         app:tb_immersive="true"
         app:tb_leftText="返回"
+        app:tb_titleText="发布公告"
         tools:ignore="MissingConstraints" />
 
     <include
@@ -25,7 +26,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:paddingStart="20dp"
         android:paddingEnd="10dp"
         android:orientation="horizontal">
@@ -40,7 +41,7 @@
         <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
             android:id="@+id/notice_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:hint="请输入通知标题..."
             app:met_clearButton="true"
@@ -81,6 +82,7 @@
         android:layout_height="30dp"
         android:layout_gravity="end"
         android:layout_margin="20dp"
+        android:background="#6ACFA0"
         android:text="发布"/>
 
 
