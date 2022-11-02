@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activity.ActivityContentActivity">
+    tools:context=".activity.NoticesContentActivity">
 
     <com.xuexiang.xui.widget.actionbar.TitleBar
         android:id="@+id/title_bar"
@@ -37,21 +37,21 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
-            android:textSize="12sp"
             android:textColor="@color/black"
+            android:textSize="12sp"
             android:text="发起人：" />
 
         <TextView
             android:id="@+id/application_username"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textColor="@color/black"
             android:layout_toEndOf="@+id/author_text"
+            android:textColor="@color/black"
             android:textSize="12sp"
             android:text="王小二" />
 
         <TextView
-            android:id="@+id/date_time"
+            android:id="@+id/application_time"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
@@ -63,7 +63,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/activity_title"
+        android:id="@+id/notice_title"
         android:layout_width="match_parent"
         android:layout_height="24dp"
         android:layout_below="@+id/author"
@@ -71,19 +71,19 @@
         android:textColor="@color/black"
         android:gravity="center_horizontal|center_vertical"
         android:layout_marginBottom="15dp"
-        android:text="招生公告" />
+        android:text="社团联谊会" />
 
 
     <ImageView
-        android:id="@+id/activity_image"
+        android:id="@+id/notice_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
         android:src="@mipmap/img_beautiful_scenery"
-        android:layout_below="@+id/activity_title" />
+        android:layout_below="@+id/notice_title" />
 
     <com.xuexiang.xui.widget.textview.autofit.AutoFitTextView
-        android:id="@+id/activity_content"
+        android:id="@+id/notice_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingEnd="15dp"
@@ -91,36 +91,10 @@
         android:layout_marginTop="10dp"
         android:gravity="start"
         android:textColor="@color/black"
-        android:maxLines="2"
-        android:layout_below="@+id/activity_image"
+        android:layout_below="@+id/notice_image"
         android:text="This is the test content:"
         android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/activity_time_text"
-        android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:layout_below="@+id/activity_content"
-        android:layout_marginTop="26dp"
-        android:paddingStart="7dp"
-        android:paddingEnd="15dp"
-        android:gravity="start|center_vertical"
-        android:text="【活动时间】"
-        android:textColor="@color/black"
-        android:textSize="13sp" />
-
-    <TextView
-        android:id="@+id/activity_time"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_below="@+id/activity_time_text"
-        android:layout_marginBottom="15dp"
-        android:gravity="start|center_vertical"
-        android:text="2022.10.11-2022.11.01"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:textColor="@color/black"
-        android:textSize="13sp" />
 
 
 </RelativeLayout>

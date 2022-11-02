@@ -53,4 +53,8 @@ dependencies {
     implementation 'com.umeng.umsdk:common:9.3.8'
     implementation  'com.umeng.umsdk:asms:1.2.1'
     implementation 'com.github.xuexiangjys.XAOP:xaop-runtime:1.1.0'
+
+    // 下拉刷新
+    implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-header:1.1.5'
+    implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-layout:1.1.5'
 }

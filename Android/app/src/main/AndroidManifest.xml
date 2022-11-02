@@ -25,7 +25,17 @@
             android:theme="@style/XUITheme.Phone"/>
         <activity android:name=".activity.RecruitmentActivity"
             android:theme="@style/XUITheme.Phone"/>
-        <activity android:name=".activity.ClubSettingsActivity"
+        <activity android:name=".activity.ClubManageActivity"
+            android:theme="@style/XUITheme.Phone"/>
+        <activity android:name=".activity.ClubListActivity"
+            android:theme="@style/XUITheme.Phone"/>
+        <activity android:name=".activity.ActivityManageActivity"
+            android:theme="@style/XUITheme.Phone"/>
+        <activity android:name=".activity.NoticesContentActivity"
+            android:theme="@style/XUITheme.Phone"/>
+        <activity android:name=".activity.NoticesManageActivity"
+            android:theme="@style/XUITheme.Phone"/>
+        <activity android:name=".activity.ClubContentActivity"
             android:theme="@style/XUITheme.Phone"/>
         <activity
             android:name=".activity.HomeActivity"

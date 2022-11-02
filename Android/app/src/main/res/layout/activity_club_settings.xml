@@ -7,6 +7,15 @@
     android:orientation="vertical"
     tools:context=".activity.ActivityContentActivity">
 
+    <com.xuexiang.xui.widget.actionbar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:tb_immersive="true"
+        app:tb_leftText="返回"
+        app:tb_titleText="管理"
+        tools:ignore="MissingConstraints" />
+
     <ListView
         android:id="@+id/lv_club"
         android:layout_width="match_parent"

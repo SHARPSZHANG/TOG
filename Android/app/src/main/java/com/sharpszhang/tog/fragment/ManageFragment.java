@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,20 +13,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.sharpszhang.tog.Bean.ActivityBean;
-import com.sharpszhang.tog.Bean.RestCode;
 import com.sharpszhang.tog.Bean.UserContent;
 import com.sharpszhang.tog.R;
-import com.sharpszhang.tog.activity.ActivityContentActivity;
 import com.sharpszhang.tog.activity.ApplicationActivity;
+import com.sharpszhang.tog.activity.ClubListActivity;
 import com.sharpszhang.tog.activity.NoticeActivity;
 import com.sharpszhang.tog.activity.RecruitmentActivity;
-import com.sharpszhang.tog.adapet.MessageAdapter;
 import com.sharpszhang.tog.service.Service;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 public class ManageFragment extends Fragment implements View.OnClickListener {
     private UserContent userContent;
@@ -103,6 +97,8 @@ public class ManageFragment extends Fragment implements View.OnClickListener {
             case R.id.manage_recruitment:
                 startActivity(new Intent(this.getContext(), RecruitmentActivity.class));
                 break;
+            case R.id.manage_settings:
+                startActivity(new Intent(this.getContext(), ClubListActivity.class));
         }
     }
 }

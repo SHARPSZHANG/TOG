@@ -12,39 +12,25 @@ import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 /**
  * ”活动详情“页面
  */
-public class ActivityContentActivity extends BaseActivity {
+public class ClubContentActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_activity_content);
+        setContentView(R.layout.activity_club_details);
         // 头部导航栏
         TitleBar titleBar = findViewById(R.id.title_bar);
         // 返回
         titleBar.setLeftClickListener(view -> {
             finish();
             overridePendingTransition(R.anim.slid_left_in, R.anim.slid_right_out);
-        });
-
-        // 当前用户为该社团团长
-        if ( true ) {
-            // 删除按钮
-            titleBar.addAction(new TitleBar.TextAction("删除") {
+        })
+            // 保存编辑
+         .addAction(new TitleBar.TextAction("保存") {
                 @Override
                 public void performAction(View view) {
-                    // 对话框
-                    new MaterialDialog.Builder(view.getContext())
-                            .content("确认删除此活动？")
-                            .negativeText("取消")
-                            .positiveText("确定")
-                            .onPositive((dialog1, which1) -> {
-                                XToastUtils.success("删除成功");
-                            })
-                            .show();
+                    XToastUtils.success("保存成功");
                 }
-            });
-        }
+         });
     }
-
-
 }

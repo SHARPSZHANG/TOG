@@ -10,6 +10,9 @@ import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.button.roundbutton.RoundButton;
 import com.xuexiang.xui.widget.imageview.RadiusImageView;
 
+/**
+ * ”发布公告“页面
+ */
 public class NoticeActivity extends BaseActivity implements View.OnClickListener {
 
     private TitleBar titleBar;
