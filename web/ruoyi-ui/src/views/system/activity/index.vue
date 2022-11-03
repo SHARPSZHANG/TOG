@@ -1,34 +1,34 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="社团名称" prop="name">
+      <el-form-item label="活动名称" prop="activityName">
         <el-input
-          v-model="queryParams.name"
-          placeholder="请输入社团名称"
+          v-model="queryParams.activityName"
+          placeholder="请输入活动名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="申请理由" prop="reason">
+      <el-form-item label="活动地点" prop="place">
         <el-input
-          v-model="queryParams.reason"
-          placeholder="请输入申请理由"
+          v-model="queryParams.place"
+          placeholder="请输入活动地点"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="申请人" prop="person">
+      <el-form-item label="活动人数" prop="peopleNum">
         <el-input
-          v-model="queryParams.person"
-          placeholder="请输入申请人"
+          v-model="queryParams.peopleNum"
+          placeholder="请输入活动人数"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="指导老师" prop="person">
+      <el-form-item label="社团id" prop="associationId">
         <el-input
-          v-model="queryParams.person"
-          placeholder="请输入指导老师"
+          v-model="queryParams.associationId"
+          placeholder="请输入社团id"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -47,7 +47,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:association:add']"
+          v-hasPermi="['system:activity:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -58,7 +58,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:association:edit']"
+          v-hasPermi="['system:activity:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -69,7 +69,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:association:remove']"
+          v-hasPermi="['system:activity:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -79,20 +79,20 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:association:export']"
+          v-hasPermi="['system:activity:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="associationList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="activityList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="序号" align="center" prop="id" />
-      <el-table-column label="社团名称" align="center" prop="name" />
-      <el-table-column label="状态" align="center" prop="type" />
-      <el-table-column label="申请理由" align="center" prop="reason" />
-      <el-table-column label="申请人" align="center" prop="person" />
-      <el-table-column label="指导老师" align="center" prop="teacher" />
+      <el-table-column label="编号" align="center" prop="id" />
+      <el-table-column label="活动名称" align="center" prop="activityName" />
+      <el-table-column label="活动地点" align="center" prop="place" />
+      <el-table-column label="活动人数" align="center" prop="peopleNum" />
+      <el-table-column label="活动内容" align="center" prop="content" />
+      <el-table-column label="社团id" align="center" prop="associationId" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -100,19 +100,19 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:association:edit']"
+            v-hasPermi="['system:activity:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:association:remove']"
+            v-hasPermi="['system:activity:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-
+    
     <pagination
       v-show="total>0"
       :total="total"
@@ -121,17 +121,23 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改【请填写功能名称】对话框 -->
+    <!-- 添加或修改活动对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="社团名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入社团名称" />
+        <el-form-item label="活动名称" prop="activityName">
+          <el-input v-model="form.activityName" placeholder="请输入活动名称" />
         </el-form-item>
-        <el-form-item label="申请原因" prop="reason">
-          <el-input v-model="form.reason" placeholder="申请原因" />
+        <el-form-item label="活动地点" prop="place">
+          <el-input v-model="form.place" placeholder="请输入活动地点" />
         </el-form-item>
-        <el-form-item label="申请人" prop="person">
-          <el-input v-model="form.person" placeholder="请输入申请人" />
+        <el-form-item label="活动人数" prop="peopleNum">
+          <el-input v-model="form.peopleNum" placeholder="请输入活动人数" />
+        </el-form-item>
+        <el-form-item label="活动内容">
+          <editor v-model="form.content" :min-height="192"/>
+        </el-form-item>
+        <el-form-item label="社团id" prop="associationId">
+          <el-input v-model="form.associationId" placeholder="请输入社团id" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -143,10 +149,10 @@
 </template>
 
 <script>
-import { listAssociation, getAssociation, delAssociation, addAssociation, updateAssociation } from "@/api/system/association";
+import { listActivity, getActivity, delActivity, addActivity, updateActivity } from "@/api/system/activity";
 
 export default {
-  name: "Association",
+  name: "Activity",
   data() {
     return {
       // 遮罩层
@@ -161,21 +167,21 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 【请填写功能名称】表格数据
-      associationList: [],
+      // 活动表格数据
+      activityList: [],
       // 弹出层标题
-      title: "新增社团申请",
+      title: "",
       // 是否显示弹出层
       open: false,
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        name: null,
-        type: null,
-        reason: null,
-        person: null,
-        teacher: null
+        activityName: null,
+        place: null,
+        peopleNum: null,
+        content: null,
+        associationId: null
       },
       // 表单参数
       form: {},
@@ -188,11 +194,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询【请填写功能名称】列表 */
+    /** 查询活动列表 */
     getList() {
       this.loading = true;
-      listAssociation(this.queryParams).then(response => {
-        this.associationList = response.rows;
+      listActivity(this.queryParams).then(response => {
+        this.activityList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -210,10 +216,11 @@ export default {
         createTime: null,
         updateBy: null,
         updateTime: null,
-        name: null,
-        type: null,
-        reason: null,
-        person: null
+        activityName: null,
+        place: null,
+        peopleNum: null,
+        content: null,
+        associationId: null
       };
       this.resetForm("form");
     },
@@ -237,16 +244,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加社团申请";
+      this.title = "添加活动";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getAssociation(id).then(response => {
+      getActivity(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改社团申请";
+        this.title = "修改活动";
       });
     },
     /** 提交按钮 */
@@ -254,13 +261,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateAssociation(this.form).then(response => {
+            updateActivity(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addAssociation(this.form).then(response => {
+            addActivity(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -272,8 +279,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除【请填写功能名称】编号为"' + ids + '"的数据项？').then(function() {
-        return delAssociation(ids);
+      this.$modal.confirm('是否确认删除活动编号为"' + ids + '"的数据项？').then(function() {
+        return delActivity(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -281,9 +288,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/association/export', {
+      this.download('system/activity/export', {
         ...this.queryParams
-      }, `association_${new Date().getTime()}.xlsx`)
+      }, `activity_${new Date().getTime()}.xlsx`)
     }
   }
 };

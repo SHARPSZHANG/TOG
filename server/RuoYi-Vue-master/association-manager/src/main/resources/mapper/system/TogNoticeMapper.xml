@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TogNoticeMapper">
+    
+    <resultMap type="TogNotice" id="TogNoticeResult">
+        <result property="id"    column="id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="associationId"    column="association_id"    />
+    </resultMap>
+
+    <sql id="selectTogNoticeVo">
+        select id, create_by, create_time, update_by, update_time, title, content, association_id from tog_notice
+    </sql>
+
+    <select id="selectTogNoticeList" parameterType="TogNotice" resultMap="TogNoticeResult">
+        <include refid="selectTogNoticeVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="associationId != null "> and association_id = #{associationId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTogNoticeById" parameterType="Long" resultMap="TogNoticeResult">
+        <include refid="selectTogNoticeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTogNotice" parameterType="TogNotice" useGeneratedKeys="true" keyProperty="id">
+        insert into tog_notice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="title != null">title,</if>
+            <if test="content != null">content,</if>
+            <if test="associationId != null">association_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="title != null">#{title},</if>
+            <if test="content != null">#{content},</if>
+            <if test="associationId != null">#{associationId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTogNotice" parameterType="TogNotice">
+        update tog_notice
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="associationId != null">association_id = #{associationId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTogNoticeById" parameterType="Long">
+        delete from tog_notice where id = #{id}
+    </delete>
+
+    <delete id="deleteTogNoticeByIds" parameterType="String">
+        delete from tog_notice where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

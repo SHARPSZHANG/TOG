@@ -22,8 +22,8 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * 【请填写功能名称】Controller
- * 
+ * 社团Controller
+ *
  * @author ruoyi
  * @date 2022-10-11
  */
@@ -35,7 +35,7 @@ public class AssociationController extends BaseController
     private IAssociationService associationService;
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询社团列表
      */
     @PreAuthorize("@ss.hasPermi('system:association:list')")
     @GetMapping("/list")
@@ -47,20 +47,20 @@ public class AssociationController extends BaseController
     }
 
     /**
-     * 导出【请填写功能名称】列表
+     * 导出社团列表
      */
     @PreAuthorize("@ss.hasPermi('system:association:export')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "社团", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Association association)
     {
         List<Association> list = associationService.selectAssociationList(association);
         ExcelUtil<Association> util = new ExcelUtil<Association>(Association.class);
-        util.exportExcel(response, list, "【请填写功能名称】数据");
+        util.exportExcel(response, list, "社团数据");
     }
 
     /**
-     * 获取【请填写功能名称】详细信息
+     * 获取社团详细信息
      */
     @PreAuthorize("@ss.hasPermi('system:association:query')")
     @GetMapping(value = "/{id}")
@@ -70,10 +70,10 @@ public class AssociationController extends BaseController
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增社团
      */
     @PreAuthorize("@ss.hasPermi('system:association:add')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "社团", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Association association)
     {
@@ -81,10 +81,10 @@ public class AssociationController extends BaseController
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改社团
      */
     @PreAuthorize("@ss.hasPermi('system:association:edit')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "社团", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Association association)
     {
@@ -92,10 +92,10 @@ public class AssociationController extends BaseController
     }
 
     /**
-     * 删除【请填写功能名称】
+     * 删除社团
      */
     @PreAuthorize("@ss.hasPermi('system:association:remove')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "社团", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {

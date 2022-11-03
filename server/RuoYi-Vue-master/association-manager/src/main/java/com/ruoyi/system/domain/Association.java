@@ -6,9 +6,9 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 【请填写功能名称】对象 association
- * 
- * @author ruoyi
+ * 社团对象 association
+ *
+ * @author xuzili
  * @date 2022-10-11
  */
 public class Association extends BaseEntity
@@ -19,65 +19,76 @@ public class Association extends BaseEntity
     private Long id;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "社团名称", readConverterExp = "$column.readConverterExp()")
     private String name;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "状态", readConverterExp = "$column.readConverterExp()")
     private String type;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "申请理由", readConverterExp = "$column.readConverterExp()")
     private String reason;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "申请人", readConverterExp = "$column.readConverterExp()")
     private String person;
 
-    public void setId(Long id) 
+    @Excel(name = "指导老师", readConverterExp = "$column.readConverterExp()")
+    private String teacher;
+
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public Long getId() 
+    public Long getId()
     {
         return id;
     }
-    public void setName(String name) 
+    public void setName(String name)
     {
         this.name = name;
     }
 
-    public String getName() 
+    public String getName()
     {
         return name;
     }
-    public void setType(String type) 
+    public void setType(String type)
     {
         this.type = type;
     }
 
-    public String getType() 
+    public String getType()
     {
         return type;
     }
-    public void setReason(String reason) 
+    public void setReason(String reason)
     {
         this.reason = reason;
     }
 
-    public String getReason() 
+    public String getReason()
     {
         return reason;
     }
-    public void setPerson(String person) 
+    public void setPerson(String person)
     {
         this.person = person;
     }
 
-    public String getPerson() 
+    public String getPerson()
     {
         return person;
+    }
+
+    public String getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
     }
 
     @Override
@@ -92,6 +103,7 @@ public class Association extends BaseEntity
             .append("type", getType())
             .append("reason", getReason())
             .append("person", getPerson())
+            .append("teacher", getTeacher())
             .toString();
     }
 }

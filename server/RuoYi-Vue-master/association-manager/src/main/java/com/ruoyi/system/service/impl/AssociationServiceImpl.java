@@ -9,22 +9,22 @@ import com.ruoyi.system.domain.Association;
 import com.ruoyi.system.service.IAssociationService;
 
 /**
- * 【请填写功能名称】Service业务层处理
- * 
+ * 社团Service业务层处理
+ *
  * @author ruoyi
  * @date 2022-10-11
  */
 @Service
-public class AssociationServiceImpl implements IAssociationService 
+public class AssociationServiceImpl implements IAssociationService
 {
     @Autowired
     private AssociationMapper associationMapper;
 
     /**
-     * 查询【请填写功能名称】
-     * 
-     * @param id 【请填写功能名称】主键
-     * @return 【请填写功能名称】
+     * 查询社团
+     *
+     * @param id 社团主键
+     * @return 社团
      */
     @Override
     public Association selectAssociationById(Long id)
@@ -33,10 +33,10 @@ public class AssociationServiceImpl implements IAssociationService
     }
 
     /**
-     * 查询【请填写功能名称】列表
-     * 
-     * @param association 【请填写功能名称】
-     * @return 【请填写功能名称】
+     * 查询社团列表
+     *
+     * @param association 社团
+     * @return 社团
      */
     @Override
     public List<Association> selectAssociationList(Association association)
@@ -45,22 +45,23 @@ public class AssociationServiceImpl implements IAssociationService
     }
 
     /**
-     * 新增【请填写功能名称】
-     * 
-     * @param association 【请填写功能名称】
+     * 新增社团
+     *
+     * @param association 社团
      * @return 结果
      */
     @Override
     public int insertAssociation(Association association)
     {
+        association.setType("未审核");
         association.setCreateTime(DateUtils.getNowDate());
         return associationMapper.insertAssociation(association);
     }
 
     /**
-     * 修改【请填写功能名称】
-     * 
-     * @param association 【请填写功能名称】
+     * 修改社团
+     *
+     * @param association 社团
      * @return 结果
      */
     @Override
@@ -71,9 +72,9 @@ public class AssociationServiceImpl implements IAssociationService
     }
 
     /**
-     * 批量删除【请填写功能名称】
-     * 
-     * @param ids 需要删除的【请填写功能名称】主键
+     * 批量删除社团
+     *
+     * @param ids 需要删除的社团主键
      * @return 结果
      */
     @Override
@@ -83,9 +84,9 @@ public class AssociationServiceImpl implements IAssociationService
     }
 
     /**
-     * 删除【请填写功能名称】信息
-     * 
-     * @param id 【请填写功能名称】主键
+     * 删除社团信息
+     *
+     * @param id 社团主键
      * @return 结果
      */
     @Override
