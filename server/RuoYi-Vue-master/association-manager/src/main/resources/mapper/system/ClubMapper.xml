@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ClubMapper">
+    
+    <resultMap type="Club" id="ClubResult">
+        <result property="id"    column="id"    />
+        <result property="clubName"    column="club_name"    />
+        <result property="clubDesc"    column="club_desc"    />
+        <result property="clubDetail"    column="club_detail"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="clubIcon"    column="club_icon"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="theacher"    column="theacher"    />
+        <result property="mobilePhone"    column="mobile_phone"    />
+        <result property="qqNumber"    column="qq_number"    />
+        <result property="state"    column="state"    />
+
+    </resultMap>
+
+    <sql id="selectClubVo">
+        select * from club
+    </sql>
+
+    <select id="selectClubList" parameterType="Club" resultMap="ClubResult">
+        <include refid="selectClubVo"/>
+        <where>  
+            <if test="clubName != null  and clubName != ''"> and club_name like concat('%', #{clubName}, '%')</if>
+            <if test="clubDesc != null  and clubDesc != ''"> and club_desc = #{clubDesc}</if>
+            <if test="clubDetail != null  and clubDetail != ''"> and club_detail = #{clubDetail}</if>
+            <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+            <if test="clubIcon != null  and clubIcon != ''"> and club_icon = #{clubIcon}</if>
+        </where>
+    </select>
+    
+    <select id="selectClubById" parameterType="Long" resultMap="ClubResult">
+        <include refid="selectClubVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertClub" parameterType="Club" useGeneratedKeys="true" keyProperty="id">
+        insert into club
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="clubName != null and clubName != ''">club_name,</if>
+            <if test="clubDesc != null">club_desc,</if>
+            <if test="clubDetail != null">club_detail,</if>
+            <if test="gmtCreate != null">gmt_create,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="clubIcon != null">club_icon,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="state != null">state,</if>
+            <if test="qqNumber != null">qq_number,</if>
+            <if test="mobilePhone != null">mobile_phone,</if>
+            <if test="theacher != null">theacher,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="clubName != null and clubName != ''">#{clubName},</if>
+            <if test="clubDesc != null">#{clubDesc},</if>
+            <if test="clubDetail != null">#{clubDetail},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="clubIcon != null">#{clubIcon},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="state != null">#{state},</if>
+            <if test="qqNumber != null">#{qqNumber},</if>
+            <if test="mobilePhone != null">#{mobilePhone},</if>
+            <if test="theacher != null">#{theacher},</if>
+         </trim>
+    </insert>
+
+    <update id="updateClub" parameterType="Club">
+        update club
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="clubName != null and clubName != ''">club_name = #{clubName},</if>
+            <if test="clubDesc != null">club_desc = #{clubDesc},</if>
+            <if test="clubDetail != null">club_detail = #{clubDetail},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="clubIcon != null">club_icon = #{clubIcon},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="qqNumber != null">qq_number = #{qqNumber},</if>
+            <if test="mobilePhone != null">mobile_phone = #{mobilePhone},</if>
+            <if test="theacher != null">theacher = #{theacher},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteClubById" parameterType="Long">
+        delete from club where id = #{id}
+    </delete>
+
+    <delete id="deleteClubByIds" parameterType="String">
+        delete from club where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

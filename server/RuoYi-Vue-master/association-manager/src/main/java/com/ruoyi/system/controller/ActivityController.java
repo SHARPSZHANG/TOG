@@ -2,6 +2,11 @@ package com.ruoyi.system.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +21,8 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.system.domain.TogActivity;
-import com.ruoyi.system.service.ITogActivityService;
+import com.ruoyi.system.domain.Activity;
+import com.ruoyi.system.service.IActivityService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
@@ -25,80 +30,91 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 活动Controller
  * 
  * @author ruoyi
- * @date 2022-11-03
+ * @date 2022-11-16
  */
+@Api("活动")
 @RestController
 @RequestMapping("/system/activity")
-public class TogActivityController extends BaseController
+public class ActivityController extends BaseController
 {
     @Autowired
-    private ITogActivityService togActivityService;
+    private IActivityService activityService;
 
     /**
      * 查询活动列表
      */
+    @ApiOperation("查询活动列表")
     @PreAuthorize("@ss.hasPermi('system:activity:list')")
     @GetMapping("/list")
-    public TableDataInfo list(TogActivity togActivity)
+    public TableDataInfo list(Activity activity)
     {
         startPage();
-        List<TogActivity> list = togActivityService.selectTogActivityList(togActivity);
+        List<Activity> list = activityService.selectActivityList(activity);
         return getDataTable(list);
     }
 
     /**
      * 导出活动列表
      */
-    @PreAuthorize("@ss.hasPermi('system:activity:export')")
+    @ApiOperation("导出活动列表")
+//    @PreAuthorize("@ss.hasPermi('system:activity:export')")
     @Log(title = "活动", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, TogActivity togActivity)
+    public void export(HttpServletResponse response, Activity activity)
     {
-        List<TogActivity> list = togActivityService.selectTogActivityList(togActivity);
-        ExcelUtil<TogActivity> util = new ExcelUtil<TogActivity>(TogActivity.class);
+        List<Activity> list = activityService.selectActivityList(activity);
+        ExcelUtil<Activity> util = new ExcelUtil<Activity>(Activity.class);
         util.exportExcel(response, list, "活动数据");
     }
 
     /**
      * 获取活动详细信息
      */
+    @ApiOperation("获取活动详细信息")
+    @ApiImplicitParam(name = "id", value = "活动id", dataType = "Long", dataTypeClass = Long.class)
     @PreAuthorize("@ss.hasPermi('system:activity:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
-        return AjaxResult.success(togActivityService.selectTogActivityById(id));
+        return AjaxResult.success(activityService.selectActivityById(id));
     }
 
     /**
      * 新增活动
      */
-    @PreAuthorize("@ss.hasPermi('system:activity:add')")
+//    @PreAuthorize("@ss.hasPermi('system:activity:add')")
+    @ApiOperation("新增活动")
+    @ApiImplicitParam(name = "activity", value = "活动信息", dataType = "Activity", dataTypeClass = Activity.class)
     @Log(title = "活动", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody TogActivity togActivity)
+    public AjaxResult add(@RequestBody Activity activity)
     {
-        return toAjax(togActivityService.insertTogActivity(togActivity));
+        return toAjax(activityService.insertActivity(activity));
     }
 
     /**
      * 修改活动
      */
-    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
+    @ApiOperation("修改活动")
+    @ApiImplicitParam(name = "activity", value = "活动信息", dataType = "Activity", dataTypeClass = Activity.class)
+//    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
     @Log(title = "活动", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody TogActivity togActivity)
+    public AjaxResult edit(@RequestBody Activity activity)
     {
-        return toAjax(togActivityService.updateTogActivity(togActivity));
+        return toAjax(activityService.updateActivity(activity));
     }
 
     /**
      * 删除活动
      */
-    @PreAuthorize("@ss.hasPermi('system:activity:remove')")
+    @ApiOperation("删除社团成员")
+    @ApiImplicitParam(name = "ids", value = "社团成员id数组", required = true, dataType = "Long[]", paramType = "path", dataTypeClass = Long[].class)
+//    @PreAuthorize("@ss.hasPermi('system:activity:remove')")
     @Log(title = "活动", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
-        return toAjax(togActivityService.deleteTogActivityByIds(ids));
+        return toAjax(activityService.deleteActivityByIds(ids));
     }
 }

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TogMessageMapper">
+    
+    <resultMap type="TogMessage" id="TogMessageResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="userId"    column="user_id"    />
+        <result property="status"    column="status"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModifiel"    column="gmt_modifiel"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTogMessageVo">
+        select id, title, content, user_id, status, is_delete, gmt_create, gmt_modifiel, create_time, create_by, update_by, update_time from tog_message
+    </sql>
+
+    <select id="selectTogMessageList" parameterType="TogMessage" resultMap="TogMessageResult">
+        <include refid="selectTogMessageVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+            <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+            <if test="gmtModifiel != null "> and gmt_modifiel = #{gmtModifiel}</if>
+        </where>
+    </select>
+    
+    <select id="selectTogMessageById" parameterType="Long" resultMap="TogMessageResult">
+        <include refid="selectTogMessageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTogMessage" parameterType="TogMessage" useGeneratedKeys="true" keyProperty="id">
+        insert into tog_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null and title != ''">title,</if>
+            <if test="content != null and content != ''">content,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="status != null">status,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="gmtCreate != null">gmt_create,</if>
+            <if test="gmtModifiel != null">gmt_modifiel,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="content != null and content != ''">#{content},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="gmtModifiel != null">#{gmtModifiel},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTogMessage" parameterType="TogMessage">
+        update tog_message
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModifiel != null">gmt_modifiel = #{gmtModifiel},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTogMessageById" parameterType="Long">
+        delete from tog_message where id = #{id}
+    </delete>
+
+    <delete id="deleteTogMessageByIds" parameterType="String">
+        delete from tog_message where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

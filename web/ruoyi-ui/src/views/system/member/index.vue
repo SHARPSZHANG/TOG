@@ -1,46 +1,54 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="公告主题" prop="title">
-        <el-input
-          v-model="queryParams.title"
-          placeholder="请输入公告主题"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="创建人" prop="userId">
-        <el-input
-          v-model="queryParams.userId"
-          placeholder="请输入创建人"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="所属社团" prop="clubId">
-        <el-input
-          v-model="queryParams.clubId"
-          placeholder="请输入所属社团"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="创建时间" prop="gmtCreate">
+<!--      <el-form-item label="用户id" prop="userId">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.userId"-->
+<!--          placeholder="请输入用户id"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="社团id" prop="clubId">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.clubId"-->
+<!--          placeholder="请输入社团id"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+      <el-form-item label="加入社团时间" prop="gmtCreate">
         <el-date-picker clearable
           v-model="queryParams.gmtCreate"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="请选择创建时间">
+          placeholder="请选择加入社团时间">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="是否删除" prop="isDelete">
+      <el-form-item label="离开社团时间" prop="gmtDelete">
+        <el-date-picker clearable
+          v-model="queryParams.gmtDelete"
+          type="date"
+          value-format="yyyy-MM-dd"
+          placeholder="请选择离开社团时间">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="职位" prop="position">
         <el-input
-          v-model="queryParams.isDelete"
-          placeholder="请输入是否删除"
+          v-model="queryParams.position"
+          placeholder="请输入职位"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+<!--      <el-form-item label="是否删除" prop="isDelete">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.isDelete"-->
+<!--          placeholder="请输入是否删除"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -55,7 +63,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:notice:add']"
+          v-hasPermi="['system:member:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -66,7 +74,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:notice:edit']"
+          v-hasPermi="['system:member:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -77,7 +85,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:notice:remove']"
+          v-hasPermi="['system:member:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -87,30 +95,29 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:notice:export']"
+          v-hasPermi="['system:member:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="memberList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="公告id" align="center" prop="id" />
-      <el-table-column label="公告主题" align="center" prop="title" />
-      <el-table-column label="公告内容" align="center" prop="content" />
-      <el-table-column label="公告图片url" align="center" prop="image" width="100">
-        <template slot-scope="scope">
-          <image-preview :src="scope.row.image" :width="50" :height="50"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建人" align="center" prop="userId" />
-      <el-table-column label="所属社团" align="center" prop="clubId" />
-      <el-table-column label="创建时间" align="center" prop="gmtCreate" width="180">
+      <el-table-column label="id" align="center" prop="id" />
+<!--      <el-table-column label="用户id" align="center" prop="userId" />-->
+<!--      <el-table-column label="社团id" align="center" prop="clubId" />-->
+      <el-table-column label="加入社团时间" align="center" prop="gmtCreate" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.gmtCreate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否删除" align="center" prop="isDelete" />
+      <el-table-column label="离开社团时间" align="center" prop="gmtDelete" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.gmtDelete, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="职位" align="center" prop="position" />
+<!--      <el-table-column label="是否删除" align="center" prop="isDelete" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -118,15 +125,16 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:notice:edit']"
+            v-hasPermi="['system:member:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:notice:remove']"
+            v-hasPermi="['system:member:remove']"
           >删除</el-button>
+
         </template>
       </el-table-column>
     </el-table>
@@ -139,31 +147,33 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改公告对话框 -->
+    <!-- 添加或修改社团成员对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="公告主题" prop="title">
-          <el-input v-model="form.title" placeholder="请输入公告主题" />
+        <el-form-item label="用户id" prop="userId">
+          <el-input v-model="form.userId" placeholder="请输入用户id" />
         </el-form-item>
-        <el-form-item label="公告内容">
-          <editor v-model="form.content" :min-height="192"/>
+        <el-form-item label="社团id" prop="clubId">
+          <el-input v-model="form.clubId" placeholder="请输入社团id" />
         </el-form-item>
-        <el-form-item label="公告图片url">
-          <image-upload v-model="form.image"/>
-        </el-form-item>
-        <el-form-item label="创建人" prop="userId">
-          <el-input v-model="form.userId" placeholder="请输入创建人" />
-        </el-form-item>
-        <el-form-item label="所属社团" prop="clubId">
-          <el-input v-model="form.clubId" placeholder="请输入所属社团" />
-        </el-form-item>
-        <el-form-item label="创建时间" prop="gmtCreate">
+        <el-form-item label="加入社团时间" prop="gmtCreate">
           <el-date-picker clearable
             v-model="form.gmtCreate"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="请选择创建时间">
+            placeholder="请选择加入社团时间">
           </el-date-picker>
+        </el-form-item>
+        <el-form-item label="离开社团时间" prop="gmtDelete">
+          <el-date-picker clearable
+            v-model="form.gmtDelete"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择离开社团时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="职位" prop="position">
+          <el-input v-model="form.position" placeholder="请输入职位" />
         </el-form-item>
         <el-form-item label="是否删除" prop="isDelete">
           <el-input v-model="form.isDelete" placeholder="请输入是否删除" />
@@ -178,10 +188,10 @@
 </template>
 
 <script>
-import { listNotice, getNotice, delNotice, addNotice, updateNotice } from "@/api/system/togNotice";
+import { listMember, getMember, delMember, addMember, updateMember } from "@/api/system/member";
 
 export default {
-  name: "Notice",
+  name: "Member",
   data() {
     return {
       // 遮罩层
@@ -196,8 +206,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 公告表格数据
-      noticeList: [],
+      // 社团成员表格数据
+      memberList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -206,32 +216,31 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        title: null,
-        content: null,
-        image: null,
         userId: null,
         clubId: null,
         gmtCreate: null,
+        gmtDelete: null,
+        position: null,
         isDelete: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        title: [
-          { required: true, message: "公告主题不能为空", trigger: "blur" }
-        ],
-        content: [
-          { required: true, message: "公告内容不能为空", trigger: "blur" }
-        ],
         userId: [
-          { required: true, message: "创建人不能为空", trigger: "blur" }
+          { required: true, message: "用户id不能为空", trigger: "blur" }
         ],
         clubId: [
-          { required: true, message: "所属社团不能为空", trigger: "blur" }
+          { required: true, message: "社团id不能为空", trigger: "blur" }
         ],
         gmtCreate: [
-          { required: true, message: "创建时间不能为空", trigger: "blur" }
+          { required: true, message: "加入社团时间不能为空", trigger: "blur" }
+        ],
+        gmtDelete: [
+          { required: true, message: "离开社团时间不能为空", trigger: "blur" }
+        ],
+        position: [
+          { required: true, message: "职位不能为空", trigger: "blur" }
         ],
         isDelete: [
           { required: true, message: "是否删除不能为空", trigger: "blur" }
@@ -243,11 +252,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询公告列表 */
+    /** 查询社团成员列表 */
     getList() {
       this.loading = true;
-      listNotice(this.queryParams).then(response => {
-        this.noticeList = response.rows;
+      listMember(this.queryParams).then(response => {
+        this.memberList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -261,12 +270,11 @@ export default {
     reset() {
       this.form = {
         id: null,
-        title: null,
-        content: null,
-        image: null,
         userId: null,
         clubId: null,
         gmtCreate: null,
+        gmtDelete: null,
+        position: null,
         isDelete: null,
         createTime: null,
         createBy: null,
@@ -295,16 +303,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加公告";
+      this.title = "添加社团成员";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getNotice(id).then(response => {
+      getMember(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改公告";
+        this.title = "修改社团成员";
       });
     },
     /** 提交按钮 */
@@ -312,13 +320,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateNotice(this.form).then(response => {
+            updateMember(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addNotice(this.form).then(response => {
+            addMember(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -330,8 +338,18 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除公告编号为"' + ids + '"的数据项？').then(function() {
-        return delNotice(ids);
+      this.$modal.confirm('是否确认删除社团成员编号为"' + ids + '"的数据项？').then(function() {
+        return delMember(ids);
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("删除成功");
+      }).catch(() => {});
+    },
+    /** 删除按钮操作 */
+    pass(row) {
+      const ids = row.id || this.ids;
+      this.$modal.confirm('是否确认删除社团成员编号为"' + ids + '"的数据项？').then(function() {
+        return delMember(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -339,9 +357,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/notice/export', {
+      this.download('system/member/export', {
         ...this.queryParams
-      }, `notice_${new Date().getTime()}.xlsx`)
+      }, `member_${new Date().getTime()}.xlsx`)
     }
   }
 };

@@ -1,26 +1,18 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="公告主题" prop="title">
+      <el-form-item label="社团名称" prop="clubName">
         <el-input
-          v-model="queryParams.title"
-          placeholder="请输入公告主题"
+          v-model="queryParams.clubName"
+          placeholder="请输入社团名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="创建人" prop="userId">
+      <el-form-item label="社团说明" prop="clubDesc">
         <el-input
-          v-model="queryParams.userId"
-          placeholder="请输入创建人"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="所属社团" prop="clubId">
-        <el-input
-          v-model="queryParams.clubId"
-          placeholder="请输入所属社团"
+          v-model="queryParams.clubDesc"
+          placeholder="请输入社团说明"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -33,14 +25,24 @@
           placeholder="请选择创建时间">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="是否删除" prop="isDelete">
-        <el-input
-          v-model="queryParams.isDelete"
-          placeholder="请输入是否删除"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+
+
+<!--      <el-form-item label="是否删除" prop="isDelete">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.isDelete"-->
+<!--          placeholder="请输入是否删除"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="社团图标url" prop="clubIcon">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.clubIcon"-->
+<!--          placeholder="请输入社团图标url"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -55,7 +57,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:notice:add']"
+          v-hasPermi="['system:club:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -66,7 +68,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:notice:edit']"
+          v-hasPermi="['system:club:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -77,7 +79,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:notice:remove']"
+          v-hasPermi="['system:club:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -87,30 +89,35 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:notice:export']"
+          v-hasPermi="['system:club:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="clubList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="公告id" align="center" prop="id" />
-      <el-table-column label="公告主题" align="center" prop="title" />
-      <el-table-column label="公告内容" align="center" prop="content" />
-      <el-table-column label="公告图片url" align="center" prop="image" width="100">
-        <template slot-scope="scope">
-          <image-preview :src="scope.row.image" :width="50" :height="50"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建人" align="center" prop="userId" />
-      <el-table-column label="所属社团" align="center" prop="clubId" />
+      <el-table-column label="社团id" align="center" prop="id" />
+      <el-table-column label="社团名称" align="center" prop="clubName" />
+      <el-table-column label="社团说明" align="center" prop="clubDesc" />
+<!--      <el-table-column label="社团详情" align="center" prop="clubDetail" />-->
       <el-table-column label="创建时间" align="center" prop="gmtCreate" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.gmtCreate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否删除" align="center" prop="isDelete" />
+      <el-table-column label="状态" align="center" prop="state">
+        <template slot-scope="scope">
+          <span v-show="scope.row.state !== 1">待审核</span>
+          <span v-show="scope.row.state === 1">审核通过</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="社团图标" align="center" prop="image" width="100">
+        <template slot-scope="scope">
+          <image-preview :src="scope.row.clubIcon" :width="50" :height="50"/>
+        </template>
+      </el-table-column>
+<!--      <el-table-column label="社团图标url" align="center" prop="clubIcon" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -118,15 +125,21 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:notice:edit']"
+            v-hasPermi="['system:club:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:notice:remove']"
+            v-hasPermi="['system:club:remove']"
           >删除</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="pass(scope.row)"
+          >审核通过</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -139,35 +152,44 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改公告对话框 -->
+    <!-- 添加或修改社团对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="公告主题" prop="title">
-          <el-input v-model="form.title" placeholder="请输入公告主题" />
+        <el-form-item label="社团名称" prop="clubName">
+          <el-input v-model="form.clubName" placeholder="请输入社团名称" />
         </el-form-item>
-        <el-form-item label="公告内容">
-          <editor v-model="form.content" :min-height="192"/>
+        <el-form-item label="社团说明" prop="clubDesc">
+          <el-input v-model="form.clubDesc" placeholder="请输入社团说明" />
         </el-form-item>
-        <el-form-item label="公告图片url">
-          <image-upload v-model="form.image"/>
+        <el-form-item label="指导老师" prop="theacher">
+          <el-input v-model="form.theacher" placeholder="请输入指导老师" />
         </el-form-item>
-        <el-form-item label="创建人" prop="userId">
-          <el-input v-model="form.userId" placeholder="请输入创建人" />
+        <el-form-item label="QQ号" prop="clubDesc">
+          <el-input v-model="form.qqNUmber" placeholder="请输入QQ号" />
         </el-form-item>
-        <el-form-item label="所属社团" prop="clubId">
-          <el-input v-model="form.clubId" placeholder="请输入所属社团" />
+        <el-form-item label="联系电话" prop="mobilePhone">
+          <el-input v-model="form.mobilePhone" placeholder="请输入联系电话" />
         </el-form-item>
-        <el-form-item label="创建时间" prop="gmtCreate">
-          <el-date-picker clearable
-            v-model="form.gmtCreate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择创建时间">
-          </el-date-picker>
+        <el-form-item label="社团详情" prop="clubDetail">
+          <el-input v-model="form.clubDetail" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="是否删除" prop="isDelete">
-          <el-input v-model="form.isDelete" placeholder="请输入是否删除" />
+<!--        <el-form-item label="创建时间" prop="gmtCreate">-->
+<!--          <el-date-picker clearable-->
+<!--            v-model="form.gmtCreate"-->
+<!--            type="date"-->
+<!--            value-format="yyyy-MM-dd"-->
+<!--            placeholder="请选择创建时间">-->
+<!--          </el-date-picker>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="是否删除" prop="isDelete">-->
+<!--          <el-input v-model="form.isDelete" placeholder="请输入是否删除" />-->
+<!--        </el-form-item>-->
+        <el-form-item label="社团图标" prop="clubIcon">
+          <image-upload v-model="form.clubIcon"/>
         </el-form-item>
+<!--        <el-form-item label="社团图标url" prop="clubIcon">-->
+<!--          <el-input v-model="form.clubIcon" placeholder="请输入社团图标url" />-->
+<!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -178,10 +200,10 @@
 </template>
 
 <script>
-import { listNotice, getNotice, delNotice, addNotice, updateNotice } from "@/api/system/togNotice";
+import { listClub, getClub, delClub, addClub, updateClub,pass } from "@/api/system/club";
 
 export default {
-  name: "Notice",
+  name: "Club",
   data() {
     return {
       // 遮罩层
@@ -196,8 +218,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 公告表格数据
-      noticeList: [],
+      // 社团表格数据
+      clubList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -206,35 +228,25 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        title: null,
-        content: null,
-        image: null,
-        userId: null,
-        clubId: null,
+        clubName: null,
+        clubDesc: null,
+        clubDetail: null,
         gmtCreate: null,
         isDelete: null,
+        clubIcon: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        title: [
-          { required: true, message: "公告主题不能为空", trigger: "blur" }
+        clubName: [
+          { required: true, message: "社团名称不能为空", trigger: "blur" }
         ],
-        content: [
-          { required: true, message: "公告内容不能为空", trigger: "blur" }
+        theacher: [
+          { required: true, message: "指导老师不能为空", trigger: "blur" }
         ],
-        userId: [
-          { required: true, message: "创建人不能为空", trigger: "blur" }
-        ],
-        clubId: [
-          { required: true, message: "所属社团不能为空", trigger: "blur" }
-        ],
-        gmtCreate: [
-          { required: true, message: "创建时间不能为空", trigger: "blur" }
-        ],
-        isDelete: [
-          { required: true, message: "是否删除不能为空", trigger: "blur" }
+        mobilePhone: [
+          { required: true, message: "电话不能为空", trigger: "blur" }
         ],
       }
     };
@@ -243,11 +255,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询公告列表 */
+    /** 查询社团列表 */
     getList() {
       this.loading = true;
-      listNotice(this.queryParams).then(response => {
-        this.noticeList = response.rows;
+      listClub(this.queryParams).then(response => {
+        this.clubList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -261,17 +273,19 @@ export default {
     reset() {
       this.form = {
         id: null,
-        title: null,
-        content: null,
-        image: null,
-        userId: null,
-        clubId: null,
+        clubName: null,
+        clubDesc: null,
+        clubDetail: null,
         gmtCreate: null,
         isDelete: null,
+        clubIcon: null,
         createTime: null,
         createBy: null,
         updateBy: null,
-        updateTime: null
+        updateTime: null,
+        theacher: null,
+        qqNumber: null,
+        mobilePhone: null
       };
       this.resetForm("form");
     },
@@ -295,16 +309,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加公告";
+      this.title = "添加社团";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getNotice(id).then(response => {
+      getClub(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改公告";
+        this.title = "修改社团";
       });
     },
     /** 提交按钮 */
@@ -312,13 +326,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateNotice(this.form).then(response => {
+            updateClub(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addNotice(this.form).then(response => {
+            addClub(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -330,18 +344,28 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除公告编号为"' + ids + '"的数据项？').then(function() {
-        return delNotice(ids);
+      this.$modal.confirm('是否确认删除社团编号为"' + ids + '"的数据项？').then(function() {
+        return delClub(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
     },
+
+    pass(row) {
+      const id = row.id
+      this.$modal.confirm('是否审核通过社团编号为"' + id + '"的数据项？').then(function() {
+        return pass(id);
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("审核通过成功");
+      }).catch(() => {});
+    },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/notice/export', {
+      this.download('system/club/export', {
         ...this.queryParams
-      }, `notice_${new Date().getTime()}.xlsx`)
+      }, `club_${new Date().getTime()}.xlsx`)
     }
   }
 };

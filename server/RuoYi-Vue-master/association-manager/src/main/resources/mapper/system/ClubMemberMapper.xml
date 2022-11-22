@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ClubMemberMapper">
+    
+    <resultMap type="ClubMember" id="ClubMemberResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="clubId"    column="club_id"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtDelete"    column="gmt_delete"    />
+        <result property="position"    column="position"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <resultMap type="com.ruoyi.system.vo.ClubMemberVo" id="ClubMemberVoResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="clubId"    column="club_id"    />
+        <result property="position"    column="position"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+
+        <result property="clubName"    column="club_name"    />
+        <result property="userName"    column="user_name"    />
+        <result property="state"    column="state"    />
+        <result property="qqNumber"    column="qq_number"    />
+        <result property="hobby"    column="hobby"    />
+        <result property="speciality"    column="speciality"    />
+        <result property="apply"    column="apply"    />
+    </resultMap>
+
+    <sql id="selectClubMemberVo">
+        SELECT
+            u.user_name,
+            c.club_NAME,
+            cm.*
+        FROM
+            club_member cm
+                LEFT JOIN club c ON c.id = cm.club_id
+                LEFT JOIN sys_user u ON u.user_id = cm.user_id
+    </sql>
+
+    <select id="selectClubMemberList" parameterType="ClubMember" resultMap="ClubMemberVoResult">
+        <include refid="selectClubMemberVo"/>
+        <where>  
+            <if test="userId != null "> and cm.user_id = #{userId}</if>
+            <if test="clubId != null "> and cm.club_id = #{clubId}</if>
+            <if test="gmtCreate != null "> and cm.gmt_create = #{gmtCreate}</if>
+            <if test="gmtDelete != null "> and cm.gmt_delete = #{gmtDelete}</if>
+            <if test="position != null  and position != ''"> and cm.position = #{position}</if>
+            <if test="isDelete != null "> and cm.is_delete = #{isDelete}</if>
+        </where>
+    </select>
+    
+    <select id="selectClubMemberById" parameterType="Long" resultMap="ClubMemberVoResult">
+        <include refid="selectClubMemberVo"/>
+        where cm.id = #{id}
+    </select>
+        
+    <insert id="insertClubMember" parameterType="ClubMember" useGeneratedKeys="true" keyProperty="id">
+        insert into club_member
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="clubId != null">club_id,</if>
+            <if test="gmtCreate != null">gmt_create,</if>
+            <if test="gmtDelete != null">gmt_delete,</if>
+            <if test="position != null and position != ''">position,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="reason != null">reason,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="clubId != null">#{clubId},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="gmtDelete != null">#{gmtDelete},</if>
+            <if test="position != null and position != ''">#{position},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="reason != null">#{reason},</if>
+         </trim>
+    </insert>
+
+    <update id="updateClubMember" parameterType="ClubMember">
+        update club_member
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="clubId != null">club_id = #{clubId},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="gmtDelete != null">gmt_delete = #{gmtDelete},</if>
+            <if test="position != null and position != ''">position = #{position},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="reason != null">update_time = #{reason},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteClubMemberById" parameterType="Long">
+        delete from club_member where id = #{id}
+    </delete>
+
+    <delete id="deleteClubMemberByIds" parameterType="String">
+        delete from club_member where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,34 +1,50 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="活动名称" prop="activityName">
+      <el-form-item label="活动主题" prop="title">
         <el-input
-          v-model="queryParams.activityName"
-          placeholder="请输入活动名称"
+          v-model="queryParams.title"
+          placeholder="请输入活动主题"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="活动地点" prop="place">
+      <el-form-item label="活动简介" prop="description">
         <el-input
-          v-model="queryParams.place"
-          placeholder="请输入活动地点"
+          v-model="queryParams.description"
+          placeholder="请输入活动简介"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="活动人数" prop="peopleNum">
+      <el-form-item label="活动开始时间" prop="startTime">
+        <el-date-picker clearable
+          v-model="queryParams.startTime"
+          type="date"
+          value-format="yyyy-MM-dd"
+          placeholder="请选择活动开始时间">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="活动结束时间" prop="endTime">
+        <el-date-picker clearable
+          v-model="queryParams.endTime"
+          type="date"
+          value-format="yyyy-MM-dd"
+          placeholder="请选择活动结束时间">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="是否删除" prop="isDelete">
         <el-input
-          v-model="queryParams.peopleNum"
-          placeholder="请输入活动人数"
+          v-model="queryParams.isDelete"
+          placeholder="请输入是否删除"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="社团id" prop="associationId">
+      <el-form-item label="所属社团id" prop="clubId">
         <el-input
-          v-model="queryParams.associationId"
-          placeholder="请输入社团id"
+          v-model="queryParams.clubId"
+          placeholder="请输入所属社团id"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -87,12 +103,28 @@
 
     <el-table v-loading="loading" :data="activityList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="编号" align="center" prop="id" />
-      <el-table-column label="活动名称" align="center" prop="activityName" />
-      <el-table-column label="活动地点" align="center" prop="place" />
-      <el-table-column label="活动人数" align="center" prop="peopleNum" />
+      <el-table-column label="活动ID" align="center" prop="id" />
+      <el-table-column label="活动主题" align="center" prop="title" />
       <el-table-column label="活动内容" align="center" prop="content" />
-      <el-table-column label="社团id" align="center" prop="associationId" />
+      <el-table-column label="活动简介" align="center" prop="description" />
+      <el-table-column label="图片url" align="center" prop="image" width="100">
+        <template slot-scope="scope">
+          <image-preview :src="scope.row.image" :width="50" :height="50"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="活动开始时间" align="center" prop="startTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.startTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="活动结束时间" align="center" prop="endTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.endTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="活动状态" align="center" prop="status" />
+      <el-table-column label="是否删除" align="center" prop="isDelete" />
+      <el-table-column label="所属社团id" align="center" prop="clubId" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -124,20 +156,39 @@
     <!-- 添加或修改活动对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="活动名称" prop="activityName">
-          <el-input v-model="form.activityName" placeholder="请输入活动名称" />
-        </el-form-item>
-        <el-form-item label="活动地点" prop="place">
-          <el-input v-model="form.place" placeholder="请输入活动地点" />
-        </el-form-item>
-        <el-form-item label="活动人数" prop="peopleNum">
-          <el-input v-model="form.peopleNum" placeholder="请输入活动人数" />
+        <el-form-item label="活动主题" prop="title">
+          <el-input v-model="form.title" placeholder="请输入活动主题" />
         </el-form-item>
         <el-form-item label="活动内容">
           <editor v-model="form.content" :min-height="192"/>
         </el-form-item>
-        <el-form-item label="社团id" prop="associationId">
-          <el-input v-model="form.associationId" placeholder="请输入社团id" />
+        <el-form-item label="活动简介" prop="description">
+          <el-input v-model="form.description" placeholder="请输入活动简介" />
+        </el-form-item>
+        <el-form-item label="图片url">
+          <image-upload v-model="form.image"/>
+        </el-form-item>
+        <el-form-item label="活动开始时间" prop="startTime">
+          <el-date-picker clearable
+            v-model="form.startTime"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择活动开始时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="活动结束时间" prop="endTime">
+          <el-date-picker clearable
+            v-model="form.endTime"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择活动结束时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="是否删除" prop="isDelete">
+          <el-input v-model="form.isDelete" placeholder="请输入是否删除" />
+        </el-form-item>
+        <el-form-item label="所属社团id" prop="clubId">
+          <el-input v-model="form.clubId" placeholder="请输入所属社团id" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -177,11 +228,15 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        activityName: null,
-        place: null,
-        peopleNum: null,
+        title: null,
         content: null,
-        associationId: null
+        description: null,
+        image: null,
+        startTime: null,
+        endTime: null,
+        status: null,
+        isDelete: null,
+        clubId: null,
       },
       // 表单参数
       form: {},
@@ -212,15 +267,19 @@ export default {
     reset() {
       this.form = {
         id: null,
-        createBy: null,
-        createTime: null,
-        updateBy: null,
-        updateTime: null,
-        activityName: null,
-        place: null,
-        peopleNum: null,
+        title: null,
         content: null,
-        associationId: null
+        description: null,
+        image: null,
+        startTime: null,
+        endTime: null,
+        status: 0,
+        isDelete: null,
+        clubId: null,
+        createTime: null,
+        createBy: null,
+        updateBy: null,
+        updateTime: null
       };
       this.resetForm("form");
     },
