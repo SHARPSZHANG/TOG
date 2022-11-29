@@ -3,6 +3,7 @@ package com.ruoyi.system.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.system.api.ApiResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -74,9 +75,9 @@ public class ActivityController extends BaseController
     @ApiImplicitParam(name = "id", value = "活动id", dataType = "Long", dataTypeClass = Long.class)
     @PreAuthorize("@ss.hasPermi('system:activity:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
+    public ApiResult getInfo(@PathVariable("id") Long id)
     {
-        return AjaxResult.success(activityService.selectActivityById(id));
+        return new ApiResult<Activity>().setData(activityService.selectActivityById(id));
     }
 
     /**
