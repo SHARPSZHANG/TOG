@@ -8,7 +8,7 @@ ruoyi:
   copyrightYear: 2022
   # 实例演示开关
   demoEnabled: true
-  # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath） /usr/local/tog/backend/uploadPath
+  # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
   profile: E:/ruoyi/uploadPath
   # 获取ip地址开关
   addressEnabled: false
@@ -78,11 +78,11 @@ spring:
     # 密码
     password:
     # 连接超时时间
-    timeout: 100
+    timeout: 10s
     lettuce:
       pool:
         # 连接池中的最小空闲连接
-        min-idle: 0
+        min-idle: 2
         # 连接池中的最大空闲连接
         max-idle: 8
         # 连接池的最大数据库连接数

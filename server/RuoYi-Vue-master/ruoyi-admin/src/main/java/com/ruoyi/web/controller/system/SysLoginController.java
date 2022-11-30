@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.ruoyi.system.domain.Activity;
-import com.ruoyi.web.controller.tool.UserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -78,27 +77,6 @@ public class SysLoginController
         ajax.put("user", user);
         ajax.put("roles", roles);
         ajax.put("permissions", permissions);
-        return ajax;
-    }
-
-
-    /**
-     * 获取用户信息
-     *
-     * @return 用户信息
-     */
-    @ApiOperation("移动：获取用户信息")
-    @GetMapping("getInfo/mobile")
-    public AjaxResult getInfoMobile()
-    {
-        SysUser user = SecurityUtils.getLoginUser().getUser();
-
-//        // 角色集合
-//        Set<String> roles = permissionService.getRolePermission(user);
-//        // 权限集合
-//        Set<String> permissions = permissionService.getMenuPermission(user);
-        AjaxResult ajax = AjaxResult.success();
-        ajax.put("user", UserUtils.getLoginUser(user));
         return ajax;
     }
 

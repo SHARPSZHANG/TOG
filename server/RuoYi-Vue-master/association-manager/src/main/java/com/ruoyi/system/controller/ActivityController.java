@@ -1,11 +1,11 @@
 package com.ruoyi.system.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +53,31 @@ public class ActivityController extends BaseController
         return getDataTable(list);
     }
 
+    @ApiOperation("查询所有活动列表")
+    @PreAuthorize("@ss.hasPermi('system:activity:list')")
+    @GetMapping("/findAllActivity")
+    public AjaxResult list()
+    {
+        startPage();
+        List<Activity> list = new ArrayList<>(16);
+        return AjaxResult.success(list);
+    }
+
+    @ApiOperation("根据用户Id查询活动列表")
+    @PreAuthorize("@ss.hasPermi('system:activity:list')")
+    @GetMapping("/findActivityByUserId")
+    public AjaxResult findActivityByUserId(Long userId)
+    {
+        /*
+          1.根据用户ID查询出社团
+          2.根据社团编号查询出所有活动信息（按时间倒序排列）
+          返回List<Activity>
+         */
+        List<Activity> activities = new ArrayList<Activity>();
+
+        return AjaxResult.success(activities);
+    }
+
     /**
      * 导出活动列表
      */
@@ -89,7 +114,7 @@ public class ActivityController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody Activity activity)
     {
-        return toAjax(activityService.insertActivity(activity));
+        return AjaxResult.success(activityService.insertActivity(activity) > 0);
     }
 
     /**
@@ -102,7 +127,7 @@ public class ActivityController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody Activity activity)
     {
-        return toAjax(activityService.updateActivity(activity));
+        return AjaxResult.success(activityService.updateActivity(activity) > 0);
     }
 
     /**
