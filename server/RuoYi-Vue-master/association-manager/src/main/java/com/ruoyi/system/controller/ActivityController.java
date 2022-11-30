@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.system.service.ISysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -39,12 +41,13 @@ public class ActivityController extends BaseController
 {
     @Autowired
     private IActivityService activityService;
-
+    @Autowired
+    private ISysUserService userService;
     /**
      * 查询活动列表
      */
     @ApiOperation("查询活动列表")
-    @PreAuthorize("@ss.hasPermi('system:activity:list')")
+//    @PreAuthorize("@ss.hasPermi('system:activity:list')")
     @GetMapping("/list")
     public TableDataInfo list(Activity activity)
     {
@@ -54,7 +57,7 @@ public class ActivityController extends BaseController
     }
 
     @ApiOperation("查询所有活动列表")
-    @PreAuthorize("@ss.hasPermi('system:activity:list')")
+//    @PreAuthorize("@ss.hasPermi('system:activity:list')")
     @GetMapping("/findAllActivity")
     public AjaxResult list()
     {
@@ -64,7 +67,7 @@ public class ActivityController extends BaseController
     }
 
     @ApiOperation("根据用户Id查询活动列表")
-    @PreAuthorize("@ss.hasPermi('system:activity:list')")
+//    @PreAuthorize("@ss.hasPermi('system:activity:list')")
     @GetMapping("/findActivityByUserId")
     public AjaxResult findActivityByUserId(Long userId)
     {
@@ -73,11 +76,32 @@ public class ActivityController extends BaseController
           2.根据社团编号查询出所有活动信息（按时间倒序排列）
           返回List<Activity>
          */
-        List<Activity> activities = new ArrayList<Activity>();
 
+
+        List<Activity> activities = new ArrayList<Activity>();
+        Activity activity = new Activity();
+        SysUser sysUser = userService.selectUserById(userId);
+        activity.setCreateBy(sysUser.getUserName());
+        activities = activityService.selectActivityList(activity);
         return AjaxResult.success(activities);
     }
 
+    @ApiOperation("根据社团Id查询活动列表")
+//    @PreAuthorize("@ss.hasPermi('system:activity:list')")
+    @GetMapping("/findActivityByClubId")
+    public AjaxResult findActivityByClubId(Long clubId)
+    {
+        /*
+          1.根据用户ID查询出社团
+          2.根据社团编号查询出所有活动信息（按时间倒序排列）
+          返回List<Activity>
+         */
+        List<Activity> activities = new ArrayList<Activity>();
+        Activity activity = new Activity();
+        activity.setClubId(clubId);
+        activities = activityService.selectActivityList(activity);
+        return AjaxResult.success(activities);
+    }
     /**
      * 导出活动列表
      */
@@ -97,7 +121,7 @@ public class ActivityController extends BaseController
      */
     @ApiOperation("获取活动详细信息")
     @ApiImplicitParam(name = "id", value = "活动id", dataType = "Long", dataTypeClass = Long.class)
-    @PreAuthorize("@ss.hasPermi('system:activity:query')")
+//    @PreAuthorize("@ss.hasPermi('system:activity:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {

@@ -10,8 +10,10 @@ import com.ruoyi.system.vo.ClubMemberVo;
  * @author ruoyi
  * @date 2022-11-16
  */
-public interface IClubMemberService 
+public interface IClubMemberService
 {
+
+
     /**
      * 查询社团成员
      * 

@@ -55,6 +55,7 @@ public class ClubMemberController extends BaseController
         return getDataTable(list);
     }
 
+
     @ApiOperation("通过加入社团申请")
     @ApiImplicitParam(name = "id", value = "社团申请id", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
     @GetMapping(value = "/{id}/pass")
