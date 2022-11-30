@@ -54,6 +54,11 @@ public class ClubMemberServiceImpl implements IClubMemberService
         return clubMemberMapper.selectClubMemberList(clubMember);
     }
 
+    @Override
+    public List<ClubMember> selectClubMemberList2(ClubMember clubMember) {
+        return clubMemberMapper.selectClubMemberList2(clubMember);
+    }
+
     /**
      * 新增社团成员
      * 

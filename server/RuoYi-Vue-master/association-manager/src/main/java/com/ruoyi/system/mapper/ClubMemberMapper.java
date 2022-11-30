@@ -28,6 +28,7 @@ public interface ClubMemberMapper
      */
     public List<ClubMemberVo> selectClubMemberList(ClubMember clubMember);
 
+    public List<ClubMember> selectClubMemberList2(ClubMember clubMember);
     /**
      * 新增社团成员
      * 

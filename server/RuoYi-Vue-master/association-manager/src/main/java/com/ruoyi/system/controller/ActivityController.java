@@ -77,12 +77,7 @@ public class ActivityController extends BaseController
           返回List<Activity>
          */
 
-
-        List<Activity> activities = new ArrayList<Activity>();
-        Activity activity = new Activity();
-        SysUser sysUser = userService.selectUserById(userId);
-        activity.setCreateBy(sysUser.getUserName());
-        activities = activityService.selectActivityList(activity);
+        List<Activity> activities = activityService.findActivityByUserId(userId);
         return AjaxResult.success(activities);
     }
 

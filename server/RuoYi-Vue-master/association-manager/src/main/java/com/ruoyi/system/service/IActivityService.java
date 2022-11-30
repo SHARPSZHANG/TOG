@@ -11,6 +11,9 @@ import com.ruoyi.system.domain.Activity;
  */
 public interface IActivityService 
 {
+
+    List<Activity> findActivityByUserId(Long userId);
+
     /**
      * 查询活动
      * 

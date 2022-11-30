@@ -25,6 +25,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, title, content, description, image, start_time, end_time, status, is_delete, club_id, create_time, create_by, update_by, update_time from activity
     </sql>
 
+    <sql id="selectActivityByUserId">
+        select
+            a.*
+        from
+            activity a
+        JOIN club_member cm on cm.club_id = a.club_id
+    </sql>
+
     <select id="selectActivityList" parameterType="Activity" resultMap="ActivityResult">
         <include refid="selectActivityVo"/>
         <where>  
@@ -44,7 +52,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectActivityVo"/>
         where id = #{id}
     </select>
-        
+
+    <select id="findActivityListByUser" parameterType="Long" resultType="com.ruoyi.system.domain.Activity" resultMap="ActivityResult">
+        <include refid="selectActivityByUserId"/>
+        <where>
+            <if test="userId != null  and userId != ''"> cm.user_id  = #{userId}</if>
+        </where>
+
+    </select>
+
     <insert id="insertActivity" parameterType="Activity" useGeneratedKeys="true" keyProperty="id">
         insert into activity
         <trim prefix="(" suffix=")" suffixOverrides=",">

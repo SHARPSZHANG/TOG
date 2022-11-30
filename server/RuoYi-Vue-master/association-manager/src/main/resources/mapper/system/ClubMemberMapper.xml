@@ -49,9 +49,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 LEFT JOIN sys_user u ON u.user_id = cm.user_id
     </sql>
 
+    <sql id="selectClubMember">
+        SELECT
+            *
+        FROM
+            club_member
+
+    </sql>
+
     <select id="selectClubMemberList" parameterType="ClubMember" resultMap="ClubMemberVoResult">
         <include refid="selectClubMemberVo"/>
         <where>  
+            <if test="userId != null "> and cm.user_id = #{userId}</if>
+            <if test="clubId != null "> and cm.club_id = #{clubId}</if>
+            <if test="gmtCreate != null "> and cm.gmt_create = #{gmtCreate}</if>
+            <if test="gmtDelete != null "> and cm.gmt_delete = #{gmtDelete}</if>
+            <if test="position != null  and position != ''"> and cm.position = #{position}</if>
+            <if test="isDelete != null "> and cm.is_delete = #{isDelete}</if>
+        </where>
+    </select>
+
+    <select id="selectClubMemberList2" parameterType="ClubMember" resultType="com.ruoyi.system.domain.ClubMember" resultMap="ClubMemberResult">
+        <include refid="selectClubMember"/>
+        <where>
             <if test="userId != null "> and cm.user_id = #{userId}</if>
             <if test="clubId != null "> and cm.club_id = #{clubId}</if>
             <if test="gmtCreate != null "> and cm.gmt_create = #{gmtCreate}</if>
@@ -65,7 +85,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectClubMemberVo"/>
         where cm.id = #{id}
     </select>
-        
+
+
     <insert id="insertClubMember" parameterType="ClubMember" useGeneratedKeys="true" keyProperty="id">
         insert into club_member
         <trim prefix="(" suffix=")" suffixOverrides=",">

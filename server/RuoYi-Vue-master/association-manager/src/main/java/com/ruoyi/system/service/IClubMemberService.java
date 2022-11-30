@@ -22,6 +22,8 @@ public interface IClubMemberService
      */
     public ClubMemberVo selectClubMemberById(Long id);
 
+
+
     void pass(Long id,String userName);
 
     /**
@@ -32,6 +34,8 @@ public interface IClubMemberService
      */
     public List<ClubMemberVo> selectClubMemberList(ClubMember clubMember);
 
+
+    public List<ClubMember> selectClubMemberList2(ClubMember clubMember);
     /**
      * 新增社团成员
      * 

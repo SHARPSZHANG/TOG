@@ -2,6 +2,9 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.system.domain.ClubMember;
+import com.ruoyi.system.service.IClubMemberService;
+import com.ruoyi.system.vo.ClubMemberVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.ActivityMapper;
@@ -19,6 +22,17 @@ public class ActivityServiceImpl implements IActivityService
 {
     @Autowired
     private ActivityMapper activityMapper;
+
+    private IClubMemberService iClubMemberService;
+
+    @Override
+    public List<Activity> findActivityByUserId(Long userId) {
+//        ClubMember clubMember = new ClubMember();
+//        clubMember.setUserId(userId);
+//        List<ClubMember> clubMembers = iClubMemberService.selectClubMemberList2(clubMember);
+        List<Activity> activityListByUser = activityMapper.findActivityListByUser(userId);
+        return activityListByUser;
+    }
 
     /**
      * 查询活动

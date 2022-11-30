@@ -27,6 +27,14 @@ public interface ActivityMapper
      */
     public List<Activity> selectActivityList(Activity activity);
 
+
+    /**
+     * 查询活动列表
+     *
+     * @param userId 用户id
+     * @return 活动集合
+     */
+    public List<Activity> findActivityListByUser(Long userId);
     /**
      * 新增活动
      * 
