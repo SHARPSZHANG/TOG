@@ -23,6 +23,8 @@ public class ActivityServiceImpl implements IActivityService
     @Autowired
     private ActivityMapper activityMapper;
 
+
+    @Autowired
     private IClubMemberService iClubMemberService;
 
     @Override
@@ -106,5 +108,12 @@ public class ActivityServiceImpl implements IActivityService
     public int deleteActivityById(Long id)
     {
         return activityMapper.deleteActivityById(id);
+    }
+
+    @Override
+    public Boolean getPermissionByUserId(Long userId, Long activityId) {
+        Activity activity = selectActivityById(activityId);
+        Boolean permissionByUserId = iClubMemberService.getPermissionByUserId(userId,activityId);
+        return permissionByUserId;
     }
 }

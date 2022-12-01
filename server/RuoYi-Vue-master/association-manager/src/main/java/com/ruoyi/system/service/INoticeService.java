@@ -58,4 +58,6 @@ public interface INoticeService
      * @return 结果
      */
     public int deleteNoticeById(Long id);
+
+    Boolean getPermissionByUserId(Long userId, Long noticeId);
 }

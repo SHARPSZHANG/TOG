@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.system.service.IClubMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.NoticeMapper;
@@ -19,6 +20,8 @@ public class NoticeServiceImpl implements INoticeService
 {
     @Autowired
     private NoticeMapper noticeMapper;
+
+    private IClubMemberService iClubMemberService;
 
     /**
      * 查询公告
@@ -92,5 +95,12 @@ public class NoticeServiceImpl implements INoticeService
     public int deleteNoticeById(Long id)
     {
         return noticeMapper.deleteNoticeById(id);
+    }
+
+    @Override
+    public Boolean getPermissionByUserId(Long userId, Long noticeId) {
+        Notice notice = selectNoticeById(noticeId);
+        Boolean permissionByUserId = iClubMemberService.getPermissionByUserId(userId, notice.getClubId());
+        return permissionByUserId;
     }
 }

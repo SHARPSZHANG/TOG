@@ -155,16 +155,17 @@ public class ActivityController extends BaseController
 
     @ApiOperation("查询权限")
     //    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
-    @Log(title = "活动", businessType = BusinessType.UPDATE)
+//    @Log(title = "活动", businessType = BusinessType.UPDATE)
     @GetMapping("/getPermissionByUserId")
-    public AjaxResult getPermissionByUserId(@RequestParam Long userId)
+    public AjaxResult getPermissionByUserId(@RequestParam Long userId,@RequestParam Long activityId)
     {
 
         /*
          * 1.查询该用户是否为当前活动所属社团社长
          * 2.返回结果 true or false
          */
-        return AjaxResult.success();
+        Boolean res = activityService.getPermissionByUserId(userId,activityId);
+        return AjaxResult.success(res);
     }
 
     /**

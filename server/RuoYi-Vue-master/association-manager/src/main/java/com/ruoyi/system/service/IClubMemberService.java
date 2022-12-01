@@ -69,5 +69,11 @@ public interface IClubMemberService
      */
     public int deleteClubMemberById(Long id);
 
+    /**
+     * 用户是否为社团社长
+     * @param userId
+     * @param clubId
+     * @return
+     */
     Boolean getPermissionByUserId(Long userId, Long clubId);
 }

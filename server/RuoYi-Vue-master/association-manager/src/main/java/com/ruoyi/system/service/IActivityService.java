@@ -61,4 +61,6 @@ public interface IActivityService
      * @return 结果
      */
     public int deleteActivityById(Long id);
+
+    Boolean getPermissionByUserId(Long userId, Long activityId);
 }
