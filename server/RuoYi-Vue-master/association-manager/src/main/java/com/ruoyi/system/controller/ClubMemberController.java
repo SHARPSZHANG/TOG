@@ -143,7 +143,7 @@ public class ClubMemberController extends BaseController
     @ApiOperation("删除社团成员")
     @ApiImplicitParam(name = "userId", value = "社团成员id数组", required = true, dataType = "Long[]", paramType = "path", dataTypeClass = Long[].class)
     @Log(title = "社团成员", businessType = BusinessType.DELETE)
-    @DeleteMapping()
+    @PostMapping("/del/club/user")
     public AjaxResult remove(@RequestParam Long userId, @RequestParam Long clubId)
     {
         /*
