@@ -3,7 +3,11 @@ package com.ruoyi.system.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.system.domain.ClubMember;
+import com.ruoyi.system.params.ClubParams;
+import com.ruoyi.system.service.IClubMemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -33,6 +37,9 @@ public class ClubController extends BaseController
     @Autowired
     private IClubService clubService;
 
+    @Autowired
+    private IClubMemberService clubMemberService;
+
     /**
      * 查询社团列表
      */
@@ -46,7 +53,7 @@ public class ClubController extends BaseController
         return getDataTable(list);
     }
 
-    @ApiOperation("查询社团列表")
+    @ApiOperation("根据userId查询社团列表")
     //    @PreAuthorize("@ss.hasPermi('system:club:list')")
     @GetMapping("/listByUserId")
     public AjaxResult listByUserId(@RequestParam Long userId)
@@ -55,7 +62,8 @@ public class ClubController extends BaseController
          * 查询用户所参加的社团列表
          * 返回List<Club>
          */
-        return AjaxResult.success();
+        List<Club> club = clubService.listByUserId(userId);
+        return AjaxResult.success(club);
     }
 
     @ApiOperation("根据社长ID查询社团信息")
@@ -64,24 +72,27 @@ public class ClubController extends BaseController
     public AjaxResult findClubByUserId(@RequestParam Long userId)
     {
         /*
-         * 查询用户所参加的社团列表
+         * 根据社长ID查询社团信息
          * 返回List<Club>
          */
-        return AjaxResult.success();
+        ClubParams params = new ClubParams();
+        List<Club> clubs = clubService.listClubByParams(params);
+        return AjaxResult.success(clubs);
     }
 
 
 
     @ApiOperation("查询社团列表")
     //    @PreAuthorize("@ss.hasPermi('system:club:list')")
-    @GetMapping("/list")
+    @GetMapping("/all/list")
     public AjaxResult list()
     {
         /*
          * 查询所有社团列表
          * 返回List<Club>
          */
-        return AjaxResult.success();
+        List<Club> clubs = clubService.selectClubList(new Club());
+        return AjaxResult.success(clubs);
     }
 
     /**
@@ -134,7 +145,7 @@ public class ClubController extends BaseController
     public AjaxResult add(@RequestBody Club club, @RequestParam("userId") Long userId)
     {
         club.setCreateBy(getUsername());
-        return AjaxResult.success(clubService.insertClub(club) > 0);
+        return AjaxResult.success(clubService.insertClub(club,userId) > 0);
     }
 
     /**

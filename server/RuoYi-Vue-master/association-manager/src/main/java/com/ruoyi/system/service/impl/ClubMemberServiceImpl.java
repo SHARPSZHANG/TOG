@@ -21,6 +21,20 @@ public class ClubMemberServiceImpl implements IClubMemberService
     @Autowired
     private ClubMemberMapper clubMemberMapper;
 
+
+    @Override
+    public void delClubUser(Long userId, Long clubId) {
+        ClubMember clubMember = new ClubMember();
+        clubMember.setClubId(clubId);
+        clubMember.setUserId(userId);
+        List<ClubMember> clubMembers = selectClubMemberList2(clubMember);
+        if (clubMembers != null && clubMembers.size() > 0){
+            ClubMember clubMember1 = clubMembers.get(0);
+            deleteClubMemberById(clubMember1.getId());
+        }
+
+    }
+
     /**
      * 查询社团成员
      * 
@@ -107,5 +121,18 @@ public class ClubMemberServiceImpl implements IClubMemberService
     public int deleteClubMemberById(Long id)
     {
         return clubMemberMapper.deleteClubMemberById(id);
+    }
+
+    @Override
+    public Boolean getPermissionByUserId(Long userId, Long clubId) {
+        ClubMember clubMember = new ClubMember();
+        clubMember.setClubId(clubId);
+        clubMember.setUserId(userId);
+        List<ClubMember> clubMembers = selectClubMemberList2(clubMember);
+        if (clubMembers !=null && clubMembers.size()>0){
+            ClubMember clubMember1 = clubMembers.get(0);
+            return "社长".equals(clubMember1.getPosition()) ? true : false;
+        }
+        return false;
     }
 }

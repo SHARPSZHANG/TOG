@@ -47,7 +47,7 @@ public class TogMessageController extends BaseController
 
     @ApiOperation("查询消息列表")
     //    @PreAuthorize("@ss.hasPermi('system:message:list')")
-    @GetMapping("/list")
+    @GetMapping("/all/list")
     public AjaxResult list(@RequestParam Long userId)
     {
 
@@ -55,7 +55,10 @@ public class TogMessageController extends BaseController
          * 根据用户ID查询消息列表
          * 返回结果List<TogMessage>
          */
-        return AjaxResult.success();
+        TogMessage togMessage = new TogMessage();
+        togMessage.setUserId(userId);
+        List<TogMessage> togMessages = togMessageService.selectTogMessageList(togMessage);
+        return AjaxResult.success(togMessages);
     }
 
     /**

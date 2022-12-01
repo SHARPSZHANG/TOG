@@ -13,6 +13,7 @@ import com.ruoyi.system.vo.ClubMemberVo;
 public interface IClubMemberService
 {
 
+    void delClubUser(Long userId,Long clubId);
 
     /**
      * 查询社团成员
@@ -67,4 +68,6 @@ public interface IClubMemberService
      * @return 结果
      */
     public int deleteClubMemberById(Long id);
+
+    Boolean getPermissionByUserId(Long userId, Long clubId);
 }

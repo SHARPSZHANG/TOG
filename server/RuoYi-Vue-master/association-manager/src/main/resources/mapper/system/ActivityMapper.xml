@@ -58,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="userId != null  and userId != ''"> cm.user_id  = #{userId}</if>
         </where>
-
+        order by a.create_time desc
     </select>
 
     <insert id="insertActivity" parameterType="Activity" useGeneratedKeys="true" keyProperty="id">

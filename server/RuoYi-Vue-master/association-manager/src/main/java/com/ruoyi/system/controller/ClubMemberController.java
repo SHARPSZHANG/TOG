@@ -46,7 +46,11 @@ public class ClubMemberController extends BaseController
         /*
          * 1.根据clubId查询member列表，返回List<memberVo>
          */
-        return AjaxResult.success();
+//        clubMemberService
+        ClubMember clubMember = new ClubMember();
+        clubMember.setClubId(clubId);
+        List<ClubMemberVo> clubMemberVos = clubMemberService.selectClubMemberList(clubMember);
+        return AjaxResult.success(clubMemberVos);
     }
 
     @ApiOperation("通过加入社团申请")
@@ -123,13 +127,32 @@ public class ClubMemberController extends BaseController
 //    @PreAuthorize("@ss.hasPermi('system:member:remove')")
     @Log(title = "社团成员", businessType = BusinessType.DELETE)
 	@DeleteMapping()
-    public AjaxResult remove(@RequestParam Long[] ids, @RequestParam Long clubId)
+    public AjaxResult remove(@RequestParam Long[] ids)
     {
         /*
          * 删除club_member 中 clubId所属的ids
          */
         return AjaxResult.success(clubMemberService.deleteClubMemberByIds(ids) > 0);
     }
+
+
+
+    /**
+     * 删除社团成员
+     */
+    @ApiOperation("删除社团成员")
+    @ApiImplicitParam(name = "userId", value = "社团成员id数组", required = true, dataType = "Long[]", paramType = "path", dataTypeClass = Long[].class)
+    @Log(title = "社团成员", businessType = BusinessType.DELETE)
+    @DeleteMapping()
+    public AjaxResult remove(@RequestParam Long userId, @RequestParam Long clubId)
+    {
+        /*
+         * 删除club_member 中 clubId所属的ids
+         */
+        clubMemberService.delClubUser(userId,clubId);
+        return AjaxResult.success();
+    }
+
 
     @ApiOperation("查询权限")
     //    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
@@ -141,6 +164,6 @@ public class ClubMemberController extends BaseController
          * 1.查询该用户是否为社团社长
          * 2.返回结果 true or false
          */
-        return AjaxResult.success();
+        return AjaxResult.success(clubMemberService.getPermissionByUserId(userId,clubId));
     }
 }

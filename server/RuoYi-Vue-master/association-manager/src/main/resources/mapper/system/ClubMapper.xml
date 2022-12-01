@@ -23,12 +23,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     </resultMap>
 
-    <sql id="selectClubVo">
+    <sql id="selectClub">
         select * from club
     </sql>
 
+    <sql id="selectClubByUserId">
+        SELECT c.* from club c
+        LEFT join club_member cm on cm.club_id = c.id
+    </sql>
+
     <select id="selectClubList" parameterType="Club" resultMap="ClubResult">
-        <include refid="selectClubVo"/>
+        <include refid="selectClub"/>
         <where>  
             <if test="clubName != null  and clubName != ''"> and club_name like concat('%', #{clubName}, '%')</if>
             <if test="clubDesc != null  and clubDesc != ''"> and club_desc = #{clubDesc}</if>
@@ -40,10 +45,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectClubById" parameterType="Long" resultMap="ClubResult">
-        <include refid="selectClubVo"/>
+        <include refid="selectClub"/>
         where id = #{id}
     </select>
-        
+
+    <select id="listByUserId" parameterType="Long" resultMap="ClubResult">
+        <include refid="selectClubByUserId"/>
+        <where>
+            <if test="userId != null  and userId != ''"> and cm.user_id = #{userId}</if>
+        </where>
+    </select>
+    <select id="listClubByParams" parameterType="com.ruoyi.system.params.ClubParams" resultMap="ClubResult">
+        <include refid="selectClubByUserId"/>
+        <where>
+            <if test="userId != null  and userId != ''"> and cm.user_id = #{userId}</if>
+            <if test="position != null  and position != ''"> and cm.position = #{position}</if>
+        </where>
+    </select>
+
     <insert id="insertClub" parameterType="Club" useGeneratedKeys="true" keyProperty="id">
         insert into club
         <trim prefix="(" suffix=")" suffixOverrides=",">

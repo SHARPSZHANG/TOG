@@ -75,23 +75,23 @@ public class ActivityController extends BaseController
         List<Activity> activities = activityService.findActivityByUserId(userId);
         return AjaxResult.success(activities);
     }
-
-    @ApiOperation("根据社团Id查询活动列表")
-//    @PreAuthorize("@ss.hasPermi('system:activity:list')")
-    @GetMapping("/findActivityByClubId")
-    public AjaxResult findActivityByClubId(@RequestParam Long clubId)
-    {
-        /*
-          1.根据用户ID查询出社团
-          2.根据社团编号查询出所有活动信息（按时间倒序排列）
-          返回List<ActivityVo>
-         */
-        List<ActivityVo> activities = new ArrayList<ActivityVo>();
-//        Activity activity = new Activity();
-//        activity.setClubId(clubId);
-//        activities = activityService.selectActivityList(activity);
-        return AjaxResult.success(activities);
-    }
+//
+//    @ApiOperation("根据社团Id查询活动列表")
+////    @PreAuthorize("@ss.hasPermi('system:activity:list')")
+//    @GetMapping("/findActivityByClubId")
+//    public AjaxResult findActivityByClubId(@RequestParam Long clubId)
+//    {
+//        /*
+//          1.根据用户ID查询出社团
+//          2.根据社团编号查询出所有活动信息（按时间倒序排列）
+//          返回List<ActivityVo>
+//         */
+//        List<ActivityVo> activities = new ArrayList<ActivityVo>();
+////        Activity activity = new Activity();
+////        activity.setClubId(clubId);
+////        activities = activityService.selectActivityList(activity);
+//        return AjaxResult.success(activities);
+//    }
     /**
      * 导出活动列表
      */
@@ -170,7 +170,7 @@ public class ActivityController extends BaseController
     /**
      * 删除活动
      */
-    @ApiOperation("删除社团成员")
+    @ApiOperation("删除活动")
     @ApiImplicitParam(name = "ids", value = "社团成员id数组", required = true, dataType = "Long[]", paramType = "path", dataTypeClass = Long[].class)
 //    @PreAuthorize("@ss.hasPermi('system:activity:remove')")
     @Log(title = "活动", businessType = BusinessType.DELETE)

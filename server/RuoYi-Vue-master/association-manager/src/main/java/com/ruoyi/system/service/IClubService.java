@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.Club;
+import com.ruoyi.system.params.ClubParams;
 
 /**
  * 社团Service接口
@@ -11,6 +12,12 @@ import com.ruoyi.system.domain.Club;
  */
 public interface IClubService 
 {
+
+
+    List<Club> listByUserId(Long userId);
+
+    List<Club> listClubByParams(ClubParams params);
+
     /**
      * 查询社团
      * 
@@ -42,6 +49,8 @@ public interface IClubService
      * @return 结果
      */
     public int insertClub(Club club);
+
+    public int insertClub(Club club,Long userId);
 
     /**
      * 修改社团

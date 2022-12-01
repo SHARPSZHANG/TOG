@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.Club;
+import com.ruoyi.system.params.ClubParams;
 
 /**
  * 社团Mapper接口
@@ -9,8 +10,14 @@ import com.ruoyi.system.domain.Club;
  * @author ruoyi
  * @date 2022-11-16
  */
-public interface ClubMapper 
+public interface ClubMapper
 {
+
+
+
+    List<Club> listClubByParams(ClubParams params);
+
+    List<Club> listByUserId(Long userId);
     /**
      * 查询社团
      * 

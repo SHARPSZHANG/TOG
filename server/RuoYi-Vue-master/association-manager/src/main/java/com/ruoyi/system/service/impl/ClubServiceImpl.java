@@ -2,6 +2,9 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.system.domain.ClubMember;
+import com.ruoyi.system.params.ClubParams;
+import com.ruoyi.system.service.IClubMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.ClubMapper;
@@ -19,6 +22,22 @@ public class ClubServiceImpl implements IClubService
 {
     @Autowired
     private ClubMapper clubMapper;
+
+    @Autowired
+    private IClubMemberService clubMemberService;
+
+    @Override
+    public List<Club> listByUserId(Long userId) {
+
+        List<Club> clubs = clubMapper.listByUserId(userId);
+        return clubs;
+    }
+
+    @Override
+    public List<Club> listClubByParams(ClubParams params) {
+
+        return  clubMapper.listClubByParams(params);
+    }
 
     /**
      * 查询社团
@@ -65,6 +84,20 @@ public class ClubServiceImpl implements IClubService
 
         club.setCreateTime(DateUtils.getNowDate());
         return clubMapper.insertClub(club);
+    }
+
+    @Override
+    public int insertClub(Club club, Long userId) {
+        club.setCreateTime(DateUtils.getNowDate());
+        int i = clubMapper.insertClub(club);
+        ClubMember clubMember = new ClubMember();
+        clubMember.setClubId(Long.valueOf(i));
+        clubMember.setUserId(userId);
+        clubMember.setPosition("社长");
+        clubMember.setState(1);
+        clubMember.setCreateTime(DateUtils.getNowDate());
+        clubMemberService.insertClubMember(clubMember);
+        return i;
     }
 
     /**
