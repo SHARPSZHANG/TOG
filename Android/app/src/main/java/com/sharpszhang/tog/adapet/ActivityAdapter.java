@@ -1,80 +1,69 @@
+/*
+ * Copyright (C) 2018 xuexiangjys(xuexiangjys@163.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.sharpszhang.tog.adapet;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
+import androidx.annotation.NonNull;
 
-import com.sharpszhang.tog.Bean.ActivityBean;
+import com.sharpszhang.tog.Bean.ActivityVo;
+import com.sharpszhang.tog.Bean.Book;
 import com.sharpszhang.tog.R;
-import com.xuexiang.xui.widget.imageview.RadiusImageView;
+import com.xuexiang.xhttp2.XHttp;
+import com.xuexiang.xui.adapter.recyclerview.BaseRecyclerAdapter;
+import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
-public class ActivityAdapter extends BaseAdapter {
-    private final List<ActivityBean> mList;//数据源
-    private final LayoutInflater inflater;
+/**
+ * @author xuexiang
+ * @since 2018/7/17 下午5:25
+ */
+public class ActivityAdapter extends BaseRecyclerAdapter<ActivityVo> {
 
-    public ActivityAdapter(Context context, List<ActivityBean> mList) {
-        super();
-        // 获取上下文
-        this.mList = mList;
-        inflater = LayoutInflater.from(context);
+
+    @Override
+    protected void bindData(@NonNull @NotNull RecyclerViewHolder holder, int position, ActivityVo item) {
+        holder.text(R.id.activity_title, item.getTitle());
+        holder.text(R.id.activity_content, item.getContent());
+        holder.text(R.id.activity_time, item.getStartTime() + "-" +item.getEndTime());
+        holder.text(R.id.org_name, ""+item.getClubName());
     }
 
     @Override
-    public int getCount() {
-        return mList == null? 0 :mList.size();
+    protected int getItemLayoutId(int viewType) {
+        return R.layout.template_activity;
     }
 
-    @Override
-    public Object getItem(int position) {
-        return mList.get(position);
-    }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
 
-    @SuppressLint("SimpleDateFormat")
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        //将布局文件转化为View对象
-        View view = inflater.inflate(R.layout.template_activity,null);
-        /**
-         * 找到item布局文件中对应的控件
-         */
-        RadiusImageView activityImg= view.findViewById(R.id.activity_img);
-        TextView activityTitle = view.findViewById(R.id.activity_title);
-        TextView activityContent = view.findViewById(R.id.activity_content);
-        TextView activityTime = view.findViewById(R.id.activity_time);
-        TextView activityType = view.findViewById(R.id.activity_type);
-        TextView orgName = view.findViewById(R.id.org_name);
-        //获取相应索引的ItemBean对象
-        ActivityBean bean = mList.get(position);
-        ///**
-        // * 设置控件的对应属性值
-        // */
-        //activityImg.setImageResource(bean.getOrgIcon());
-        activityTitle.setText(bean.getActivityTitle());
-        activityContent.setText(bean.getActivityContent());
-        activityTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(bean.getActivityStartTime()));
-
-        if((bean.getActivityStartTime().getTime() - new Date().getTime()) > 0) {
-            activityType.setText("未开始");
-        } else if(bean.getActivityEndTime().getTime() > new Date().getTime()) {
-            activityType.setText("进行中");
-        } else if(bean.getActivityEndTime().getTime() < new Date().getTime()) {
-            activityType.setText("已结束");
+    public static String getBaseImgUrl() {
+        String baseUrl = XHttp.getBaseUrl().trim();
+        if (baseUrl.endsWith("/")) {
+            return baseUrl + "file/downloadFile/";
+        } else {
+            return baseUrl + "/file/downloadFile/";
         }
-        orgName.setText(bean.getOrgName());
-        return view;
+
     }
 
+    public static String getBookImgUrl(Book book) {
+        return getBaseImgUrl() + book.getPicture();
+    }
+
+    public static String getBookImgUrlWithoutBaseUrl(Book book) {
+        return "/file/downloadFile/" + book.getPicture();
+    }
 }

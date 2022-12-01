@@ -6,11 +6,11 @@
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
     android:padding="8dp"
+    android:id="@+id/message_layout"
     >
 
     <!--    帖子头部发帖人信息-->
     <com.xuexiang.xui.widget.layout.XUILinearLayout
-        android:id="@+id/message_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal">
@@ -32,7 +32,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/username"
+                android:id="@+id/message_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -56,7 +56,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/message_statu"
+            android:id="@+id/message_status"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"

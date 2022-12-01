@@ -3,6 +3,7 @@ package com.sharpszhang.tog.activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -13,16 +14,25 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+
 import com.alibaba.fastjson.JSONObject;
-import com.sharpszhang.tog.base.BaseActivity;
+import com.sharpszhang.tog.Bean.LoginBody;
 import com.sharpszhang.tog.R;
+import com.sharpszhang.tog.base.BaseActivity;
+import com.sharpszhang.tog.utils.XToastUtils;
+import com.xuexiang.xhttp2.XHttp;
+import com.xuexiang.xhttp2.callback.SimpleCallBack;
+import com.xuexiang.xhttp2.exception.ApiException;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 
 import org.json.JSONException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.sharpszhang.tog.utils.KeyboardUtils.isShouldHideInput;
 
@@ -168,28 +178,42 @@ public class Registered extends BaseActivity implements View.OnClickListener, Te
             submit.setEnabled(false);
             submit.setBackgroundResource(R.drawable.submit_lock);
         }
-        submit.setTextColor(ContextCompat.getColor(this,R.color.white));
+        submit.setTextColor(ContextCompat.getColor(this, R.color.white));
     }
 
     private void submit() throws JSONException, InterruptedException, UnsupportedEncodingException {
-        //String username = usernameEdit.getText().toString().trim();
-        //String password = passwordEdit.getText().toString().trim();
-        //String passwordConfirm = passwordConfirmEdit.getText().toString().trim();
-        //if(password.equals(passwordConfirm)){
-        //    String result = "username=" + URLEncoder.encode(username, "utf-8") +
-        //            "&password=" + URLEncoder.encode(password, "utf-8");
-        //    data = (JSONObject) Service.signUp(result);
-        //    if("true".equals(data.get("code"))){
-        //        setResult(RESULT_OK, new Intent().putExtra("data", username));
-        //        showSign(data);
-        //    } else {
-        //        showSign(data);
-        //    }
-        //} else {
-        //    data.put("code", false);
-        //    data.put("message", "两次密码不一致");
-        //    showSign(data);
-        //}
+        String username = usernameEdit.getText().toString().trim();
+        String password = passwordEdit.getText().toString().trim();
+        String passwordConfirm = passwordConfirmEdit.getText().toString().trim();
+        if(password.equals(passwordConfirm)){
+            LoginBody login = new LoginBody();
+            login.setUsername(usernameEdit.getText().toString());
+            login.setPassword(passwordEdit.getText().toString());
+            Map<String, Object> lo = new HashMap<>(16);
+            lo.put("username", username);
+            lo.put("password", password);
+            XHttp.post("/prod-api/register")
+                    .headers("Content-Type", "application/json")
+                    .upJson(JSONObject.toJSONString(login))
+                    .execute(new SimpleCallBack<Boolean>() {
+                        @Override
+                        public void onSuccess(Boolean aBoolean) {
+                            setResult(RESULT_OK, new Intent().putExtra("username", username).putExtra("password", password));
+                            XToastUtils.toast("注册成功！");
+                            finish();
+                        }
+                        @Override
+                        public void onError(ApiException e) {
+                            XToastUtils.toast("注册失败！");
+                            e.printStackTrace();
+
+                        }
+                    });
+        } else {
+            data.put("code", false);
+            data.put("message", "两次密码不一致");
+            showSign(data);
+        }
     }
     private void showSign(JSONObject msg) throws JSONException {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

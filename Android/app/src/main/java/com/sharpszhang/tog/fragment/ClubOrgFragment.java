@@ -10,12 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.sharpszhang.tog.Bean.Activity;
 import com.sharpszhang.tog.Bean.OrgElement;
 import com.sharpszhang.tog.R;
 import com.sharpszhang.tog.adapet.ClubOrgAdapter;
 import com.sharpszhang.tog.base.OrgItem;
+import com.xuexiang.xhttp2.XHttp;
+import com.xuexiang.xhttp2.callback.SimpleCallBack;
+import com.xuexiang.xhttp2.exception.ApiException;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +26,18 @@ public class ClubOrgFragment extends Fragment {
     private ExpandableListView expandableListView;
     private ClubOrgAdapter orgAdapter;
 
+    private String clubId;
+    private String userId;
+    private String token;
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        clubId = bundle.getString("clubId");
+        token= bundle.getString("token");
+        userId = bundle.getString("userId");
     }
 
     @Nullable
@@ -33,16 +45,7 @@ public class ClubOrgFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.club_org, null);
         expandableListView = view.findViewById(R.id.elv_org);
-        try {
-            initDataList();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        // 获取数据
-        //
-        //final ActivityAdapter adapter = new ActivityAdapter(this.getContext(), posts);
-        //listView.setOnItemClickListener(this);
-        //listView.setAdapter(adapter);
+        getDataList();
         List<OrgItem> orgItems = new ArrayList<>(16);
         for(String title: OrgElement.getOrgNames()) {
             List<String> members = new ArrayList<>(16);
@@ -52,9 +55,6 @@ public class ClubOrgFragment extends Fragment {
             orgItems.add(new OrgItem(title, members));
         }
 
-        //if(list == null || list .size() < 1) {
-        //    list.add("暂无");
-        //}
         orgAdapter = new ClubOrgAdapter(this.getContext(), orgItems);
         expandableListView.setAdapter(orgAdapter);
 
@@ -65,15 +65,27 @@ public class ClubOrgFragment extends Fragment {
     public void onPause() {
         super.onPause();
     }
-    private void initDataList() throws UnsupportedEncodingException {
-        //String request = "apipost_id=" + URLEncoder.encode("1e5880", "utf-8");
-        //String request = "apipost_id=" + "1e5880";
-        //JSON json = Service.selectPosts("");
-        //if(json != null) {
-        //    RestCode result = JSONArray.parseObject(json.toJSONString(), RestCode.class);
-        //    posts =JSONArray.parseArray(result.getData().toString(), ActivityBean.class);;
-        //    System.out.println(posts);
-        //}
+    private void getDataList () {
+        XHttp.get("/prod-api/system/member/list")
+                .syncRequest(false)
+                .onMainThread(true)
+                .timeOut(1000)
+                .params("clubId", clubId)
+                .headers("Authorization", "Bearer " + token)
+                .timeStamp(true)
+                .execute(new SimpleCallBack<List<Activity>>() {
+                    @Override
+                    public void onSuccess(List<Activity> response) throws Throwable {
+                        if (response != null && response.size() > 0) {
 
+                        } else {
+
+                        }
+                    }
+                    @Override
+                    public void onError(ApiException e) {
+
+                    }
+                });
     }
 }

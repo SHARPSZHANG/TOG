@@ -5,69 +5,125 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.sharpszhang.tog.Bean.ActivityBean;
-import com.sharpszhang.tog.Bean.RestCode;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.sharpszhang.tog.Bean.Activity;
+import com.sharpszhang.tog.Bean.ActivityVo;
 import com.sharpszhang.tog.R;
 import com.sharpszhang.tog.activity.ActivityContentActivity;
 import com.sharpszhang.tog.adapet.ActivityAdapter;
-import com.sharpszhang.tog.service.Service;
+import com.xuexiang.xhttp2.XHttp;
+import com.xuexiang.xhttp2.callback.SimpleCallBack;
+import com.xuexiang.xhttp2.exception.ApiException;
+import com.xuexiang.xui.adapter.recyclerview.BaseRecyclerAdapter;
+import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
+import com.xuexiang.xui.utils.WidgetUtils;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-public class ClubActivityFragment extends Fragment implements AdapterView.OnItemClickListener {
-    private List<ActivityBean> posts;
+public class ClubActivityFragment extends Fragment implements RecyclerViewHolder.OnItemClickListener {
+    /**
+     * 布局
+     */
+    private SmartRefreshLayout refreshLayout;
+    private BaseRecyclerAdapter<ActivityVo> adapter;
+
+
+    private RecyclerView recyclerView;
+
+    private View emptyView;
+
+    private String clubId;
+    private String userId;
+    private String token;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        clubId = bundle.getString("clubId");
+        userId = bundle.getString("userId");
+        token = bundle.getString("token");
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.my_activity, null);
-        ListView listView = view.findViewById(R.id.list_view);
-        try {
-            initDataList();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        // 获取数据
-
-        final ActivityAdapter adapter = new ActivityAdapter(this.getContext(), posts);
-        listView.setOnItemClickListener(this);
-        listView.setAdapter(adapter);
+        // 加载布局
+        View view = inflater.inflate(R.layout.layout_fragment, null);
+        emptyView = inflater.inflate(R.layout.empty_activity, null);
+        refreshLayout = view.findViewById(R.id.refreshLayout);
+        // 数据展示视图
+        recyclerView = view.findViewById(R.id.recyclerView);
+        // 初始化视图
+        WidgetUtils.initRecyclerView(recyclerView);
+        initView();
+        // 设置下拉刷新监听
+        refreshLayout.setOnRefreshListener(refreshLayout -> {
+            // 刷新数据
+            getDataList(clubId);
+        });
+        // 初始化默认刷新数据
+        refreshLayout.autoRefresh();
         return view;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
+    private void initView() {
+        // RecyclerAdapter
+        adapter = new ActivityAdapter();
+        adapter.setOnItemClickListener(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        refreshLayout.setOnRefreshListener(refreshLayout -> getDataList(clubId));
+        refreshLayout.autoRefresh();
     }
-    private void initDataList() throws UnsupportedEncodingException {
-        //String request = "apipost_id=" + URLEncoder.encode("1e5880", "utf-8");
-        //String request = "apipost_id=" + "1e5880";
-        JSON json = Service.selectPosts("");
-        if(json != null) {
-            RestCode result = JSONArray.parseObject(json.toJSONString(), RestCode.class);
-            posts =JSONArray.parseArray(result.getData().toString(), ActivityBean.class);;
-            System.out.println(posts);
+
+    private void getDataList (String clubId) {
+        XHttp.get("/prod-api/system/activity/findActivityByClubId")
+                .syncRequest(false)
+                .onMainThread(true)
+                .timeOut(1000)
+                .timeStamp(true)
+                .headers("Authorization", "Bearer " + token)
+                .params("clubId", clubId)
+                .execute(new SimpleCallBack<List<ActivityVo>>() {
+                    @Override
+                    public void onSuccess(List<ActivityVo> response) throws Throwable {
+                        refreshLayout.finishRefresh(true);
+                        if (response != null && response.size() > 0) {
+                            adapter.refresh(response);
+                            // 展示数据视图
+                            refreshLayout.setRefreshContent(recyclerView);
+                        } else {
+                            refreshLayout.setRefreshContent(emptyView);
+                        }
+                    }
+                    @Override
+                    public void onError(ApiException e) {
+                        refreshLayout.finishRefresh(false);
+                        refreshLayout.setRefreshContent(emptyView);
+                    }
+                });
+    }
+
+
+    @Override
+    public void onItemClick(View itemView, Object item, int position) {
+        // 判断当前是否下拉、上滑状态
+        if (!RefreshState.None.equals(refreshLayout.getState())) {
+            return;
         }
-
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        startActivity(new Intent(this.getActivity(), ActivityContentActivity.class));
+        Intent intent = new Intent(this.getContext(), ActivityContentActivity.class);
+        intent.putExtra("activityId", "" + ((Activity) item).getId());
+        intent.putExtra("userId", userId);
+        intent.putExtra("token", token);
+        startActivity(intent);
     }
 }

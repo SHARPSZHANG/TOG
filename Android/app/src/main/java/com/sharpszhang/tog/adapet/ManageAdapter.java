@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.sharpszhang.tog.Bean.ActivityBean;
+import com.sharpszhang.tog.Bean.Activity;
 import com.sharpszhang.tog.R;
 import com.xuexiang.xui.widget.imageview.RadiusImageView;
 import com.xuexiang.xui.widget.layout.XUILinearLayout;
@@ -16,10 +16,10 @@ import com.xuexiang.xui.widget.layout.XUILinearLayout;
 import java.util.List;
 
 public class ManageAdapter extends BaseAdapter {
-    private final List<ActivityBean> mList;//数据源
+    private final List<Activity> mList;//数据源
     private final LayoutInflater inflater;
 
-    public ManageAdapter(Context context, List<ActivityBean> mList) {
+    public ManageAdapter(Context context, List<Activity> mList) {
         super();
         // 获取上下文
         this.mList = mList;
@@ -52,11 +52,11 @@ public class ManageAdapter extends BaseAdapter {
          * 找到item布局文件中对应的控件
          */
         RadiusImageView activityImg= view.findViewById(R.id.user_img);
-        TextView username = view.findViewById(R.id.username);
+        TextView username = view.findViewById(R.id.message_title);
         TextView message = view.findViewById(R.id.message);
-        TextView messageState = view.findViewById(R.id.message_statu);
+        TextView messageState = view.findViewById(R.id.message_status);
         //获取相应索引的ItemBean对象
-        ActivityBean bean = mList.get(position);
+        Activity bean = mList.get(position);
         ///**
         // * 设置控件的对应属性值
         // */

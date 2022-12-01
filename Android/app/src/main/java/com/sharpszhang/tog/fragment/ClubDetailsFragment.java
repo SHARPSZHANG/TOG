@@ -9,14 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.tabs.TabLayout;
 import com.sharpszhang.tog.R;
-import com.sharpszhang.tog.adapet.FragmentAdapet;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ClubDetailsFragment extends Fragment {
     private TextView createTime;
@@ -33,9 +27,11 @@ public class ClubDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.club_details, container, false);
         createTime = view.findViewById(R.id.tv_org_create_time);
         details = view.findViewById(R.id.tv_org_details);
-
-        createTime.setText("2011-10-15");
-
+        Bundle bundle = this.getArguments();
+        String createDate = bundle.getString("createDate");
+        String content = bundle.getString("details");
+        createTime.setText(createDate);
+        details.setText(content);
         return view;
     }
 

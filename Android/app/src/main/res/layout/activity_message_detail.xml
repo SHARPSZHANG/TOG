@@ -22,111 +22,18 @@
         android:layout_height="wrap_content" />
 
 
-    <LinearLayout
+    <com.xuexiang.xui.widget.edittext.MultiLineEditText
+        android:id="@+id/message_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingEnd="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:textColor="@color/black"
-            android:gravity="center_vertical"
-            android:text="学级:"
-             />
-        <TextView
-            android:id="@+id/grade"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:textColor="@color/black"
-            android:paddingStart="15dp"
-            android:gravity="center_vertical"
-            android:text="2022级"
-            />
-
-    </LinearLayout>
+        android:textSize="14sp"
+        android:gravity="fill"
+        app:mlet_maxCount="1000"
+        app:mlet_isFixHeight="false"
+        app:mlet_contentText="申请加入社团" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingEnd="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:textColor="@color/black"
-            android:gravity="center_vertical"
-            android:text="院系:"
-            />
-        <TextView
-            android:id="@+id/faculty"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:textColor="@color/black"
-            android:paddingStart="15dp"
-            android:gravity="center_vertical"
-            android:text="计算机学院"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingEnd="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:textColor="@color/black"
-            android:gravity="center_vertical"
-            android:text="专业:"
-            />
-        <TextView
-            android:id="@+id/major"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:textColor="@color/black"
-            android:paddingStart="15dp"
-            android:gravity="center_vertical"
-            android:text="计算机科学与技术"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingEnd="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:textColor="@color/black"
-            android:gravity="center_vertical"
-            android:text="班级:"
-            />
-        <TextView
-            android:id="@+id/user_class"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:textColor="@color/black"
-            android:paddingStart="15dp"
-            android:gravity="center_vertical"
-            android:text="计算机科学2201"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
+        android:id="@+id/message_button"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:paddingStart="60dp"

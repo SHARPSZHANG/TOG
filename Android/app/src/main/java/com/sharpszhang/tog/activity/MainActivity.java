@@ -1,8 +1,8 @@
 package com.sharpszhang.tog.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.sharpszhang.tog.R;
 

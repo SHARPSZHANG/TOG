@@ -20,7 +20,7 @@
         android:id="@+id/refreshLayout"
         app:srlAccentColor="@android:color/white"
         app:srlEnableHeaderTranslationContent="false"
-        app:srlEnableLoadMore="true"
+        app:srlEnableLoadMore="false"
         app:srlPrimaryColor="@color/palegreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

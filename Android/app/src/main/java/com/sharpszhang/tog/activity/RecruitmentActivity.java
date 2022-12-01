@@ -1,24 +1,19 @@
 package com.sharpszhang.tog.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.sharpszhang.tog.Bean.Club;
 import com.sharpszhang.tog.R;
 import com.sharpszhang.tog.base.BaseActivity;
 import com.sharpszhang.tog.utils.XToastUtils;
-import com.xuexiang.xui.utils.WidgetUtils;
+import com.xuexiang.xhttp2.XHttp;
+import com.xuexiang.xhttp2.callback.SimpleCallBack;
+import com.xuexiang.xhttp2.exception.ApiException;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
-import com.xuexiang.xui.widget.alpha.XUIAlphaButton;
-import com.xuexiang.xui.widget.button.roundbutton.RoundButton;
 import com.xuexiang.xui.widget.button.switchbutton.SwitchButton;
-import com.xuexiang.xui.widget.edittext.MultiLineEditText;
-import com.xuexiang.xui.widget.picker.widget.TimePickerView;
-import com.xuexiang.xui.widget.picker.widget.builder.TimePickerBuilder;
-import com.xuexiang.xui.widget.toast.XToast;
-
-import java.text.SimpleDateFormat;
 
 
 public class RecruitmentActivity extends BaseActivity {
@@ -30,11 +25,18 @@ public class RecruitmentActivity extends BaseActivity {
     private SwitchButton notice;
     private SwitchButton activity;
 
+    private String userId;
+    private String token;
+    private Club club;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recruitment);
+        Intent intent = getIntent();
+        userId = intent.getStringExtra("userId");
+        token = intent.getStringExtra("token");
         initData();
         initView();
     }
@@ -53,14 +55,55 @@ public class RecruitmentActivity extends BaseActivity {
         .addAction(new TitleBar.TextAction("保存") {
             @Override
             public void performAction(View view) {
-                XToastUtils.success("成功");
+                if(action.isChecked()) {
+                    XHttp.post("/system/club/enRecruit")
+                            .params("clubId", club.getId())
+                            .params("notice", notice.isChecked())
+                            .params("activity", activity.isChecked())
+                            .execute(new SimpleCallBack<Boolean>() {
+                                @Override
+                                public void onSuccess(Boolean aBoolean) {
+                                    if (aBoolean) {
+                                        XToastUtils.toast("发布成功！");
+                                        finish();
+                                    } else {
+                                        XToastUtils.toast("发布失败！");
+                                    }
+                                }
+
+                                @Override
+                                public void onError(ApiException e) {
+                                    XToastUtils.toast("发布失败！");
+                                }
+                            });
+                }
             }
         });
 
     }
 
     public void initData() {
-
+        XHttp.get("/system/club/findClubByUserId?id=" + userId)
+                .syncRequest(false)
+                .onMainThread(true)
+                .timeOut(1000)
+                .timeStamp(true)
+                .execute(new SimpleCallBack<Club>() {
+                    @Override
+                    public void onSuccess(Club response) throws Throwable {
+                        if (response != null) {
+                            club = response;
+                            clubName.setText(response.getClubName());
+                            clubDetails.setText("");
+                        } else {
+                            setContentView(R.layout.empty_activity);
+                        }
+                    }
+                    @Override
+                    public void onError(ApiException e) {
+                        setContentView(R.layout.empty_activity);
+                    }
+                });
     }
 
 }

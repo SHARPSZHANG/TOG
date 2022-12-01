@@ -31,10 +31,16 @@ public class ClubFragment extends Fragment {
         TabLayout tabLayout = view.findViewById(R.id.tab_club);
         ViewPager viewPager = view.findViewById(R.id.view_club);
         tabLayout.setupWithViewPager(viewPager);
+        Bundle bundle = this.getArguments();
+        MyClubFragment myClubFragment = new MyClubFragment();
+        AllClubFragment allClubFragment = new AllClubFragment();
+        myClubFragment.setArguments(bundle);
+        allClubFragment.setArguments(bundle);
+
         List<Fragment> fragmentList = new ArrayList<>();
         List<String> strings = new ArrayList<>();
-        fragmentList.add(new MyClubFragment());
-        fragmentList.add(new AllClubFragment());
+        fragmentList.add(myClubFragment);
+        fragmentList.add(allClubFragment);
         strings.add("我加入的");
         strings.add("全部社团");
         viewPager.setAdapter(new FragmentAdapet(getChildFragmentManager(), fragmentList, strings));

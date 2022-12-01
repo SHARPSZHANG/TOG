@@ -1,48 +1,51 @@
 package com.sharpszhang.tog.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.sharpszhang.tog.Bean.Activity;
+import com.sharpszhang.tog.Bean.TogMessage;
 import com.sharpszhang.tog.R;
 import com.sharpszhang.tog.base.BaseActivity;
+import com.xuexiang.xhttp2.XHttp;
+import com.xuexiang.xhttp2.callback.SimpleCallBack;
+import com.xuexiang.xhttp2.exception.ApiException;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.button.roundbutton.RoundButton;
-import com.xuexiang.xui.widget.imageview.RadiusImageView;
+import com.xuexiang.xui.widget.edittext.MultiLineEditText;
 
 public class MessageDetailActivity extends BaseActivity implements View.OnClickListener {
 
     private TitleBar titleBar;
-    private TextView grade;
-    private TextView faculty;
-    private TextView major;
-    private TextView userClass;
     private TextView username;
+    private MultiLineEditText content;
     private RoundButton refuse;
     private RoundButton agree;
-    private RadiusImageView userImg;
-    private View userContent;
+
+    private String messageId;
+    private String userId;
+    private String token;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_detail);
+        Intent intent = getIntent();
+        userId = intent.getStringExtra("sendId");
+        messageId = intent.getStringExtra("messageId");
+        token = intent.getStringExtra("token");
         initData();
         initView();
     }
 
     public void initView() {
-        grade = findViewById(R.id.grade);
-        faculty = findViewById(R.id.faculty);
-        major = findViewById(R.id.major);
-        userClass = findViewById(R.id.user_class);
         username = findViewById(R.id.username);
-        userImg = findViewById(R.id.user_img);
+        content = findViewById(R.id.message_content);
         refuse = findViewById(R.id.refuse);
         agree = findViewById(R.id.agree);
-        userContent = findViewById(R.id.user_content);
-        userContent.setOnClickListener(this);
         refuse.setOnClickListener(this);
         agree.setOnClickListener(this);
 
@@ -57,21 +60,85 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     public void initData() {
+        XHttp.get("/prod-api/system/tog/message/" + messageId)
+                .syncRequest(false)
+                .onMainThread(true)
+                .timeOut(1000)
+                .timeStamp(true)
+                .headers("Authorization", "Bearer " + token)
+                .execute(new SimpleCallBack<Activity>() {
+                    @Override
+                    public void onSuccess(Activity response) throws Throwable {
+                        if (response != null) {
+                            username.setText(response.getTitle());
+                            content.setContentText(response.getDescription());
+                        } else {
+                            setContentView(R.layout.empty_activity);
+                        }
+                    }
+                    @Override
+                    public void onError(ApiException e) {
+                        setContentView(R.layout.empty_activity);
+                    }
+                });
+    }
 
+    public void doAgree() {
+        XHttp.get("/prod-api/system/tog/message/" + userId + "/pass")
+                .syncRequest(false)
+                .onMainThread(true)
+                .timeOut(1000)
+                .timeStamp(true)
+                .headers("Authorization", "Bearer " + token)
+                .execute(new SimpleCallBack<TogMessage>() {
+                    @Override
+                    public void onSuccess(TogMessage response) throws Throwable {
+                        if (response != null) {
+                           finish();
+                        } else {
+                        }
+                    }
+                    @Override
+                    public void onError(ApiException e) {
+
+                    }
+                });
+    }
+
+    public void doRefuse() {
+//        XHttp.get("/system/tog/message/" + messageId)
+//                .syncRequest(false)
+//                .onMainThread(true)
+//                .timeOut(1000)
+//                .timeStamp(true)
+//                .headers("token", token)
+//                .execute(new SimpleCallBack<Activity>() {
+//                    @Override
+//                    public void onSuccess(Activity response) throws Throwable {
+//                        if (response != null) {
+//                            username.setText(response.getTitle());
+//                            content.setContentText(response.getDescription());
+//                        } else {
+//                            setContentView(R.layout.empty_activity);
+//                        }
+//                    }
+//                    @Override
+//                    public void onError(ApiException e) {
+//                        setContentView(R.layout.empty_activity);
+//                    }
+//                });
+        finish();
     }
 
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.user_content:
-
-                break;
             case R.id.refuse:
-
+                doRefuse();
                 break;
             case R.id.agree:
-
+                doAgree();
                 break;
             default:
                 break;

@@ -7,15 +7,17 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.sharpszhang.tog.base.BaseActivity;
 import com.sharpszhang.tog.R;
+import com.sharpszhang.tog.base.BaseActivity;
 import com.sharpszhang.tog.fragment.ActivityFragment;
 import com.sharpszhang.tog.fragment.ClubFragment;
 import com.sharpszhang.tog.fragment.ManageFragment;
@@ -40,7 +42,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private Intent intent;
 
     // 登陆用户
-    private String user;
+    private String userId;
+    private String token;
 
     // 发布扩展页
 
@@ -50,7 +53,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_home);
         intent = getIntent();
         // 获取登陆用户名
-        user = intent.getStringExtra("username");
+        userId = intent.getStringExtra("userId");
+        token = intent.getStringExtra("token");
         // 绑定视图
         ButterKnife.bind(this);
         // 初始化fragment
@@ -65,8 +69,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
      */
     @SuppressLint("NonConstantResourceId")
     private void initView(){
-        // 传入登陆用户名
-        intent.putExtra("username", user);
         // 导航栏绑定fragment
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()){
@@ -118,8 +120,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager = getSupportFragmentManager();
         // activity跳转fragment传值
         Bundle bundle = new Bundle();
-        bundle.putString("username", user);
-        //myFragment.setArguments(bundle);
+        bundle.putString("userId", "userId");
+//        bundle.putString("userId", userId);
+        bundle.putString("token", token);
+        activityFragment.setArguments(bundle);
+        clubFragment.setArguments(bundle);
+        messageFragment.setArguments(bundle);
+        manageFragment.setArguments(bundle);
         // 获取底部导航
         bottomNavigationView = findViewById(R.id.home_button);
         // 为底部导航页中的消息按钮天际角标

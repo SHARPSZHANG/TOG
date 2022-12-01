@@ -17,12 +17,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
-import com.sharpszhang.tog.base.BaseActivity;
+import com.sharpszhang.tog.Bean.LoginBody;
+import com.sharpszhang.tog.Bean.SysUser;
 import com.sharpszhang.tog.R;
+import com.sharpszhang.tog.base.BaseActivity;
+import com.sharpszhang.tog.utils.XToastUtils;
+import com.xuexiang.xhttp2.XHttp;
+import com.xuexiang.xhttp2.callback.SimpleCallBack;
+import com.xuexiang.xhttp2.exception.ApiException;
 
 import org.json.JSONException;
 
@@ -167,39 +175,65 @@ public class Login extends BaseActivity implements View.OnClickListener, TextWat
         if (!TextUtils.isEmpty(pwd) && !TextUtils.isEmpty(username)) {
             submitButton.setEnabled(true);
             submitButton.setBackgroundResource(R.drawable.submit_unlock);
-            submitButton.setTextColor(ContextCompat.getColor(this,R.color.white));
+            submitButton.setTextColor(ContextCompat.getColor(this, R.color.white));
         } else {
             submitButton.setEnabled(false);
             submitButton.setBackgroundResource(R.drawable.submit_lock);
-            submitButton.setTextColor(ContextCompat.getColor(this,R.color.white));
+            submitButton.setTextColor(ContextCompat.getColor(this, R.color.white));
         }
     }
 
     // 登陆
     private void submit() throws JSONException, UnsupportedEncodingException {
-        //String username = usernameEdit.getText().toString().trim();
-        //String password = passwordEdit.getText().toString().trim();
-        //Intent intent = new Intent(Login.this, HomeActivity.class);
-        //// 服务端验证
-        //String request = "username=" + URLEncoder.encode(username, "utf-8") +
-        //        "&password=" + URLEncoder.encode(password, "utf-8");
-        //// 调用登陆服务，接受返回数据
-        //JSONObject data = (JSONObject) Service.signIn(request);
-        //// 判断是否验证成功
-        //if (data != null &&"true".equals(data.getString("code"))) {
-        //    intent.putExtra("username", username);
-        //    startActivity(intent);
-        //    finish();
-        //} else {
-        //    showDialog();
-        //}
-        String username = usernameEdit.getText().toString().trim();
-        Intent intent = new Intent(Login.this, HomeActivity.class);
-        intent.putExtra("username", username);
-        startActivity(intent);
-        finish();
+        LoginBody login = new LoginBody();
+        login.setUsername(usernameEdit.getText().toString());
+        login.setPassword(passwordEdit.getText().toString());
+        XHttp.post("/prod-api/toLogin")
+                .upJson(JSONObject.toJSONString(login))
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onSuccess(String token) {
+                        if (token != null) {
+                            getUserInfo(token);
+                        } else {
+                            XToastUtils.toast("登陆失败！");
+                        }
+                    }
+
+                    @Override
+                    public void onError(ApiException e) {
+                        XToastUtils.toast("登陆失败！");
+                    }
+                });
 
     }
+
+    private void getUserInfo(String token) {
+        LoginBody login = new LoginBody();
+        login.setUsername(usernameEdit.getText().toString());
+        login.setPassword(passwordEdit.getText().toString());
+        XHttp.post("/prod-api/getUserInfo")
+                .headers("Authorization", "Bearer " + token)
+                .execute(new SimpleCallBack<SysUser>() {
+                    @Override
+                    public void onSuccess(SysUser response) {
+                        if (response != null) {
+                            startActivity(new Intent(getApplicationContext(), HomeActivity.class).putExtra("userId", response.getUserId()).putExtra("token", token));
+                            finish();
+                        } else {
+                            XToastUtils.toast("登陆失败！");
+                        }
+                    }
+
+                    @Override
+                    public void onError(ApiException e) {
+                        XToastUtils.toast("登陆失败！");
+                    }
+                });
+
+    }
+
+
 
     // 注册
     // 调用注册页面
@@ -216,7 +250,8 @@ public class Login extends BaseActivity implements View.OnClickListener, TextWat
         super.onActivityResult(requestCode, resultCode, data);
         if(data != null && requestCode == REQUEST_CODE && resultCode == RESULT_OK){
             // 将注册账号写入账号栏
-            usernameEdit.setText(data.getStringExtra("data"));
+            usernameEdit.setText(data.getStringExtra("username"));
+            passwordEdit.setText(data.getStringExtra("password"));
         }
     }
 
