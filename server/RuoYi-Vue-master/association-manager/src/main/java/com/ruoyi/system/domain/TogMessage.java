@@ -50,7 +50,27 @@ public class TogMessage extends BaseEntity
     @Excel(name = "查看时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date gmtModifiel;
 
-    public void setId(Long id) 
+    private int type;
+
+    private Long sendId;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public Long getSendId() {
+        return sendId;
+    }
+
+    public void setSendId(Long sendId) {
+        this.sendId = sendId;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }

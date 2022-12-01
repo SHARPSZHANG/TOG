@@ -9,14 +9,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -51,6 +44,44 @@ public class ClubController extends BaseController
         startPage();
         List<Club> list = clubService.selectClubList(club);
         return getDataTable(list);
+    }
+
+    @ApiOperation("查询社团列表")
+    //    @PreAuthorize("@ss.hasPermi('system:club:list')")
+    @GetMapping("/listByUserId")
+    public AjaxResult listByUserId(@RequestParam Long userId)
+    {
+        /*
+         * 查询用户所参加的社团列表
+         * 返回List<Club>
+         */
+        return AjaxResult.success();
+    }
+
+    @ApiOperation("根据社长ID查询社团信息")
+    //    @PreAuthorize("@ss.hasPermi('system:club:list')")
+    @GetMapping("/findClubByUserId")
+    public AjaxResult findClubByUserId(@RequestParam Long userId)
+    {
+        /*
+         * 查询用户所参加的社团列表
+         * 返回List<Club>
+         */
+        return AjaxResult.success();
+    }
+
+
+
+    @ApiOperation("查询社团列表")
+    //    @PreAuthorize("@ss.hasPermi('system:club:list')")
+    @GetMapping("/list")
+    public AjaxResult list()
+    {
+        /*
+         * 查询所有社团列表
+         * 返回List<Club>
+         */
+        return AjaxResult.success();
     }
 
     /**
@@ -100,10 +131,10 @@ public class ClubController extends BaseController
     @ApiImplicitParam(name = "club", value = "社团信息", required = true, dataType = "Long", paramType = "body", dataTypeClass = Club.class)
     @Log(title = "社团", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody Club club)
+    public AjaxResult add(@RequestBody Club club, @RequestParam("userId") Long userId)
     {
         club.setCreateBy(getUsername());
-        return toAjax(clubService.insertClub(club));
+        return AjaxResult.success(clubService.insertClub(club) > 0);
     }
 
     /**
@@ -132,5 +163,19 @@ public class ClubController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(clubService.deleteClubByIds(ids));
+    }
+
+    @ApiOperation("开启社团招新")
+    //    @PreAuthorize("@ss.hasPermi('system:club:list')")
+    @PostMapping("/enRecruit")
+    public AjaxResult enRecruit(@RequestParam("clubId") Long clubId,
+                                @RequestParam("notice") Boolean notice,
+                                @RequestParam("activity") Boolean activity)
+    {
+        /*
+         * 开启社团招新
+         * 写入招新活动（activity == true）、招新通知（notice == true）、消息
+         */
+        return AjaxResult.success();
     }
 }

@@ -11,14 +11,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -48,13 +41,13 @@ public class ClubMemberController extends BaseController
     @ApiOperation("查询社团成员列表")
 //    @PreAuthorize("@ss.hasPermi('system:member:list')")
     @GetMapping("/list")
-    public TableDataInfo list(ClubMember clubMember)
+    public AjaxResult list(@RequestParam Long clubId)
     {
-        startPage();
-        List<ClubMemberVo> list = clubMemberService.selectClubMemberList(clubMember);
-        return getDataTable(list);
+        /*
+         * 1.根据clubId查询member列表，返回List<memberVo>
+         */
+        return AjaxResult.success();
     }
-
 
     @ApiOperation("通过加入社团申请")
     @ApiImplicitParam(name = "id", value = "社团申请id", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
@@ -129,9 +122,25 @@ public class ClubMemberController extends BaseController
     @ApiImplicitParam(name = "ids", value = "社团成员id数组", required = true, dataType = "Long[]", paramType = "path", dataTypeClass = Long[].class)
 //    @PreAuthorize("@ss.hasPermi('system:member:remove')")
     @Log(title = "社团成员", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
+	@DeleteMapping()
+    public AjaxResult remove(@RequestParam Long[] ids, @RequestParam Long clubId)
     {
-        return toAjax(clubMemberService.deleteClubMemberByIds(ids));
+        /*
+         * 删除club_member 中 clubId所属的ids
+         */
+        return AjaxResult.success(clubMemberService.deleteClubMemberByIds(ids) > 0);
+    }
+
+    @ApiOperation("查询权限")
+    //    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
+    @Log(title = "活动", businessType = BusinessType.UPDATE)
+    @GetMapping("/getPermissionByUserId")
+    public AjaxResult getPermissionByUserId(@RequestParam Long userId, @RequestParam Long clubId) {
+
+        /*
+         * 1.查询该用户是否为社团社长
+         * 2.返回结果 true or false
+         */
+        return AjaxResult.success();
     }
 }

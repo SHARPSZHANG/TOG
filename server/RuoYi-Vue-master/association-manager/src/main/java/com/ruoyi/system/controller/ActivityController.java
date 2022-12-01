@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.system.service.ISysUserService;
+import com.ruoyi.system.vo.ActivityVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -78,17 +79,17 @@ public class ActivityController extends BaseController
     @ApiOperation("根据社团Id查询活动列表")
 //    @PreAuthorize("@ss.hasPermi('system:activity:list')")
     @GetMapping("/findActivityByClubId")
-    public AjaxResult findActivityByClubId(Long clubId)
+    public AjaxResult findActivityByClubId(@RequestParam Long clubId)
     {
         /*
           1.根据用户ID查询出社团
           2.根据社团编号查询出所有活动信息（按时间倒序排列）
-          返回List<Activity>
+          返回List<ActivityVo>
          */
-        List<Activity> activities = new ArrayList<Activity>();
-        Activity activity = new Activity();
-        activity.setClubId(clubId);
-        activities = activityService.selectActivityList(activity);
+        List<ActivityVo> activities = new ArrayList<ActivityVo>();
+//        Activity activity = new Activity();
+//        activity.setClubId(clubId);
+//        activities = activityService.selectActivityList(activity);
         return AjaxResult.success(activities);
     }
     /**
@@ -141,6 +142,29 @@ public class ActivityController extends BaseController
     public AjaxResult edit(@RequestBody Activity activity)
     {
         return AjaxResult.success(activityService.updateActivity(activity) > 0);
+    }
+
+    @ApiOperation("删除活动")
+    //    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
+    @Log(title = "活动", businessType = BusinessType.UPDATE)
+    @DeleteMapping("/{id}")
+    public AjaxResult delete( @PathVariable Long id)
+    {
+        return AjaxResult.success(activityService.deleteActivityById(id) > 0);
+    }
+
+    @ApiOperation("查询权限")
+    //    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
+    @Log(title = "活动", businessType = BusinessType.UPDATE)
+    @GetMapping("/getPermissionByUserId")
+    public AjaxResult getPermissionByUserId(@RequestParam Long userId)
+    {
+
+        /*
+         * 1.查询该用户是否为当前活动所属社团社长
+         * 2.返回结果 true or false
+         */
+        return AjaxResult.success();
     }
 
     /**
