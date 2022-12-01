@@ -120,7 +120,7 @@ public class ClubController extends BaseController
     public AjaxResult pass(@PathVariable("id") Long id)
     {
         clubService.pass(id,getUsername());
-        return AjaxResult.success(true);
+        return AjaxResult.success();
     }
 
     /**
