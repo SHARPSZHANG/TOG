@@ -41,7 +41,20 @@ public class ClubMemberController extends BaseController
     @ApiOperation("查询社团成员列表")
 //    @PreAuthorize("@ss.hasPermi('system:member:list')")
     @GetMapping("/list")
-    public AjaxResult list(@RequestParam Long clubId)
+    public TableDataInfo list(ClubMember clubMember)
+    {
+        startPage();
+        List<ClubMemberVo> list = clubMemberService.selectClubMemberList(clubMember);
+        return getDataTable(list);
+    }
+
+    /**
+     * 查询社团成员列表
+     */
+    @ApiOperation("查询社团下面的成员列表")
+//    @PreAuthorize("@ss.hasPermi('system:member:list')")
+    @GetMapping("/all/list")
+    public AjaxResult allList(@RequestParam Long clubId)
     {
         /*
          * 1.根据clubId查询member列表，返回List<memberVo>
