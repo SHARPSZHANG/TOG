@@ -59,6 +59,17 @@ public class SysLoginController
         return ajax;
     }
 
+    @ApiOperation("登录方法")
+    @ApiImplicitParam(name = "loginBody", value = "活动信息", dataType = "LoginBody", dataTypeClass = LoginBody.class)
+    @PostMapping("/toLogin")
+    public AjaxResult toLogin(@RequestBody LoginBody loginBody)
+    {
+        // 生成令牌
+        String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
+                loginBody.getUuid());
+        return AjaxResult.success("success", token);
+    }
+
     /**
      * 获取用户信息
      * 
@@ -78,6 +89,14 @@ public class SysLoginController
         ajax.put("roles", roles);
         ajax.put("permissions", permissions);
         return ajax;
+    }
+
+    @ApiOperation("获取用户信息")
+    @GetMapping("getUserInfo")
+    public AjaxResult getUserInfo()
+    {
+        SysUser user = SecurityUtils.getLoginUser().getUser();
+        return AjaxResult.success(user);
     }
 
     /**
