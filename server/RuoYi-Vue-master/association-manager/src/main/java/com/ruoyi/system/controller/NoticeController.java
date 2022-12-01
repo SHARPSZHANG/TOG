@@ -45,6 +45,17 @@ public class NoticeController extends BaseController
         return getDataTable(list);
     }
 
+    @ApiOperation("查询公告列表")
+    @GetMapping("/list")
+    public AjaxResult list(@RequestParam Long userId)
+    {
+        /*
+         * 根据用户ID查找所属社团的通知列表
+         * 返回结果List<NoticeVo>
+         */
+        return AjaxResult.success();
+    }
+
     /**
      * 导出公告列表
      */
