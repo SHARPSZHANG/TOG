@@ -4,6 +4,7 @@ import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.system.domain.ClubMember;
 import com.ruoyi.system.service.IClubMemberService;
+import com.ruoyi.system.vo.ActivityVo;
 import com.ruoyi.system.vo.ClubMemberVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import com.ruoyi.system.service.IActivityService;
  * @date 2022-11-16
  */
 @Service
-public class ActivityServiceImpl implements IActivityService 
+public class ActivityServiceImpl implements IActivityService
 {
     @Autowired
     private ActivityMapper activityMapper;
@@ -46,6 +47,11 @@ public class ActivityServiceImpl implements IActivityService
     public Activity selectActivityById(Long id)
     {
         return activityMapper.selectActivityById(id);
+    }
+
+    @Override
+    public ActivityVo selectActivityVoById(Long id) {
+        return activityMapper.selectActivityVoById(id);
     }
 
     /**

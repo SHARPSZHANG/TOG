@@ -23,6 +23,8 @@ public interface IActivityService
      */
     public Activity selectActivityById(Long id);
 
+    public ActivityVo selectActivityVoById(Long id);
+
     /**
      * 查询活动列表
      * 

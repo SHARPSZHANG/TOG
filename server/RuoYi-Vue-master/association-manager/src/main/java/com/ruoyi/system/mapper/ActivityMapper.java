@@ -67,4 +67,6 @@ public interface ActivityMapper
      * @return 结果
      */
     public int deleteActivityByIds(Long[] ids);
+
+    ActivityVo selectActivityVoById(Long id);
 }
