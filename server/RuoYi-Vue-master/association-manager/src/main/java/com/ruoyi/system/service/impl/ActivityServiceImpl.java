@@ -30,9 +30,7 @@ public class ActivityServiceImpl implements IActivityService
 
     @Override
     public List<ActivityVo> findActivityByUserId(Long userId) {
-//        ClubMember clubMember = new ClubMember();
-//        clubMember.setUserId(userId);
-//        List<ClubMember> clubMembers = iClubMemberService.selectClubMemberList2(clubMember);
+
         List<ActivityVo> activityListByUser = activityMapper.findActivityListByUser(userId);
         return activityListByUser;
     }
@@ -121,5 +119,10 @@ public class ActivityServiceImpl implements IActivityService
         Activity activity = selectActivityById(activityId);
         Boolean permissionByUserId = iClubMemberService.getPermissionByUserId(userId,activityId);
         return permissionByUserId;
+    }
+
+    @Override
+    public List<ActivityVo> findActivityByClubId(Long clubId) {
+        return activityMapper.findActivityByClubId(clubId);
     }
 }

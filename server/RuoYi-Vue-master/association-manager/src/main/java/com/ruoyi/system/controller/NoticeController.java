@@ -47,22 +47,12 @@ public class NoticeController extends BaseController
         return getDataTable(list);
     }
 
-    @ApiOperation("根据用户ID查询所属社团公告列表")
-    @GetMapping("/findNoticeByUserId")
-    public ApiResult findNoticeByUserId(@RequestParam Long noticeId)
-    {
-        /*
-         * 同activityController
-         * 返回List<NoticeVo>
-         */
-        return new ApiResult<List<NoticeVo>>().setData(null);
-    }
 
     /**
      * 导出公告列表
      */
-//    @PreAuthorize("@ss.hasPermi('system:notice:export')")
 
+    @PreAuthorize("@ss.hasPermi('system:notice:export')")
     @Log(title = "公告", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Notice notice)
@@ -75,15 +65,14 @@ public class NoticeController extends BaseController
     /**
      * 获取公告详细信息
      */
-//    @PreAuthorize("@ss.hasPermi('system:notice:query')")
+    @PreAuthorize("@ss.hasPermi('system:notice:query')")
     @ApiOperation("获取公告详细信息")
     @ApiImplicitParam(name = "id", value = "公告id", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
     @GetMapping(value = "/{id}")
-        public ApiResult getInfo(@PathVariable("id") Long id)
+        public AjaxResult getInfo(@PathVariable("id") Long id)
     {
-        // 返回 NoticeVo
-//        noticeService.selectNoticeById(id)
-        return new ApiResult<NoticeVo>().setData(null);
+
+        return AjaxResult.success(noticeService.selectNoticeById(id));
     }
 
     /**
@@ -91,7 +80,7 @@ public class NoticeController extends BaseController
      */
     @ApiOperation("新增公告")
     @ApiImplicitParam(name = "notice", value = "公告信息", required = true, dataType = "Notice", paramType = "body", dataTypeClass = Notice.class)
-//    @PreAuthorize("@ss.hasPermi('system:notice:add')")
+    @PreAuthorize("@ss.hasPermi('system:notice:add')")
     @Log(title = "公告", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Notice notice)
@@ -104,7 +93,7 @@ public class NoticeController extends BaseController
      */
     @ApiOperation("修改公告")
     @ApiImplicitParam(name = "notice", value = "公告信息", required = true, dataType = "Notice", paramType = "body", dataTypeClass = Notice.class)
-//    @PreAuthorize("@ss.hasPermi('system:notice:edit')")
+    @PreAuthorize("@ss.hasPermi('system:notice:edit')")
     @Log(title = "公告", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Notice notice)
@@ -115,7 +104,7 @@ public class NoticeController extends BaseController
     /**
      * 删除公告
      */
-//    @PreAuthorize("@ss.hasPermi('system:notice:remove')")
+    @PreAuthorize("@ss.hasPermi('system:notice:remove')")
     @ApiOperation("删除公告")
     @ApiImplicitParam(name = "ids", value = "公告id数组", required = true, dataType = "Long[]", paramType = "path", dataTypeClass = Long[].class)
     @Log(title = "公告", businessType = BusinessType.DELETE)
@@ -126,26 +115,5 @@ public class NoticeController extends BaseController
     }
 
 
-    @ApiOperation("删除公告")
-    @ApiImplicitParam(name = "ids", value = "公告id", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
-    @Log(title = "公告", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{id}")
-    public ApiResult deleteById(@PathVariable Long id)
-    {
-        return new ApiResult<Boolean>().setData(noticeService.deleteNoticeById(id) > 0);
-    }
 
-    @ApiOperation("查询权限")
-    //    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
-//    @Log(title = "活动", businessType = BusinessType.UPDATE)
-    @GetMapping("/getPermissionByUserId")
-        public ApiResult getPermissionByUserId(@RequestParam Long userId,@RequestParam Long noticeId)
-    {
-
-        /*
-         * 1.查询该用户是否为当前通知所属社团社长
-         * 2.返回结果 true or false
-         */
-        return new ApiResult<Boolean>().setData(noticeService.getPermissionByUserId(userId,noticeId));
-    }
 }

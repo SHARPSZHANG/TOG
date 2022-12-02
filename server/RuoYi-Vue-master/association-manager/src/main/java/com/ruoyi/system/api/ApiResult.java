@@ -98,6 +98,7 @@ public class ApiResult<T> {
 
     public static ApiResult success() {
         ApiResult apiResult = new ApiResult();
+        apiResult.setData(true);
         return apiResult;
     }
 

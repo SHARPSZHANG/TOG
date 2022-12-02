@@ -3,12 +3,14 @@ package com.ruoyi.system.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.system.api.ApiResult;
 import com.ruoyi.system.domain.ClubMember;
 import com.ruoyi.system.params.ClubParams;
 import com.ruoyi.system.service.IClubMemberService;
+import com.ruoyi.system.service.ISysUserService;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -42,6 +44,8 @@ public class ClubController extends BaseController
     @Autowired
     private IClubMemberService clubMemberService;
 
+    @Autowired
+    private ISysUserService userService;
     /**
      * 查询社团列表
      */
@@ -98,21 +102,24 @@ public class ClubController extends BaseController
     /**
      * 新增社团
      */
-//    @PreAuthorize("@ss.hasPermi('system:club:add')")
+    @PreAuthorize("@ss.hasPermi('system:club:add')")
     @ApiOperation("新增社团")
     @ApiImplicitParam(name = "club", value = "社团信息", required = true, dataType = "Long", paramType = "body", dataTypeClass = Club.class)
     @Log(title = "社团", businessType = BusinessType.INSERT)
     @PostMapping
-    public ApiResult add(@RequestBody Club club, @RequestParam("userId") Long userId)
+    public AjaxResult add(@RequestBody Club club)
     {
-        club.setCreateBy(getUsername());
-        return new ApiResult<Boolean>().setData(clubService.insertClub(club,userId) > 0);
+        LoginUser loginUser = getLoginUser();
+        SysUser sysUser = userService.selectUserById(loginUser.getUserId());
+        club.setUpdateBy(sysUser.getNickName());
+
+        return toAjax(clubService.insertClub(club));
     }
 
     /**
      * 修改社团
      */
-//    @PreAuthorize("@ss.hasPermi('system:club:edit')")
+    @PreAuthorize("@ss.hasPermi('system:club:edit')")
     @ApiOperation("修改社团")
     @ApiImplicitParam(name = "club", value = "社团信息", required = true, dataType = "Long", paramType = "body", dataTypeClass = Club.class)
     @Log(title = "社团", businessType = BusinessType.UPDATE)
@@ -127,7 +134,7 @@ public class ClubController extends BaseController
     /**
      * 删除社团
      */
-//    @PreAuthorize("@ss.hasPermi('system:club:remove')")
+    @PreAuthorize("@ss.hasPermi('system:club:remove')")
     @ApiOperation("删除社团")
     @ApiImplicitParam(name = "ids", value = "社团id数组", required = true, dataType = "Long[]", paramType = "path", dataTypeClass = Long[].class)
     @Log(title = "社团", businessType = BusinessType.DELETE)
@@ -138,7 +145,6 @@ public class ClubController extends BaseController
     }
 
     @ApiOperation("开启社团招新")
-    //    @PreAuthorize("@ss.hasPermi('system:club:list')")
     @PostMapping("/enRecruit")
     public ApiResult enRecruit(@RequestParam("clubId") Long clubId,
                                 @RequestParam("notice") Boolean notice,

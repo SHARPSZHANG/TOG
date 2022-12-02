@@ -5,11 +5,12 @@ import com.ruoyi.system.domain.Activity;
 public class ActivityVo extends Activity {
 
     private String clubName;
+    private String userName;
 
     public ActivityVo() {
     }
 
-    private String userName;
+
 
     public String getClubName() {
         return clubName;

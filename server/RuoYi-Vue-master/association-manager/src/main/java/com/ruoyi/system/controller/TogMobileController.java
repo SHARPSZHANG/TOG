@@ -3,6 +3,8 @@ package com.ruoyi.system.controller;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
@@ -74,7 +76,6 @@ public class TogMobileController extends BaseController {
     }
 
     @ApiOperation("移动：根据社团Id查询活动列表")
-//    @PreAuthorize("@ss.hasPermi('system:activity:list')")
     @GetMapping("/activity/findActivityByClubId")
     public ApiResult findActivityByClubId(@RequestParam Long clubId)
     {
@@ -82,8 +83,8 @@ public class TogMobileController extends BaseController {
           根据社团编号查询出所有活动信息（按时间倒序排列）
           返回List<ActivityVo>
          */
-        List<ActivityVo> activities = new ArrayList<ActivityVo>();
-        return new ApiResult<List<ActivityVo>>().setData(null);
+        List<ActivityVo> activities = activityService.findActivityByClubId(clubId);
+        return new ApiResult<List<ActivityVo>>().setData(activities);
     }
 
 
@@ -107,6 +108,9 @@ public class TogMobileController extends BaseController {
     @PostMapping("/activity")
     public ApiResult addActivity(@RequestBody Activity activity)
     {
+        LoginUser loginUser = getLoginUser();
+        SysUser sysUser = userService.selectUserById(loginUser.getUserId());
+        activity.setCreateBy(sysUser.getNickName());
         return new ApiResult<Boolean>().setData(activityService.insertActivity(activity) > 0);
     }
 
@@ -148,7 +152,6 @@ public class TogMobileController extends BaseController {
 
 /* ========================================社团=====================================================*/
     @ApiOperation("根据userId查询社团列表")
-    //    @PreAuthorize("@ss.hasPermi('system:club:list')")
     @GetMapping("/club/listByUserId")
     public ApiResult listByUserId(@RequestParam Long userId)
     {
@@ -201,14 +204,29 @@ public class TogMobileController extends BaseController {
 
 
     /**
-     * 新增活动
+     * 社团审核通过
+     * @param id
+     * @return
      */
-    @ApiOperation("新增活动")
-    @ApiImplicitParam(name = "activity", value = "活动信息", dataType = "Activity", dataTypeClass = Activity.class)
-    @PostMapping("/club")
-    public ApiResult addClub(@RequestBody Activity activity)
+    @ApiOperation("社团审核通过")
+    @ApiImplicitParam(name = "id", value = "社团ID", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
+    @GetMapping(value = "/club/{id}/pass")
+    public ApiResult passClub(@PathVariable("id") Long id)
     {
-        return new ApiResult<Boolean>().setData(activityService.insertActivity(activity) > 0);
+        clubService.pass(id,getUsername());
+        return ApiResult.success();
+    }
+
+    /**
+     * 新增社团
+     */
+    @ApiOperation("新增社团")
+    @ApiImplicitParam(name = "club", value = "社团信息", required = true, dataType = "Long", paramType = "body", dataTypeClass = Club.class)
+    @PostMapping("/club")
+    public ApiResult add(@RequestBody Club club, @RequestParam("userId") Long userId)
+    {
+
+        return new ApiResult<Boolean>().setData(clubService.insertClub(club,userId) > 0);
     }
 
     /**
@@ -381,6 +399,9 @@ public class TogMobileController extends BaseController {
     @PostMapping("/notice")
     public ApiResult addNotice(@RequestBody Notice notice)
     {
+        LoginUser loginUser = getLoginUser();
+        SysUser sysUser = userService.selectUserById(loginUser.getUserId());
+        notice.setCreateBy(sysUser.getUserName());
         return new ApiResult<Boolean>().setData(noticeService.insertNotice(notice) > 0);
     }
 
@@ -466,6 +487,9 @@ public class TogMobileController extends BaseController {
     @PostMapping("/message")
     public ApiResult addMessage(@RequestBody TogMessage togMessage)
     {
+        LoginUser loginUser = getLoginUser();
+        SysUser sysUser = userService.selectUserById(loginUser.getUserId());
+        togMessage.setCreateBy(sysUser.getUserName());
         return new ApiResult<Boolean>().setData(togMessageService.insertTogMessage(togMessage) > 0);
     }
 

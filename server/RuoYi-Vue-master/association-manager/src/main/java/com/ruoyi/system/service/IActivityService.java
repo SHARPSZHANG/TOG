@@ -66,4 +66,6 @@ public interface IActivityService
     public int deleteActivityById(Long id);
 
     Boolean getPermissionByUserId(Long userId, Long activityId);
+
+    List<ActivityVo> findActivityByClubId(Long clubId);
 }

@@ -69,4 +69,6 @@ public interface ActivityMapper
     public int deleteActivityByIds(Long[] ids);
 
     ActivityVo selectActivityVoById(Long id);
+
+    List<ActivityVo> findActivityByClubId(Long clubId);
 }

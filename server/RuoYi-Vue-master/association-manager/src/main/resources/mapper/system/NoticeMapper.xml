@@ -71,14 +71,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectNoticeVo"/>
         where id = #{id}
     </select>
+
     <select id="findNoticeByUserId" parameterType="Long" resultMap="NoticeVoResult">
         <include refid="selectNoticeByUserId"/>
         where u.user_id = #{userId}
     </select>
+
     <select id="selectNoticeVoById" parameterType="Long" resultMap="NoticeVoResult">
         <include refid="selectNoticeByUserId"/>
         where n.id = #{id}
     </select>
+
     <select id="findNoticeByClubId" parameterType="Long" resultMap="NoticeVoResult">
         <include refid="selectNoticeByUserId"/>
         where c.id = #{clubId}

@@ -38,6 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="clubName"    column="club_name"    />
+        <result property="userName"    column="club_name"    />
     </resultMap>
 
 
@@ -58,6 +59,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         JOIN club c on c.id = a.club_id
     </sql>
 
+    <sql id="selectActivityByUserIdNew">
+        select a.*,
+               c.club_name  from sys_user u
+         LEFT JOIN club_member cm on cm.user_id = u.user_id
+         LEFT JOIN activity a on  cm.club_id = a.club_id
+         JOIN club c ON c.id = a.club_id
+    </sql>
+
+    <sql id="selectActivityByClubId">
+        select
+            a.*,
+            c.club_name
+        from
+            activity a
+        JOIN club c on c.id = a.club_id
+    </sql>
+
     <select id="selectActivityList" parameterType="Activity" resultMap="ActivityResult">
         <include refid="selectActivityVo"/>
         <where>  
@@ -73,23 +91,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectActivityById" parameterType="Long" resultMap="ActivityResult">
+    <select id="selectActivityById" parameterType="Long" resultMap="ActivityVoResult">
         <include refid="selectActivityVo"/>
         where id = #{id}
     </select>
 
-    <select id="findActivityListByUser" parameterType="Long" resultMap="ActivityResult">
-        <include refid="selectActivityByUserId"/>
+    <select id="findActivityListByUser" parameterType="Long" resultMap="ActivityVoResult">
+        <include refid="selectActivityByUserIdNew"/>
         <where>
-            <if test="userId != null  and userId != ''"> cm.user_id  = #{userId}</if>
+            <if test="userId != null  and userId != ''">u.user_id   = #{userId}</if>
         </where>
         order by a.create_time desc
     </select>
-    <select id="selectActivityVoById" parameterType="Long"  resultMap="ActivityResult">
+
+    <select id="selectActivityVoById" parameterType="Long"  resultMap="ActivityVoResult">
         <include refid="selectActivityByUserId"/>
         <where>
             <if test="id != null  and id != ''"> a.id  = #{id}</if>
         </where>
+    </select>
+
+    <select id="findActivityByClubId" parameterType="Long"  resultMap="ActivityVoResult">
+        <include refid="selectActivityByClubId"/>
+        <where>
+            <if test="clubId != null  and clubId != ''"> a.club_id  = #{clubId}</if>
+        </where>
+
     </select>
 
     <insert id="insertActivity" parameterType="Activity" useGeneratedKeys="true" keyProperty="id">
