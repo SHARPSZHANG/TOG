@@ -63,4 +63,6 @@ public interface NoticeMapper
     List<NoticeVo> findNoticeByUserId(Long userId);
 
     NoticeVo selectNoticeVoById(Long id);
+
+    List<NoticeVo> findNoticeByClubId(Long clubId);
 }

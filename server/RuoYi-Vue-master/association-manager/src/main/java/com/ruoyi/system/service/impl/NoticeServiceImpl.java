@@ -114,4 +114,9 @@ public class NoticeServiceImpl implements INoticeService
     public NoticeVo selectNoticeVoById(Long id) {
         return noticeMapper.selectNoticeVoById(id);
     }
+
+    @Override
+    public List<NoticeVo> findNoticeByClubId(Long clubId) {
+        return noticeMapper.findNoticeByClubId(clubId);
+    }
 }
