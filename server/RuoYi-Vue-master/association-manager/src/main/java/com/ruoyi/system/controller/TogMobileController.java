@@ -74,7 +74,6 @@ public class TogMobileController extends BaseController {
     }
 
     @ApiOperation("移动：根据社团Id查询活动列表")
-//    @PreAuthorize("@ss.hasPermi('system:activity:list')")
     @GetMapping("/activity/findActivityByClubId")
     public ApiResult findActivityByClubId(@RequestParam Long clubId)
     {
@@ -199,20 +198,20 @@ public class TogMobileController extends BaseController {
         return new ApiResult<Club>().setData(clubService.selectClubById(id));
     }
 
-    /**
-     * 获取社团详细信息
-     */
-    @ApiOperation("获取社团详细信息")
-    @ApiImplicitParam(name = "id", value = "社团ID", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
-    @GetMapping(value = "/club/{id}")
-    public ApiResult getInfo(@PathVariable("id") Long id)
-    {
-        Long userId = getUserId();
-        /*
-          创建社团、并将当前用户设置为社长
-         */
-        return new ApiResult<Club>().setData(clubService.selectClubById(id));
-    }
+//    /**
+//     * 获取社团详细信息
+//     */
+//    @ApiOperation("获取社团详细信息")
+//    @ApiImplicitParam(name = "id", value = "社团ID", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
+//    @GetMapping(value = "/club/{id}")
+//    public ApiResult getInfo(@PathVariable("id") Long id)
+//    {
+//        Long userId = getUserId();
+//        /*
+//          创建社团、并将当前用户设置为社长
+//         */
+//        return new ApiResult<Club>().setData(clubService.selectClubById(id));
+//    }
 
     /**
      * 新增活动
@@ -229,10 +228,10 @@ public class TogMobileController extends BaseController {
     /**
      * 新增社团
      */
-    @ApiOperation("新增社团")
+    @ApiOperation("创建社团、并将当前用户设置为社长")
     @ApiImplicitParam(name = "club", value = "社团信息", required = true, dataType = "Long", paramType = "body", dataTypeClass = Club.class)
     @PostMapping("/club")
-    public ApiResult add(@RequestBody Club club, @RequestParam("userId") Long userId)
+    public ApiResult addClub(@RequestBody Club club, @RequestParam("userId") Long userId)
     {
 
         return new ApiResult<Boolean>().setData(clubService.insertClub(club,userId) > 0);

@@ -89,6 +89,7 @@ public class ClubServiceImpl implements IClubService
     @Override
     public int insertClub(Club club, Long userId) {
         club.setCreateTime(DateUtils.getNowDate());
+        club.setState(0);
         int i = clubMapper.insertClub(club);
         ClubMember clubMember = new ClubMember();
         clubMember.setClubId(Long.valueOf(i));

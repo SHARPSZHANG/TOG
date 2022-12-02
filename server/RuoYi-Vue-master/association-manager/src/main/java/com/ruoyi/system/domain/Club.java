@@ -58,7 +58,7 @@ public class Club extends BaseEntity
     private String qqNumber;
 
     /** 是否删除（1：删除 0：未删除） */
-    @Excel(name = "状态", readConverterExp = "1=：删除,0=：未删除")
+    @Excel(name = "状态", readConverterExp = "1=通过,0=：未通过")
     private Integer state;
 
     public void setId(Long id) 
