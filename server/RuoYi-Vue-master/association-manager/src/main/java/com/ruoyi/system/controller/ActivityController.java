@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.system.api.ApiResult;
 import com.ruoyi.system.service.ISysUserService;
 import com.ruoyi.system.vo.ActivityVo;
 import io.swagger.annotations.Api;
@@ -53,18 +54,17 @@ public class ActivityController extends BaseController
     @ApiOperation("查询所有活动列表")
 //    @PreAuthorize("@ss.hasPermi('system:activity:list')")
     @GetMapping("/findAllActivity")
-    public AjaxResult list()
+    public ApiResult list()
     {
-        startPage();
-        List<Activity> list = new ArrayList<>(16);
-        return AjaxResult.success(list);
+        List<ActivityVo> list = new ArrayList<>(16);
+        return new ApiResult<List<ActivityVo>>().setData(list);
     }
 
     @ApiOperation("根据用户Id查询活动列表")
 //    @PreAuthorize("@ss.hasPermi('system:activity:list')")
     @ApiImplicitParam(name = "userId", value = "用户id", dataType = "Long", dataTypeClass = Long.class)
     @GetMapping("/findActivityByUserId")
-    public AjaxResult findActivityByUserId(@RequestParam("userId") Long userId)
+    public ApiResult findActivityByUserId(@RequestParam("userId") Long userId)
     {
         /*
           1.根据用户ID查询出社团
@@ -72,26 +72,27 @@ public class ActivityController extends BaseController
           返回List<Activity>
          */
 
-        List<Activity> activities = activityService.findActivityByUserId(userId);
-        return AjaxResult.success(activities);
+        List<ActivityVo> activities = activityService.findActivityByUserId(userId);
+        return new ApiResult<List<ActivityVo>>().setData(activities);
     }
-//
-//    @ApiOperation("根据社团Id查询活动列表")
-////    @PreAuthorize("@ss.hasPermi('system:activity:list')")
-//    @GetMapping("/findActivityByClubId")
-//    public AjaxResult findActivityByClubId(@RequestParam Long clubId)
-//    {
-//        /*
-//          1.根据用户ID查询出社团
-//          2.根据社团编号查询出所有活动信息（按时间倒序排列）
-//          返回List<ActivityVo>
-//         */
-//        List<ActivityVo> activities = new ArrayList<ActivityVo>();
-////        Activity activity = new Activity();
-////        activity.setClubId(clubId);
-////        activities = activityService.selectActivityList(activity);
-//        return AjaxResult.success(activities);
-//    }
+
+    @ApiOperation("根据社团Id查询活动列表")
+//    @PreAuthorize("@ss.hasPermi('system:activity:list')")
+    @GetMapping("/findActivityByClubId")
+    public ApiResult findActivityByClubId(@RequestParam Long clubId)
+    {
+        /*
+          根据社团编号查询出所有活动信息（按时间倒序排列）
+          返回List<ActivityVo>
+         */
+        List<ActivityVo> activities = new ArrayList<ActivityVo>();
+//        Activity activity = new Activity();
+//        activity.setClubId(clubId);
+//        activities = activityService.selectActivityList(activity);
+        return new ApiResult<List<ActivityVo>>().setData(null);
+    }
+
+
     /**
      * 导出活动列表
      */
@@ -113,9 +114,11 @@ public class ActivityController extends BaseController
     @ApiImplicitParam(name = "id", value = "活动id", dataType = "Long", dataTypeClass = Long.class)
 //    @PreAuthorize("@ss.hasPermi('system:activity:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
+    public ApiResult getInfo(@PathVariable("id") Long id)
     {
-        return AjaxResult.success(activityService.selectActivityById(id));
+        // 返回ActivityVo
+//        activityService.selectActivityById(id)
+        return new ApiResult<ActivityVo>().setData(null);
     }
 
 
@@ -139,9 +142,9 @@ public class ActivityController extends BaseController
     @ApiImplicitParam(name = "activity", value = "活动信息", dataType = "Activity", dataTypeClass = Activity.class)
     @Log(title = "活动", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody Activity activity)
+    public ApiResult add(@RequestBody Activity activity)
     {
-        return AjaxResult.success(activityService.insertActivity(activity) > 0);
+        return new ApiResult<Boolean>().setData(activityService.insertActivity(activity) > 0);
     }
 
     /**
@@ -161,24 +164,23 @@ public class ActivityController extends BaseController
     //    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
     @Log(title = "活动", businessType = BusinessType.UPDATE)
     @DeleteMapping("/{id}")
-    public AjaxResult delete( @PathVariable Long id)
+    public ApiResult delete( @PathVariable Long id)
     {
-        return AjaxResult.success(activityService.deleteActivityById(id) > 0);
+        return new ApiResult<Boolean>().setData(activityService.deleteActivityById(id) > 0);
     }
 
     @ApiOperation("查询权限")
     //    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
 //    @Log(title = "活动", businessType = BusinessType.UPDATE)
     @GetMapping("/getPermissionByUserId")
-    public AjaxResult getPermissionByUserId(@RequestParam Long userId,@RequestParam Long activityId)
+    public ApiResult getPermissionByUserId(@RequestParam Long userId,@RequestParam Long activityId)
     {
 
         /*
          * 1.查询该用户是否为当前活动所属社团社长
          * 2.返回结果 true or false
          */
-        Boolean res = activityService.getPermissionByUserId(userId,activityId);
-        return AjaxResult.success(res);
+        return new ApiResult<Boolean>().setData(activityService.getPermissionByUserId(userId,activityId));
     }
 
     /**
@@ -189,8 +191,8 @@ public class ActivityController extends BaseController
 //    @PreAuthorize("@ss.hasPermi('system:activity:remove')")
     @Log(title = "活动", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
+    public ApiResult remove(@PathVariable Long[] ids)
     {
-        return toAjax(activityService.deleteActivityByIds(ids));
+        return new ApiResult<Boolean>().setData(activityService.deleteActivityByIds(ids) > 0);
     }
 }
