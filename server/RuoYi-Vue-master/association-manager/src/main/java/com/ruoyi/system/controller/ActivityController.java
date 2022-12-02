@@ -118,6 +118,19 @@ public class ActivityController extends BaseController
         return AjaxResult.success(activityService.selectActivityById(id));
     }
 
+
+    /**
+     * 获取活动详细信息
+     */
+    @ApiOperation("获取活动详细信息vo")
+    @ApiImplicitParam(name = "id", value = "活动id", dataType = "Long", dataTypeClass = Long.class)
+//    @PreAuthorize("@ss.hasPermi('system:activity:query')")
+    @GetMapping(value = "/{id}/vo")
+    public AjaxResult getInfoActivityVo(@PathVariable("id") Long id)
+    {
+        return AjaxResult.success(activityService.selectActivityVoById(id));
+    }
+
     /**
      * 新增活动
      */

@@ -21,16 +21,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
     </resultMap>
 
+
+    <resultMap type="com.ruoyi.system.vo.ActivityVo" id="ActivityVoResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="description"    column="description"    />
+        <result property="image"    column="image"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="status"    column="status"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="clubId"    column="club_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="clubName"    column="club_name"    />
+    </resultMap>
+
+
+
     <sql id="selectActivityVo">
-        select id, title, content, description, image, start_time, end_time, status, is_delete, club_id, create_time, create_by, update_by, update_time from activity
+        select id, title, content, description, image, start_time, end_time, status, is_delete,
+               club_id, create_time, create_by, update_by, update_time
+        from activity
     </sql>
 
     <sql id="selectActivityByUserId">
         select
-            a.*
+            a.*,
+            c.club_name
         from
             activity a
         JOIN club_member cm on cm.club_id = a.club_id
+        JOIN club c on c.id = a.club_id
     </sql>
 
     <select id="selectActivityList" parameterType="Activity" resultMap="ActivityResult">
@@ -53,12 +78,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
-    <select id="findActivityListByUser" parameterType="Long" resultType="com.ruoyi.system.domain.Activity" resultMap="ActivityResult">
+    <select id="findActivityListByUser" parameterType="Long" resultMap="ActivityResult">
         <include refid="selectActivityByUserId"/>
         <where>
             <if test="userId != null  and userId != ''"> cm.user_id  = #{userId}</if>
         </where>
         order by a.create_time desc
+    </select>
+    <select id="selectActivityVoById" parameterType="Long"  resultMap="ActivityResult">
+        <include refid="selectActivityByUserId"/>
+        <where>
+            <if test="id != null  and id != ''"> a.id  = #{id}</if>
+        </where>
     </select>
 
     <insert id="insertActivity" parameterType="Activity" useGeneratedKeys="true" keyProperty="id">

@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.Activity;
+import com.ruoyi.system.vo.ActivityVo;
 
 /**
  * 活动Mapper接口
@@ -66,4 +67,6 @@ public interface ActivityMapper
      * @return 结果
      */
     public int deleteActivityByIds(Long[] ids);
+
+    ActivityVo selectActivityVoById(Long id);
 }
