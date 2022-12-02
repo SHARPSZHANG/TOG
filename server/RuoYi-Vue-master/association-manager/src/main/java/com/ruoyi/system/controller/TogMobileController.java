@@ -334,6 +334,18 @@ public class TogMobileController extends BaseController {
         return new ApiResult<List<NoticeVo>>().setData(noticeByUserId);
     }
 
+    @GetMapping("/notice/findNoticeByClubId")
+    public ApiResult findNoticeByClubId(@RequestParam Long clubId)
+    {
+        /*
+         * 同activityController
+         * 返回List<NoticeVo>
+         */
+        List<NoticeVo> notice = noticeService.findNoticeByClubId(clubId);
+        return new ApiResult<List<NoticeVo>>().setData(notice);
+    }
+
+
     /**
      * 获取公告详细信息
      */
