@@ -4,7 +4,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.system.api.ApiResult;
 import com.ruoyi.system.domain.Club;
+import com.ruoyi.system.params.ClubParams;
+import com.ruoyi.system.service.IClubService;
 import com.ruoyi.system.vo.ClubMemberVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -35,13 +38,16 @@ public class ClubMemberController extends BaseController
     @Autowired
     private IClubMemberService clubMemberService;
 
+    @Autowired
+    private IClubService clubService;
+
     /**
      * 查询社团成员列表
      */
     @ApiOperation("查询社团成员列表")
 //    @PreAuthorize("@ss.hasPermi('system:member:list')")
     @GetMapping("/list")
-    public AjaxResult list(@RequestParam Long clubId)
+    public ApiResult list(@RequestParam Long clubId)
     {
         /*
          * 1.根据clubId查询member列表，返回List<memberVo>
@@ -50,16 +56,16 @@ public class ClubMemberController extends BaseController
         ClubMember clubMember = new ClubMember();
         clubMember.setClubId(clubId);
         List<ClubMemberVo> clubMemberVos = clubMemberService.selectClubMemberList(clubMember);
-        return AjaxResult.success(clubMemberVos);
+        return new ApiResult<List<ClubMemberVo>>().setData(clubMemberVos);
     }
 
     @ApiOperation("通过加入社团申请")
     @ApiImplicitParam(name = "id", value = "社团申请id", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
     @GetMapping(value = "/{id}/pass")
-    public AjaxResult pass(@PathVariable("id") Long id)
+    public ApiResult pass(@PathVariable("id") Long id)
     {
         clubMemberService.pass(id,getUsername());
-        return AjaxResult.success();
+        return new ApiResult<Boolean>().setData(true);
     }
 
 
@@ -97,11 +103,14 @@ public class ClubMemberController extends BaseController
 //    @PreAuthorize("@ss.hasPermi('system:member:add')")
     @Log(title = "社团成员", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ClubMember clubMember)
+    public ApiResult add(@RequestBody ClubMember clubMember)
     {
+        ClubParams params = new ClubParams(getUserId(), "社长");
+        Club club = clubService.findClubByParams(params);
         clubMember.setCreateBy(getUsername());
         clubMember.setCreateTime(DateUtils.getNowDate());
-        return toAjax(clubMemberService.insertClubMember(clubMember));
+        clubMember.setClubId(club.getId());
+        return new ApiResult<Boolean>().setData(clubMemberService.insertClubMember(clubMember) > 0);
     }
 
     /**
@@ -158,12 +167,12 @@ public class ClubMemberController extends BaseController
     //    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
     @Log(title = "活动", businessType = BusinessType.UPDATE)
     @GetMapping("/getPermissionByUserId")
-    public AjaxResult getPermissionByUserId(@RequestParam Long userId, @RequestParam Long clubId) {
+    public ApiResult getPermissionByUserId(@RequestParam Long userId, @RequestParam Long clubId) {
 
         /*
          * 1.查询该用户是否为社团社长
          * 2.返回结果 true or false
          */
-        return AjaxResult.success(clubMemberService.getPermissionByUserId(userId,clubId));
+        return new ApiResult<Boolean>().setData(clubMemberService.getPermissionByUserId(userId,clubId));
     }
 }

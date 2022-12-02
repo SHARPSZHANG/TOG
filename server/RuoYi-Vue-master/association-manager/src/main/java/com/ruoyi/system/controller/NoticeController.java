@@ -3,6 +3,8 @@ package com.ruoyi.system.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.system.api.ApiResult;
+import com.ruoyi.system.vo.NoticeVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -45,6 +47,17 @@ public class NoticeController extends BaseController
         return getDataTable(list);
     }
 
+    @ApiOperation("根据用户ID查询所属社团公告列表")
+    @GetMapping("/findNoticeByUserId")
+    public ApiResult findNoticeByUserId(@RequestParam Long noticeId)
+    {
+        /*
+         * 同activityController
+         * 返回List<NoticeVo>
+         */
+        return new ApiResult<List<NoticeVo>>().setData(null);
+    }
+
     /**
      * 导出公告列表
      */
@@ -66,9 +79,11 @@ public class NoticeController extends BaseController
     @ApiOperation("获取公告详细信息")
     @ApiImplicitParam(name = "id", value = "公告id", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
+        public ApiResult getInfo(@PathVariable("id") Long id)
     {
-        return AjaxResult.success(noticeService.selectNoticeById(id));
+        // 返回 NoticeVo
+//        noticeService.selectNoticeById(id)
+        return new ApiResult<NoticeVo>().setData(null);
     }
 
     /**
@@ -115,23 +130,22 @@ public class NoticeController extends BaseController
     @ApiImplicitParam(name = "ids", value = "公告id", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
     @Log(title = "公告", businessType = BusinessType.DELETE)
     @DeleteMapping("/{id}")
-    public AjaxResult deleteById(@PathVariable Long id)
+    public ApiResult deleteById(@PathVariable Long id)
     {
-        return AjaxResult.success(noticeService.deleteNoticeById(id) > 0);
+        return new ApiResult<Boolean>().setData(noticeService.deleteNoticeById(id) > 0);
     }
 
     @ApiOperation("查询权限")
     //    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
 //    @Log(title = "活动", businessType = BusinessType.UPDATE)
     @GetMapping("/getPermissionByUserId")
-    public AjaxResult getPermissionByUserId(@RequestParam Long userId,@RequestParam Long noticeId)
+        public ApiResult getPermissionByUserId(@RequestParam Long userId,@RequestParam Long noticeId)
     {
 
         /*
          * 1.查询该用户是否为当前通知所属社团社长
          * 2.返回结果 true or false
          */
-        Boolean res = noticeService.getPermissionByUserId(userId,noticeId);
-        return AjaxResult.success(res);
+        return new ApiResult<Boolean>().setData(noticeService.getPermissionByUserId(userId,noticeId));
     }
 }

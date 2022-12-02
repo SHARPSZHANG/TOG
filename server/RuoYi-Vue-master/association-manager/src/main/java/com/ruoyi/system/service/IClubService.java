@@ -16,7 +16,7 @@ public interface IClubService
 
     List<Club> listByUserId(Long userId);
 
-    List<Club> listClubByParams(ClubParams params);
+    Club findClubByParams(ClubParams params);
 
     /**
      * 查询社团

@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.Activity;
+import com.ruoyi.system.vo.ActivityVo;
 
 /**
  * 活动Service接口
@@ -12,7 +13,7 @@ import com.ruoyi.system.domain.Activity;
 public interface IActivityService 
 {
 
-    List<Activity> findActivityByUserId(Long userId);
+    List<ActivityVo> findActivityByUserId(Long userId);
 
     /**
      * 查询活动

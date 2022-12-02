@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.Activity;
+import com.ruoyi.system.vo.ActivityVo;
 
 /**
  * 活动Mapper接口
@@ -34,7 +35,7 @@ public interface ActivityMapper
      * @param userId 用户id
      * @return 活动集合
      */
-    public List<Activity> findActivityListByUser(Long userId);
+    public List<ActivityVo> findActivityListByUser(Long userId);
     /**
      * 新增活动
      * 

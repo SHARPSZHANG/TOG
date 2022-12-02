@@ -15,7 +15,7 @@ public interface ClubMapper
 
 
 
-    List<Club> listClubByParams(ClubParams params);
+    Club findClubByParams(ClubParams params);
 
     List<Club> listByUserId(Long userId);
     /**

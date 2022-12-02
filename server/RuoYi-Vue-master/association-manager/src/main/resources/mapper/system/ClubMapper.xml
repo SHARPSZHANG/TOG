@@ -55,7 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null  and userId != ''"> and cm.user_id = #{userId}</if>
         </where>
     </select>
-    <select id="listClubByParams" parameterType="com.ruoyi.system.params.ClubParams" resultMap="ClubResult">
+    <select id="findClubByParams" parameterType="com.ruoyi.system.params.ClubParams" resultMap="ClubResult">
         <include refid="selectClubByUserId"/>
         <where>
             <if test="userId != null  and userId != ''"> and cm.user_id = #{userId}</if>

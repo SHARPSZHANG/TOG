@@ -34,9 +34,9 @@ public class ClubServiceImpl implements IClubService
     }
 
     @Override
-    public List<Club> listClubByParams(ClubParams params) {
+    public Club findClubByParams(ClubParams params) {
 
-        return  clubMapper.listClubByParams(params);
+        return  clubMapper.findClubByParams(params);
     }
 
     /**

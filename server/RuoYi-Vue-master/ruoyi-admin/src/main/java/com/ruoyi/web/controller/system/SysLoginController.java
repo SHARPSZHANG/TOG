@@ -3,7 +3,7 @@ package com.ruoyi.web.controller.system;
 import java.util.List;
 import java.util.Set;
 
-import com.ruoyi.system.domain.Activity;
+import com.ruoyi.system.api.ApiResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -62,12 +62,12 @@ public class SysLoginController
     @ApiOperation("登录方法")
     @ApiImplicitParam(name = "loginBody", value = "活动信息", dataType = "LoginBody", dataTypeClass = LoginBody.class)
     @PostMapping("/toLogin")
-    public AjaxResult toLogin(@RequestBody LoginBody loginBody)
+    public ApiResult toLogin(@RequestBody LoginBody loginBody)
     {
         // 生成令牌
         String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
                 loginBody.getUuid());
-        return AjaxResult.success("success", token);
+        return new ApiResult<String>().setData(token);
     }
 
     /**
@@ -92,11 +92,11 @@ public class SysLoginController
     }
 
     @ApiOperation("获取用户信息")
-    @GetMapping("getUserInfo")
-    public AjaxResult getUserInfo()
+    @GetMapping("/getUserInfo")
+    public ApiResult getUserInfo()
     {
         SysUser user = SecurityUtils.getLoginUser().getUser();
-        return AjaxResult.success(user);
+        return new ApiResult<SysUser>().setData(user);
     }
 
     /**

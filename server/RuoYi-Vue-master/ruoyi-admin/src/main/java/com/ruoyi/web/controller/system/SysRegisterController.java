@@ -1,5 +1,7 @@
 package com.ruoyi.web.controller.system;
 
+import com.ruoyi.system.api.ApiResult;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,13 +39,13 @@ public class SysRegisterController extends BaseController
     }
 
     @PostMapping("/toRegister")
-    public AjaxResult toRegister(@RequestBody RegisterBody user)
+    public ApiResult toRegister(@RequestBody RegisterBody user)
     {
         if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser"))))
         {
-            return error("当前系统没有开启注册功能！");
+            new ApiResult<String>().setMsg("当前系统没有开启注册功能！");
         }
         String msg = registerService.register(user);
-        return StringUtils.isEmpty(msg) ? AjaxResult.success(true) : error(msg);
+        return StringUtils.isEmpty(msg) ? new ApiResult<Boolean>().setData(true) : new ApiResult<Boolean>().setData(false);
     }
 }

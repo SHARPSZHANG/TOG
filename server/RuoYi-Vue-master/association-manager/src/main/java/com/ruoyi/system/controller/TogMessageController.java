@@ -3,6 +3,7 @@ package com.ruoyi.system.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.system.api.ApiResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -48,7 +49,7 @@ public class TogMessageController extends BaseController
     @ApiOperation("查询消息列表")
     //    @PreAuthorize("@ss.hasPermi('system:message:list')")
     @GetMapping("/all/list")
-    public AjaxResult list(@RequestParam Long userId)
+    public ApiResult list(@RequestParam Long userId)
     {
 
         /*
@@ -58,7 +59,7 @@ public class TogMessageController extends BaseController
         TogMessage togMessage = new TogMessage();
         togMessage.setUserId(userId);
         List<TogMessage> togMessages = togMessageService.selectTogMessageList(togMessage);
-        return AjaxResult.success(togMessages);
+        return new ApiResult<List<TogMessage>>().setData(togMessages);
     }
 
     /**
@@ -82,9 +83,9 @@ public class TogMessageController extends BaseController
     @ApiImplicitParam(name = "id", value = "消息id", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
 //    @PreAuthorize("@ss.hasPermi('system:message:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
+    public ApiResult getInfo(@PathVariable("id") Long id)
     {
-        return AjaxResult.success(togMessageService.selectTogMessageById(id));
+        return new ApiResult<TogMessage>().setData(togMessageService.selectTogMessageById(id));
     }
 
     /**
