@@ -1,87 +1,143 @@
 package com.sharpszhang.tog.Bean;
 
-public class Club {
 
+/**
+ * 社团对象 club
+ * 
+ * @author ruoyi
+ * @date 2022-11-16
+ */
+public class Club extends BaseEntity
+{
+    private static final long serialVersionUID = 1L;
+
+    /** 社团id */
     private Long id;
 
+    /** 社团名称 */
     private String clubName;
 
-    private String clubDescription;
+    /** 社团说明 */
+    private String clubDesc;
 
-    private String clubDetails;
+    /** 社团详情 */
+    private String clubDetail;
 
-    private String clubIcon;
-
+    /** 创建时间 */
     private String gmtCreate;
 
-    private int isDelete;
+    /** 是否删除（1：删除 0：未删除） */
+    private Integer isDelete;
 
-    public Long getId() {
-        return id;
-    }
+    /** 社团图标url */
+    private String clubIcon;
 
-    public void setId(Long id) {
+    /** 社团图标url */
+    private String theacher;
+
+    /** 社团图标url */
+    private String mobilePhone;
+
+    /** 社团图标url */
+    private String qqNumber;
+
+    /** 是否删除（1：删除 0：未删除） */
+    private Integer state;
+
+    public void setId(Long id) 
+    {
         this.id = id;
     }
 
-    public String getClubName() {
-        return clubName;
+    public Long getId() 
+    {
+        return id;
     }
-
-    public void setClubName(String clubName) {
+    public void setClubName(String clubName) 
+    {
         this.clubName = clubName;
     }
 
-    public String getClubDescription() {
-        return clubDescription;
+    public String getClubName() 
+    {
+        return clubName;
+    }
+    public void setClubDesc(String clubDesc) 
+    {
+        this.clubDesc = clubDesc;
     }
 
-    public void setClubDescription(String clubDescription) {
-        this.clubDescription = clubDescription;
+    public String getClubDesc() 
+    {
+        return clubDesc;
+    }
+    public void setClubDetail(String clubDetail) 
+    {
+        this.clubDetail = clubDetail;
     }
 
-    public String getClubDetails() {
-        return clubDetails;
+    public String getClubDetail() 
+    {
+        return clubDetail;
+    }
+    public void setGmtCreate(String gmtCreate)
+    {
+        this.gmtCreate = gmtCreate;
     }
 
-    public void setClubDetails(String clubDetails) {
-        this.clubDetails = clubDetails;
+    public String getGmtCreate()
+    {
+        return gmtCreate;
+    }
+    public void setIsDelete(Integer isDelete) 
+    {
+        this.isDelete = isDelete;
     }
 
-    public String getClubIcon() {
+    public Integer getIsDelete() 
+    {
+        return isDelete;
+    }
+    public void setClubIcon(String clubIcon) 
+    {
+        this.clubIcon = clubIcon;
+    }
+
+    public String getClubIcon() 
+    {
         return clubIcon;
     }
 
-    public void setClubIcon(String clubIcon) {
-        this.clubIcon = clubIcon;
+    public String getTheacher() {
+        return theacher;
     }
 
-    public String getGmtCreate() {
-        return gmtCreate;
+    public void setTheacher(String theacher) {
+        this.theacher = theacher;
     }
 
-    public void setGmtCreate(String gmtCreate) {
-        this.gmtCreate = gmtCreate;
+    public String getMobilePhone() {
+        return mobilePhone;
     }
 
-    public int getIsDelete() {
-        return isDelete;
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
     }
 
-    public void setIsDelete(int isDelete) {
-        this.isDelete = isDelete;
+    public String getQqNumber() {
+        return qqNumber;
     }
 
-    public Club() {
+    public void setQqNumber(String qqNumber) {
+        this.qqNumber = qqNumber;
     }
 
-    public Club(Long id, String clubName, String clubDescription, String clubDetails, String clubIcon, String gmtCreate, int isDelete) {
-        this.id = id;
-        this.clubName = clubName;
-        this.clubDescription = clubDescription;
-        this.clubDetails = clubDetails;
-        this.clubIcon = clubIcon;
-        this.gmtCreate = gmtCreate;
-        this.isDelete = isDelete;
+    public Integer getState() {
+        return state;
     }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
 }

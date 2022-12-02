@@ -212,13 +212,13 @@ public class Login extends BaseActivity implements View.OnClickListener, TextWat
         LoginBody login = new LoginBody();
         login.setUsername(usernameEdit.getText().toString());
         login.setPassword(passwordEdit.getText().toString());
-        XHttp.post("/prod-api/getUserInfo")
+        XHttp.get("/prod-api/getUserInfo")
                 .headers("Authorization", "Bearer " + token)
                 .execute(new SimpleCallBack<SysUser>() {
                     @Override
                     public void onSuccess(SysUser response) {
                         if (response != null) {
-                            startActivity(new Intent(getApplicationContext(), HomeActivity.class).putExtra("userId", response.getUserId()).putExtra("token", token));
+                            startActivity(new Intent(getApplicationContext(), HomeActivity.class).putExtra("userId", response.getUserId().toString()).putExtra("token", token));
                             finish();
                         } else {
                             XToastUtils.toast("登陆失败！");

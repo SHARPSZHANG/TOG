@@ -48,7 +48,7 @@ public class ClubContentActivity extends BaseActivity {
                 public void performAction(View view) {
                     Club club = new Club();
                     club.setId(Long.valueOf(clubId));
-                    club.setClubDetails(content.getContentText());
+                    club.setClubDetail(content.getContentText());
                     XHttp.post("/api/club/saveClub")
                             .params("club", club)
                             .execute(new SimpleCallBack<Boolean>() {
@@ -83,8 +83,8 @@ public class ClubContentActivity extends BaseActivity {
                     public void onSuccess(Club response) throws Throwable {
                         if (response != null) {
                             clubName.setText(response.getClubName());
-                            clubDetails.setText(response.getClubDescription());
-                            content.setContentText(response.getClubDetails());
+                            clubDetails.setText(response.getClubDesc());
+                            content.setContentText(response.getClubDetail());
                         } else {
                             setContentView(R.layout.empty_activity);
                         }

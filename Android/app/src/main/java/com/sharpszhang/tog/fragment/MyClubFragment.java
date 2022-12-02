@@ -90,7 +90,7 @@ public class MyClubFragment extends Fragment implements RecyclerViewHolder.OnIte
     }
 
     private void getDataList () {
-        XHttp.get("/prod-api/system/club/listByUserId")
+        XHttp.get("/prod-api/system/mobile/club/listByUserId")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
@@ -127,7 +127,7 @@ public class MyClubFragment extends Fragment implements RecyclerViewHolder.OnIte
         Intent intent = new Intent(this.getContext(), ClubActivity.class);
         intent.putExtra("clubId", "" + ((Club) item).getId());
         intent.putExtra("userId", userId);
-        intent.putExtra("tokenId", token);
+        intent.putExtra("token", token);
         startActivity(intent);
     }
 }

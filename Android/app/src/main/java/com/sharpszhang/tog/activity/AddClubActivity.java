@@ -66,8 +66,8 @@ public class AddClubActivity extends BaseActivity implements View.OnClickListene
             case R.id.release:
                 club = new Club();
                 club.setClubName(clubName.getText().toString());
-                club.setClubDescription(clubDesc.getText().toString());
-                club.setClubDetails(clubDetails.getText().toString());
+                club.setClubDesc(clubDesc.getText().toString());
+                club.setClubDetail(clubDetails.getText().toString());
                 club.setGmtCreate(new Date().toString());
                 club.setIsDelete(0);
                 XHttp.post("/prod-api/system/club")

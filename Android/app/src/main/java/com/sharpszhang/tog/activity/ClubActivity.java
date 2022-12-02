@@ -86,7 +86,7 @@ public class ClubActivity extends BaseActivity implements EasyIndicator.OnTabCli
     }
 
     private void getDataList () {
-        XHttp.get("/prod-api/system/club/" + clubId)
+        XHttp.get("/prod-api/system/mobile/club/" + clubId)
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
@@ -98,7 +98,7 @@ public class ClubActivity extends BaseActivity implements EasyIndicator.OnTabCli
                         if (response != null) {
                             club = response;
                             clubName.setText(club.getClubName());
-                            clubDetails.setText(club.getClubDescription());
+                            clubDetails.setText(club.getClubDesc());
                         }
                     }
 
@@ -129,7 +129,7 @@ public class ClubActivity extends BaseActivity implements EasyIndicator.OnTabCli
                 break;
             case 2:
                 bundle.putString("createDate", club.getGmtCreate());
-                bundle.putString("details", club.getClubDetails());
+                bundle.putString("details", club.getClubDetail());
                 switchFragment(clubDetailsFragment, bundle);
                 clubOrgFragment.onResume();
                 clubActivityFragment.onResume();

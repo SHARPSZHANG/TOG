@@ -60,13 +60,13 @@ public class ActivityContentActivity extends BaseActivity {
         userId = intent.getStringExtra("userId");
         token = intent.getStringExtra("token");
 
-        getActivityData(activityId);
+        getActivityData();
         getPremission();
 
     }
 
-    private void getActivityData (String activityId) {
-        XHttp.get("/prod-api/system/activity/" + activityId)
+    private void getActivityData () {
+        XHttp.get("/prod-api/system/mobile/activity/" + activityId + "/vo")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
@@ -92,7 +92,7 @@ public class ActivityContentActivity extends BaseActivity {
     }
 
     private void deleteActivityById() {
-        XHttp.delete("/prod-api/system/activity/" + activityId)
+        XHttp.delete("/prod-api/system/mobile/activity/" + activityId)
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
@@ -115,12 +115,14 @@ public class ActivityContentActivity extends BaseActivity {
                 });
     }
     public void getPremission() {
-        XHttp.get("/prod-api/system/activity/getPermissionByUserId?userId=" + userId)
+        XHttp.get("/prod-api/system/mobile/activity/getPermissionByUserId")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
                 .headers("Authorization", "Bearer " + token)
                 .timeStamp(true)
+                .params("userId", userId)
+                .params("activityId", activityId)
                 .execute(new SimpleCallBack<Boolean>() {
                     @Override
                     public void onSuccess(Boolean response) throws Throwable {

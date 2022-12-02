@@ -9,12 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
-import com.sharpszhang.tog.Bean.Activity;
-import com.sharpszhang.tog.Bean.Club;
-import com.sharpszhang.tog.Bean.Notice;
 import com.sharpszhang.tog.Bean.NoticeVo;
 import com.sharpszhang.tog.R;
-import com.sharpszhang.tog.adapet.ClubAdapter;
 import com.sharpszhang.tog.adapet.NoticesAdapter;
 import com.sharpszhang.tog.base.BaseActivity;
 import com.xuexiang.xhttp2.XHttp;
@@ -40,8 +36,8 @@ public class NoticesManageActivity extends BaseActivity implements RecyclerViewH
     private View emptyView;
 
     private String id;
-    private String token;
     private String clubId;
+    private String token;
 
 
     @Override
@@ -84,12 +80,10 @@ public class NoticesManageActivity extends BaseActivity implements RecyclerViewH
 
 
     private void getDataList () {
-        XHttp.get("/prod-api/system/tog/notice/list")
+        XHttp.get("/prod-api/system/mobile/notice/findNoticeByClubId")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
-                .params("userId", id)
-                .headers("Authorization", "Bearer " + token)
                 .timeStamp(true)
                 .execute(new SimpleCallBack<List<NoticeVo>>() {
                     @Override

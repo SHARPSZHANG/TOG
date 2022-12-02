@@ -5,16 +5,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.sharpszhang.tog.Bean.Activity;
+import com.alibaba.fastjson.JSONObject;
+import com.sharpszhang.tog.Bean.ClubMember;
 import com.sharpszhang.tog.Bean.TogMessage;
 import com.sharpszhang.tog.R;
 import com.sharpszhang.tog.base.BaseActivity;
+import com.sharpszhang.tog.utils.XToastUtils;
 import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xhttp2.callback.SimpleCallBack;
 import com.xuexiang.xhttp2.exception.ApiException;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.button.roundbutton.RoundButton;
 import com.xuexiang.xui.widget.edittext.MultiLineEditText;
+
+import java.util.Date;
 
 public class MessageDetailActivity extends BaseActivity implements View.OnClickListener {
 
@@ -26,7 +30,10 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
 
     private String messageId;
     private String userId;
+    private String sendId;
     private String token;
+
+    private TogMessage message;
 
 
     @Override
@@ -34,7 +41,8 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_detail);
         Intent intent = getIntent();
-        userId = intent.getStringExtra("sendId");
+        userId = intent.getStringExtra("userId");
+        sendId = intent.getStringExtra("sendId");
         messageId = intent.getStringExtra("messageId");
         token = intent.getStringExtra("token");
         initData();
@@ -60,18 +68,19 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     public void initData() {
-        XHttp.get("/prod-api/system/tog/message/" + messageId)
+        XHttp.get("/prod-api/system/mobile/message" + messageId)
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
                 .timeStamp(true)
                 .headers("Authorization", "Bearer " + token)
-                .execute(new SimpleCallBack<Activity>() {
+                .execute(new SimpleCallBack<TogMessage>() {
                     @Override
-                    public void onSuccess(Activity response) throws Throwable {
+                    public void onSuccess(TogMessage response) throws Throwable {
                         if (response != null) {
+                            message = response;
                             username.setText(response.getTitle());
-                            content.setContentText(response.getDescription());
+                            content.setContentText(response.getContent());
                         } else {
                             setContentView(R.layout.empty_activity);
                         }
@@ -84,23 +93,29 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     public void doAgree() {
-        XHttp.get("/prod-api/system/tog/message/" + userId + "/pass")
+        ClubMember clubMember = new ClubMember();
+        clubMember.setPosition("成员");
+        clubMember.setUserId(Long.valueOf(sendId));
+        clubMember.setGmtCreate(new Date().toString());
+        XHttp.post("/prod-api/system/mobile/")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
                 .timeStamp(true)
+                .upJson(JSONObject.toJSONString(clubMember))
                 .headers("Authorization", "Bearer " + token)
-                .execute(new SimpleCallBack<TogMessage>() {
+                .execute(new SimpleCallBack<Boolean>() {
                     @Override
-                    public void onSuccess(TogMessage response) throws Throwable {
-                        if (response != null) {
+                    public void onSuccess(Boolean response) throws Throwable {
+                        if (response) {
                            finish();
                         } else {
+                            XToastUtils.error("出错了");
                         }
                     }
                     @Override
                     public void onError(ApiException e) {
-
+                        XToastUtils.error("出错了");
                     }
                 });
     }

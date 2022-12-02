@@ -1,6 +1,5 @@
 package com.sharpszhang.tog.Bean;
 
-import java.util.Date;
 
 public class TogMessage extends BaseEntity
 {
@@ -25,10 +24,10 @@ public class TogMessage extends BaseEntity
     private Integer isDelete;
 
     /** 创建时间 */
-    private Date gmtCreate;
+    private String gmtCreate;
 
     /** 查看时间 */
-    private Date gmtModifiel;
+    private String gmtModifiel;
 
     private int type;
 
@@ -104,21 +103,21 @@ public class TogMessage extends BaseEntity
     {
         return isDelete;
     }
-    public void setGmtCreate(Date gmtCreate) 
+    public void setGmtCreate(String gmtCreate)
     {
         this.gmtCreate = gmtCreate;
     }
 
-    public Date getGmtCreate() 
+    public String getGmtCreate()
     {
         return gmtCreate;
     }
-    public void setGmtModifiel(Date gmtModifiel) 
+    public void setGmtModifiel(String gmtModifiel)
     {
         this.gmtModifiel = gmtModifiel;
     }
 
-    public Date getGmtModifiel() 
+    public String getGmtModifiel()
     {
         return gmtModifiel;
     }

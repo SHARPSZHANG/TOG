@@ -75,7 +75,7 @@ public class ClubManageActivity extends BaseActivity implements View.OnClickList
     }
 
     public void getPermission() {
-        XHttp.get("/prod-api/system/member/getPermissionByUserId")
+        XHttp.get("/prod-api/system/mobile/member/getPermissionByUserId")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
@@ -106,7 +106,7 @@ public class ClubManageActivity extends BaseActivity implements View.OnClickList
     }
 
     public void getMemberList() {
-        XHttp.get("/prod-api/system/member/list")
+        XHttp.get("/prod-api/system/mobile/member/list")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
@@ -129,9 +129,8 @@ public class ClubManageActivity extends BaseActivity implements View.OnClickList
     }
 
     public void deleteMembers(Long[] ids) {
-        XHttp.delete("/prod-api/system/member/")
+        XHttp.delete("/prod-api/system/mobile/member/")
                 .params("ids", ids)
-                .params("clubId", clubId)
                 .headers("Authorization", "Bearer " + token)
                 .execute(new SimpleCallBack<Boolean>() {
                     @Override
@@ -151,7 +150,7 @@ public class ClubManageActivity extends BaseActivity implements View.OnClickList
     }
 
     public void exitClub() {
-        XHttp.post("/prod-api/system/member/exitClub")
+        XHttp.post("/prod-api/system/mobile/member/del/club/user")
                 .params("userId", userId)
                 .params("clubId", clubId)
                 .headers("Authorization", "Bearer " + token)
@@ -237,7 +236,7 @@ public class ClubManageActivity extends BaseActivity implements View.OnClickList
                         .negativeText("取消")
                         .positiveText("确定")
                         .onPositive((dialog, which) -> {
-                            deleteMembers(new Long[]{Long.valueOf(userId)});
+                            exitClub();
                         })
                         .show();
             }

@@ -91,7 +91,7 @@ public class MessageFragment extends Fragment implements RecyclerViewHolder.OnIt
     }
 
     private void getDataList () {
-        XHttp.get("/prod-api/system/tog/message")
+        XHttp.get("/prod-api/system/mobile/message/all/list")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
@@ -131,6 +131,7 @@ public class MessageFragment extends Fragment implements RecyclerViewHolder.OnIt
                 Intent intent = new Intent(this.getContext(), MessageDetailActivity.class);
                 intent.putExtra("messageId", "" + ((TogMessage) item).getId());
                 intent.putExtra("token", token);
+                intent.putExtra("userId", userId);
                 intent.putExtra("sendId", "" + ((TogMessage) item).getSendId());
                 startActivity(intent);
                 break;

@@ -65,10 +65,11 @@ public class NoticeActivity extends BaseActivity implements View.OnClickListener
     }
 
     public void initData() {
-        XHttp.get("/prod-api/system/club/findClubByUserId?id=" + userId)
+        XHttp.get("/prod-api/system/mobile/club/findClubByUserId")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
+                .params("userId", userId)
                 .headers("Authorization", "Bearer " + token)
                 .timeStamp(true)
                 .execute(new SimpleCallBack<Club>() {
@@ -101,7 +102,7 @@ public class NoticeActivity extends BaseActivity implements View.OnClickListener
                 notice.setUserId(Long.valueOf(userId));
                 notice.setGmtCreate(new Date().toString());
                 notice.setIsDelete(0);
-                XHttp.put("/prod-api/system/tog/notice")
+                XHttp.post("/prod-api/system/mobile/notice")
                         .upJson(JSONObject.toJSONString(notice))
                         .headers("Authorization", "Bearer " + token)
                         .execute(new SimpleCallBack<Boolean>() {

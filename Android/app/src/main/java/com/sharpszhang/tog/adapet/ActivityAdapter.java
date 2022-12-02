@@ -19,7 +19,6 @@ package com.sharpszhang.tog.adapet;
 import androidx.annotation.NonNull;
 
 import com.sharpszhang.tog.Bean.ActivityVo;
-import com.sharpszhang.tog.Bean.Book;
 import com.sharpszhang.tog.R;
 import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xui.adapter.recyclerview.BaseRecyclerAdapter;
@@ -59,11 +58,5 @@ public class ActivityAdapter extends BaseRecyclerAdapter<ActivityVo> {
 
     }
 
-    public static String getBookImgUrl(Book book) {
-        return getBaseImgUrl() + book.getPicture();
-    }
 
-    public static String getBookImgUrlWithoutBaseUrl(Book book) {
-        return "/file/downloadFile/" + book.getPicture();
-    }
 }

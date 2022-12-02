@@ -120,8 +120,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager = getSupportFragmentManager();
         // activity跳转fragment传值
         Bundle bundle = new Bundle();
-        bundle.putString("userId", "userId");
-//        bundle.putString("userId", userId);
+        bundle.putString("userId", userId);
         bundle.putString("token", token);
         activityFragment.setArguments(bundle);
         clubFragment.setArguments(bundle);

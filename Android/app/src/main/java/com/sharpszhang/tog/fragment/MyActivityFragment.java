@@ -100,12 +100,12 @@ public class MyActivityFragment extends Fragment implements RecyclerViewHolder.O
     }
 
     private void getDataList () {
-         XHttp.get("/prod-api/system/activity/findActivityByUserId")
+         XHttp.get("/prod-api/system/mobile/activity/findActivityByUserId")
                  .syncRequest(false)
                  .onMainThread(true)
                  .timeOut(1000)
                  .timeStamp(true)
-                 .params("userId", userId)
+                 .params("userId", Long.valueOf(userId))
                  .headers("Authorization", "Bearer " + token)
                  .execute(new SimpleCallBack<List<ActivityVo>>() {
                     @Override

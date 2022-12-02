@@ -86,7 +86,7 @@ public class ClubActivityFragment extends Fragment implements RecyclerViewHolder
     }
 
     private void getDataList (String clubId) {
-        XHttp.get("/prod-api/system/activity/findActivityByClubId")
+        XHttp.get("/prod-api/system/mobile/activity/findActivityByClubId")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
