@@ -90,7 +90,7 @@ public class ApplicationActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void initData() {
-        XHttp.get("/prod-api/system/club/listByUserId")
+        XHttp.get("/prod-api/system/mobile/club/listByUserId")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
@@ -128,13 +128,12 @@ public class ApplicationActivity extends BaseActivity implements View.OnClickLis
             case R.id.release:
                 Activity activity = new Activity();
                 activity.setClubId(clubs.get(select).getId());
-                activity.setUserId(Long.parseLong(userId));
                 activity.setTitle(activityTitle.getEditValue());
                 activity.setStartTime(activityTimeText.getText().toString());
                 activity.setContent(activityContent.getContentText());
-                activity.setGmtCreate(new Date().toString());
+                activity.setCreateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
                 activity.setIsDelete(0);
-                XHttp.post("/prod-api/system/activity")
+                XHttp.post("/prod-api/system/mobile/activity")
                         .upJson(JSONObject.toJSONString(activity))
                         .headers("Authorization", "Bearer " + token)
                         .execute(new SimpleCallBack<Boolean>() {

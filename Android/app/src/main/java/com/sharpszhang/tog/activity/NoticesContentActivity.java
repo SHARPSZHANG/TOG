@@ -68,7 +68,7 @@ public class NoticesContentActivity extends BaseActivity {
     }
 
     private void getNoticeData () {
-        XHttp.get("/prod-api/system/notice/" + noticeId)
+        XHttp.get("/prod-api/system/mobile/notice/" + noticeId)
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
@@ -92,7 +92,7 @@ public class NoticesContentActivity extends BaseActivity {
                 });
     }
     private void deleteNoticeById() {
-        XHttp.delete("/prod-api/system/notice/" + noticeId)
+        XHttp.delete("/prod-api/system/mobile/notice/" + noticeId)
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
@@ -115,11 +115,13 @@ public class NoticesContentActivity extends BaseActivity {
                 });
     }
     public void getPremission() {
-        XHttp.get("/prod-api/system/notice/getPermissionByUserId?userId=" + userId)
+        XHttp.get("/prod-api/system/mobile/notice/getPermissionByUserId")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
                 .timeStamp(true)
+                .params("userId", userId)
+                .params("noticeId", noticeId)
                 .headers("Authorization", "Bearer " + token)
                 .execute(new SimpleCallBack<Boolean>() {
                     @Override

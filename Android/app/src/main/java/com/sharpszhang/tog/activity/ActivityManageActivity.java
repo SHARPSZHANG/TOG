@@ -13,7 +13,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.sharpszhang.tog.Bean.Activity;
 import com.sharpszhang.tog.Bean.ActivityVo;
 import com.sharpszhang.tog.R;
 import com.sharpszhang.tog.adapet.ActivityAdapter;
@@ -44,6 +43,7 @@ public class ActivityManageActivity extends BaseActivity implements RecyclerView
     private View emptyView;
     private String userId;
     private String clubId;
+    private String token;
 
 
     @SuppressLint("ResourceType")
@@ -55,6 +55,7 @@ public class ActivityManageActivity extends BaseActivity implements RecyclerView
         Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
         clubId = intent.getStringExtra("clubId");
+        token = intent.getStringExtra("token");
         initView();
     }
 
@@ -92,9 +93,11 @@ public class ActivityManageActivity extends BaseActivity implements RecyclerView
     }
 
     private void getDataList () {
-        XHttp.get("/api/activity/findActivityByClubId?clubId=" + clubId)
+        XHttp.get("/prod-api/system/mobile/activity/findActivityByClubId")
                 .syncRequest(false)
                 .onMainThread(true)
+                .params("clubId", clubId)
+                .headers("Authorization", "Bearer " + token)
                 .timeOut(1000)
                 .timeStamp(true)
                 .execute(new SimpleCallBack<List<ActivityVo>>() {
@@ -124,6 +127,6 @@ public class ActivityManageActivity extends BaseActivity implements RecyclerView
         if (!RefreshState.None.equals(refreshLayout.getState())) {
             return;
         }
-        startActivity(new Intent(this, ActivityContentActivity.class).putExtra("id", ((Activity) item).getId()).putExtra("userId", userId));
+        startActivity(new Intent(this, NoticesContentActivity.class).putExtra("activityId", ((ActivityVo) item).getId()).putExtra("userId", userId).putExtra("token", token));
     }
 }

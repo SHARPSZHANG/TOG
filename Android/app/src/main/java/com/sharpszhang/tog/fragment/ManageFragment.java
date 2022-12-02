@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.sharpszhang.tog.Bean.SysUser;
-import com.sharpszhang.tog.Bean.UserContent;
 import com.sharpszhang.tog.R;
 import com.sharpszhang.tog.activity.AddClubActivity;
 import com.sharpszhang.tog.activity.ApplicationActivity;
@@ -26,7 +25,6 @@ import com.xuexiang.xhttp2.exception.ApiException;
 import com.xuexiang.xui.widget.button.roundbutton.RoundButton;
 
 public class ManageFragment extends Fragment implements View.OnClickListener {
-    private UserContent userContent;
 
     private View view;
     private View notice;
@@ -88,7 +86,7 @@ public class ManageFragment extends Fragment implements View.OnClickListener {
         super.onPause();
     }
     private void initDataList() {
-        XHttp.get("/prod-api/getUserInfo/")
+        XHttp.get("/prod-api/getUserInfo")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)

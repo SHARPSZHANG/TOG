@@ -2,7 +2,6 @@ package com.sharpszhang.tog.adapet;
 
 import androidx.annotation.NonNull;
 
-import com.sharpszhang.tog.Bean.Book;
 import com.sharpszhang.tog.Bean.TogMessage;
 import com.sharpszhang.tog.R;
 import com.xuexiang.xhttp2.XHttp;
@@ -37,12 +36,6 @@ public class MessageAdapter extends BaseRecyclerAdapter<TogMessage> {
 
     }
 
-    public static String getBookImgUrl(Book book) {
-        return getBaseImgUrl() + book.getPicture();
-    }
 
-    public static String getBookImgUrlWithoutBaseUrl(Book book) {
-        return "/file/downloadFile/" + book.getPicture();
-    }
 
 }

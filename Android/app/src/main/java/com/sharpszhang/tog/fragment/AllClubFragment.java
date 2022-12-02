@@ -92,11 +92,10 @@ public class AllClubFragment extends Fragment implements RecyclerViewHolder.OnIt
     }
 
     private void getDataList () {
-        XHttp.get("/prod-api/system/club/list")
+        XHttp.get("/prod-api/system/mobile/club/all/list")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
-                .params("userId", userId)
                 .headers("Authorization", "Bearer " + token)
                 .timeStamp(true)
                 .execute(new SimpleCallBack<List<Club>>() {
@@ -129,7 +128,7 @@ public class AllClubFragment extends Fragment implements RecyclerViewHolder.OnIt
         Intent intent = new Intent(this.getContext(), ClubActivity.class);
         intent.putExtra("clubId", "" + ((Club) item).getId());
         intent.putExtra("userId", userId);
-        intent.putExtra("tokenId", token);
+        intent.putExtra("token", token);
         startActivity(intent);
     }
 }

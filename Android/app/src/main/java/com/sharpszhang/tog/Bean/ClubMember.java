@@ -1,6 +1,5 @@
 package com.sharpszhang.tog.Bean;
 
-import java.util.Date;
 
 /**
  * 社团成员对象 club_member
@@ -22,10 +21,10 @@ public class ClubMember extends BaseEntity
     private Long clubId;
 
     /** 加入社团时间 */
-    private Date gmtCreate;
+    private String gmtCreate;
 
     /** 离开社团时间 */
-    private Date gmtDelete;
+    private String gmtDelete;
 
     /** 职位 */
     private String position;
@@ -80,21 +79,21 @@ public class ClubMember extends BaseEntity
     {
         return clubId;
     }
-    public void setGmtCreate(Date gmtCreate) 
+    public void setGmtCreate(String gmtCreate)
     {
         this.gmtCreate = gmtCreate;
     }
 
-    public Date getGmtCreate() 
+    public String getGmtCreate()
     {
         return gmtCreate;
     }
-    public void setGmtDelete(Date gmtDelete) 
+    public void setGmtDelete(String gmtDelete)
     {
         this.gmtDelete = gmtDelete;
     }
 
-    public Date getGmtDelete() 
+    public String getGmtDelete()
     {
         return gmtDelete;
     }

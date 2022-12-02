@@ -16,6 +16,8 @@ import com.xuexiang.xhttp2.callback.SimpleCallBack;
 import com.xuexiang.xhttp2.exception.ApiException;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.button.roundbutton.RoundButton;
+import com.xuexiang.xui.widget.edittext.MultiLineEditText;
+import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 
 import java.util.Date;
 
@@ -25,8 +27,8 @@ import java.util.Date;
 public class NoticeActivity extends BaseActivity implements View.OnClickListener {
 
     private TitleBar titleBar;
-    private TextView noticeTitle;
-    private TextView noticeContent;
+    private MaterialEditText noticeTitle;
+    private MultiLineEditText noticeContent;
     private TextView clubName;
     private TextView clubDetails;
     private RoundButton release;
@@ -65,10 +67,11 @@ public class NoticeActivity extends BaseActivity implements View.OnClickListener
     }
 
     public void initData() {
-        XHttp.get("/prod-api/system/club/findClubByUserId?id=" + userId)
+        XHttp.get("/prod-api/system/mobile/club/findClubByUserId")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
+                .params("userId", userId)
                 .headers("Authorization", "Bearer " + token)
                 .timeStamp(true)
                 .execute(new SimpleCallBack<Club>() {
@@ -97,11 +100,11 @@ public class NoticeActivity extends BaseActivity implements View.OnClickListener
                 Notice notice = new Notice();
                 notice.setClubId(club.getId());
                 notice.setTitle(noticeTitle.getText().toString());
-                notice.setContent(noticeContent.getText().toString());
+                notice.setContent(noticeContent.getContentText().toString());
                 notice.setUserId(Long.valueOf(userId));
                 notice.setGmtCreate(new Date().toString());
                 notice.setIsDelete(0);
-                XHttp.put("/prod-api/system/tog/notice")
+                XHttp.post("/prod-api/system/mobile/notice")
                         .upJson(JSONObject.toJSONString(notice))
                         .headers("Authorization", "Bearer " + token)
                         .execute(new SimpleCallBack<Boolean>() {

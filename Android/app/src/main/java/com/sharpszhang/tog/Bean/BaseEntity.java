@@ -1,7 +1,6 @@
 package com.sharpszhang.tog.Bean;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,11 +19,11 @@ public class BaseEntity implements Serializable
     /** 创建者 */
     private String createBy;
 
-    private Date createTime;
+    private String createTime;
 
     /** 更新者 */
     private String updateBy;
-    private Date updateTime;
+    private String updateTime;
 
     /** 备注 */
     private String remark;
@@ -52,12 +51,12 @@ public class BaseEntity implements Serializable
         this.createBy = createBy;
     }
 
-    public Date getCreateTime()
+    public String getCreateTime()
     {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime)
+    public void setCreateTime(String createTime)
     {
         this.createTime = createTime;
     }
@@ -72,12 +71,12 @@ public class BaseEntity implements Serializable
         this.updateBy = updateBy;
     }
 
-    public Date getUpdateTime()
+    public String getUpdateTime()
     {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime)
+    public void setUpdateTime(String updateTime)
     {
         this.updateTime = updateTime;
     }

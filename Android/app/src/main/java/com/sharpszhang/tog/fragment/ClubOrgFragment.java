@@ -66,7 +66,7 @@ public class ClubOrgFragment extends Fragment {
         super.onPause();
     }
     private void getDataList () {
-        XHttp.get("/prod-api/system/member/list")
+        XHttp.get("/prod-api/system/mobile/member/list")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)

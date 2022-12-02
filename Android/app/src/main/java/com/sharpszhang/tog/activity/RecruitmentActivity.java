@@ -56,7 +56,7 @@ public class RecruitmentActivity extends BaseActivity {
             @Override
             public void performAction(View view) {
                 if(action.isChecked()) {
-                    XHttp.post("/system/club/enRecruit")
+                    XHttp.post("/system/club/mobile/enRecruit")
                             .params("clubId", club.getId())
                             .params("notice", notice.isChecked())
                             .params("activity", activity.isChecked())
@@ -83,11 +83,13 @@ public class RecruitmentActivity extends BaseActivity {
     }
 
     public void initData() {
-        XHttp.get("/system/club/findClubByUserId?id=" + userId)
+        XHttp.get("/system/club/mobile/findClubByUserId")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
                 .timeStamp(true)
+                .params("userId", userId)
+                .headers("Authorization", "Bearer " + token)
                 .execute(new SimpleCallBack<Club>() {
                     @Override
                     public void onSuccess(Club response) throws Throwable {

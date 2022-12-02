@@ -77,7 +77,7 @@ public class ClubListActivity extends BaseActivity implements RecyclerViewHolder
     }
 
     private void getDataList () {
-        XHttp.get("/prod-api/system/club/listByUserId")
+        XHttp.get("/prod-api/system/mobile/club/listByUserId")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)

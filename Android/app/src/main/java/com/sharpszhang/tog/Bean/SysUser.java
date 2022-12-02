@@ -1,6 +1,5 @@
 package com.sharpszhang.tog.Bean;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,7 +47,7 @@ public class SysUser extends BaseEntity
 
     /** 最后登录时间 */
 
-    private Date loginDate;
+    private String loginDate;
 
     /** 部门对象 */
     private SysDept dept;
@@ -205,12 +204,12 @@ public class SysUser extends BaseEntity
         this.loginIp = loginIp;
     }
 
-    public Date getLoginDate()
+    public String getLoginDate()
     {
         return loginDate;
     }
 
-    public void setLoginDate(Date loginDate)
+    public void setLoginDate(String loginDate)
     {
         this.loginDate = loginDate;
     }

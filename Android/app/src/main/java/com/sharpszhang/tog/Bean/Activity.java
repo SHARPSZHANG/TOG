@@ -1,124 +1,134 @@
 package com.sharpszhang.tog.Bean;
 
-import java.io.Serializable;
+/**
+ * 活动对象 activity
+ * 
+ * @author ruoyi
+ * @date 2022-11-16
+ */
+public class Activity extends BaseEntity
+{
+    private static final long serialVersionUID = 1L;
 
-public class Activity implements Serializable {
-
+    /** 活动ID */
     private Long id;
+
+    /** 活动主题 */
     private String title;
-    private String description;
+
+    /** 活动内容 */
     private String content;
+
+    /** 活动简介 */
+    private String description;
+
+    /** 图片url */
     private String image;
-    private String gmtCreate;
+
+    /** 活动开始时间 */
     private String startTime;
+
+    /** 活动结束时间 */
     private String endTime;
-    private int isAudit;
-    private int status;
-    private int isDelete;
+
+    /** 活动状态（0：未开始 1：进行中 2：已结束） */
+    private Integer status;
+
+    /** 是否删除（1：删除状态） */
+    private Integer isDelete;
+
+    /** 所属社团id */
     private Long clubId;
-    private Long userId;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
+    public void setId(Long id) 
+    {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public Long getId() 
+    {
+        return id;
     }
-
-    public void setTitle(String title) {
+    public void setTitle(String title) 
+    {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getTitle() 
+    {
+        return title;
     }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
+    public void setContent(String content) 
+    {
         this.content = content;
     }
 
-    public String getImage() {
-        return image;
+    public String getContent() 
+    {
+        return content;
+    }
+    public void setDescription(String description) 
+    {
+        this.description = description;
     }
 
-    public void setImage(String image) {
+    public String getDescription() 
+    {
+        return description;
+    }
+    public void setImage(String image) 
+    {
         this.image = image;
     }
 
-    public String getGmtCreate() {
-        return gmtCreate;
+    public String getImage() 
+    {
+        return image;
+    }
+    public void setStartTime(String startTime)
+    {
+        this.startTime = startTime;
     }
 
-    public void setGmtCreate(String gmtCreate) {
-        this.gmtCreate = String.valueOf(gmtCreate);
-    }
-
-    public String getStartTime() {
+    public String getStartTime()
+    {
         return startTime;
     }
-
-    public void setStartTime(String startTime) {
-        this.startTime = String.valueOf(startTime);
+    public void setEndTime(String endTime)
+    {
+        this.endTime = endTime;
     }
 
-    public String getEndTime() {
+    public String getEndTime()
+    {
         return endTime;
     }
-
-    public void setEndTime(String endTime) {
-        this.endTime = String.valueOf(endTime);
-    }
-
-    public int getIsAudit() {
-        return isAudit;
-    }
-
-    public void setIsAudit(int isAudit) {
-        this.isAudit = isAudit;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
+    public void setStatus(Integer status) 
+    {
         this.status = status;
     }
 
-    public int getIsDelete() {
-        return isDelete;
+    public Integer getStatus() 
+    {
+        return status;
     }
-
-    public void setIsDelete(int isDelete) {
+    public void setIsDelete(Integer isDelete) 
+    {
         this.isDelete = isDelete;
     }
 
-    public long getClubId() {
-        return clubId;
+    public Integer getIsDelete() 
+    {
+        return isDelete;
     }
-
-    public void setClubId(long clubId) {
+    public void setClubId(Long clubId) 
+    {
         this.clubId = clubId;
     }
 
-    public long getUserId() {
-        return userId;
+    public Long getClubId() 
+    {
+        return clubId;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
 }

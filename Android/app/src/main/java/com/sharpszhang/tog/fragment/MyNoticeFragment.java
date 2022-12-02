@@ -92,7 +92,7 @@ public class MyNoticeFragment extends Fragment implements RecyclerViewHolder.OnI
     }
 
     private void getDataList () {
-        XHttp.get("/prod-api/system/activity/findNoticeByUserId")
+        XHttp.get("/prod-api/system/mobile/notice/findNoticeByUserId")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
