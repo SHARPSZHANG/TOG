@@ -5,7 +5,7 @@ import com.ruoyi.system.domain.Activity;
 public class ActivityVo extends Activity {
 
     private String clubName;
-    private String userName;
+    private String userName; // 创建者
 
     public ActivityVo() {
     }

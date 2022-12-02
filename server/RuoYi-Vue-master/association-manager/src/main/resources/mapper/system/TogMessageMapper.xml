@@ -20,7 +20,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTogMessageVo">
-        select id, title, content, user_id, status, is_delete, gmt_create, gmt_modifiel, create_time, create_by, update_by, update_time from tog_message
+        select id, title, content, user_id, status, is_delete, gmt_create,
+               gmt_modifiel, create_time, create_by, update_by, update_time
+        from tog_message
     </sql>
 
     <select id="selectTogMessageList" parameterType="TogMessage" resultMap="TogMessageResult">

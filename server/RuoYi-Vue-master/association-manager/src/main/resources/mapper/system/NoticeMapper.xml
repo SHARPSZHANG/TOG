@@ -54,6 +54,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         JOIN sys_user u ON u.user_id = n.user_id
     </sql>
 
+    <sql id="selectNoticeByUserIdNew">
+        select
+            n.* ,
+            c.club_name
+        from
+            sys_user u
+        LEFT JOIN club_member cm on cm.user_id = u.user_id
+        LEFT JOIN notice n on  cm.club_id = n.club_id
+        JOIN club c ON c.id = n.club_id
+    </sql>
+
     <select id="selectNoticeList" parameterType="Notice" resultMap="NoticeResult">
         <include refid="selectNoticeVo"/>
         <where>  
@@ -73,7 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="findNoticeByUserId" parameterType="Long" resultMap="NoticeVoResult">
-        <include refid="selectNoticeByUserId"/>
+        <include refid="selectNoticeByUserIdNew"/>
         where u.user_id = #{userId}
     </select>
 

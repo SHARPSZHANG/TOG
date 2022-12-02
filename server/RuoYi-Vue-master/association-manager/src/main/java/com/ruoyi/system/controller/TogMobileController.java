@@ -359,7 +359,6 @@ public class TogMobileController extends BaseController {
     public ApiResult findNoticeByUserId(@RequestParam Long userId)
     {
         /*
-         * 同activityController
          * 返回List<NoticeVo>
          */
         List<NoticeVo> noticeByUserId = noticeService.findNoticeByUserId(userId);

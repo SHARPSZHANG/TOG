@@ -133,9 +133,6 @@ public class ClubMemberController extends BaseController
 	@DeleteMapping()
     public AjaxResult remove(@RequestParam Long[] ids)
     {
-        /*
-         * 删除club_member 中 clubId所属的ids
-         */
         return AjaxResult.success(clubMemberService.deleteClubMemberByIds(ids) > 0);
     }
 
