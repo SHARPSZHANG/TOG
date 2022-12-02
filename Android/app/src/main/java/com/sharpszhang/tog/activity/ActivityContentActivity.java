@@ -79,7 +79,7 @@ public class ActivityContentActivity extends BaseActivity {
                         title.setText(activity.getTitle());
                         content.setText(activity.getContent());
                         username.setText(activity.getUserName());
-                        createTime.setText(activity.getGmtCreate());
+                        createTime.setText(activity.getCreateTime());
                         activityTime.setText(activity.getStartTime());
                         clubName.setText(activity.getClubName());
                         clubDetails.setText("");

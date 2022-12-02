@@ -15,7 +15,10 @@ import com.xuexiang.xhttp2.callback.SimpleCallBack;
 import com.xuexiang.xhttp2.exception.ApiException;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.button.roundbutton.RoundButton;
+import com.xuexiang.xui.widget.edittext.MultiLineEditText;
+import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -24,9 +27,9 @@ import java.util.Date;
 public class AddClubActivity extends BaseActivity implements View.OnClickListener {
 
     private TitleBar titleBar;
-    private TextView clubName;
-    private TextView clubDesc;
-    private TextView clubDetails;
+    private MaterialEditText clubName;
+    private MaterialEditText clubDesc;
+    private MultiLineEditText clubDetails;
     private RoundButton release;
 
     private Club club;
@@ -67,15 +70,14 @@ public class AddClubActivity extends BaseActivity implements View.OnClickListene
                 club = new Club();
                 club.setClubName(clubName.getText().toString());
                 club.setClubDesc(clubDesc.getText().toString());
-                club.setClubDetail(clubDetails.getText().toString());
-                club.setGmtCreate(new Date().toString());
+                club.setClubDetail(clubDetails.getContentText().toString());
+                club.setGmtCreate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
                 club.setIsDelete(0);
                 XHttp.post("/prod-api/system/club")
                         .syncRequest(false)
                         .onMainThread(true)
                         .timeOut(1000)
                         .upJson(JSONObject.toJSONString(club))
-                        .params("userId", userId)
                         .headers("Authorization", "Bearer " + token)
                         .timeStamp(true)
                         .execute(new SimpleCallBack<Boolean>() {

@@ -89,6 +89,7 @@ public class RecruitmentActivity extends BaseActivity {
                 .timeOut(1000)
                 .timeStamp(true)
                 .params("userId", userId)
+                .headers("Authorization", "Bearer " + token)
                 .execute(new SimpleCallBack<Club>() {
                     @Override
                     public void onSuccess(Club response) throws Throwable {

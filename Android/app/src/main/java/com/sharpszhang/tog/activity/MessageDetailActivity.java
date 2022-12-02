@@ -68,7 +68,7 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     public void initData() {
-        XHttp.get("/prod-api/system/mobile/message" + messageId)
+        XHttp.get("/prod-api/system/mobile/message/" + messageId)
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
@@ -81,6 +81,7 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
                             message = response;
                             username.setText(response.getTitle());
                             content.setContentText(response.getContent());
+                            content.setVisibility(View.GONE);
                         } else {
                             setContentView(R.layout.empty_activity);
                         }

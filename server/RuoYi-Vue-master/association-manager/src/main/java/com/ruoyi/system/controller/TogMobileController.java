@@ -3,6 +3,7 @@ package com.ruoyi.system.controller;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
@@ -196,6 +197,10 @@ public class TogMobileController extends BaseController {
     @GetMapping(value = "/club/{id}")
     public ApiResult getInfo(@PathVariable("id") Long id)
     {
+        Long userId = getUserId();
+        /*
+          创建社团、并将当前用户设置为社长
+         */
         return new ApiResult<Club>().setData(clubService.selectClubById(id));
     }
 
@@ -203,12 +208,12 @@ public class TogMobileController extends BaseController {
     /**
      * 新增活动
      */
-    @ApiOperation("新增活动")
+    @ApiOperation("新增社团")
     @ApiImplicitParam(name = "activity", value = "活动信息", dataType = "Activity", dataTypeClass = Activity.class)
     @PostMapping("/club")
-    public ApiResult addClub(@RequestBody Activity activity)
+    public ApiResult addClub(@RequestBody Club club)
     {
-        return new ApiResult<Boolean>().setData(activityService.insertActivity(activity) > 0);
+        return new ApiResult<Boolean>().setData(clubService.insertClub(club) > 0);
     }
 
     /**

@@ -136,7 +136,7 @@ public class MyActivityFragment extends Fragment implements RecyclerViewHolder.O
         Intent intent = new Intent(this.getContext(), ActivityContentActivity.class);
         intent.putExtra("activityId", "" + ((Activity) item).getId());
         intent.putExtra("userId", userId);
-        intent.putExtra("tokenId", token);
+        intent.putExtra("token", token);
         startActivity(intent);
     }
 }
