@@ -36,6 +36,8 @@ public class Notice extends BaseEntity
     @Excel(name = "创建人")
     private Long userId;
 
+
+
     /** 所属社团 */
     @Excel(name = "所属社团")
     private Long clubId;
@@ -121,6 +123,7 @@ public class Notice extends BaseEntity
     {
         return isDelete;
     }
+
 
     @Override
     public String toString() {
