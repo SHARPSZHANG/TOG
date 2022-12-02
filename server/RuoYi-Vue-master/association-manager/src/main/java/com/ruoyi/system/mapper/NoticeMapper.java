@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.Notice;
+import com.ruoyi.system.vo.NoticeVo;
 
 /**
  * 公告Mapper接口
@@ -58,4 +59,8 @@ public interface NoticeMapper
      * @return 结果
      */
     public int deleteNoticeByIds(Long[] ids);
+
+    List<NoticeVo> findNoticeByUserId(Long userId);
+
+    NoticeVo selectNoticeVoById(Long id);
 }

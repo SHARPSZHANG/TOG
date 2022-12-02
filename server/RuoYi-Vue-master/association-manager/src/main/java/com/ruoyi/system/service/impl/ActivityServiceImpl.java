@@ -29,11 +29,11 @@ public class ActivityServiceImpl implements IActivityService
     private IClubMemberService iClubMemberService;
 
     @Override
-    public List<Activity> findActivityByUserId(Long userId) {
+    public List<ActivityVo> findActivityByUserId(Long userId) {
 //        ClubMember clubMember = new ClubMember();
 //        clubMember.setUserId(userId);
 //        List<ClubMember> clubMembers = iClubMemberService.selectClubMemberList2(clubMember);
-        List<Activity> activityListByUser = activityMapper.findActivityListByUser(userId);
+        List<ActivityVo> activityListByUser = activityMapper.findActivityListByUser(userId);
         return activityListByUser;
     }
 

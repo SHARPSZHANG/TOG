@@ -95,4 +95,11 @@ public class ApiResult<T> {
         apiResult.setError(code, msg);
         return apiResult;
     }
+
+    public static ApiResult success() {
+        ApiResult apiResult = new ApiResult();
+        return apiResult;
+    }
+
+
 }

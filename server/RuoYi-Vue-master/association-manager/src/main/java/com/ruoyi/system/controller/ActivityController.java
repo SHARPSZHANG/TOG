@@ -42,7 +42,7 @@ public class ActivityController extends BaseController
      * 查询活动列表
      */
     @ApiOperation("查询活动列表")
-//    @PreAuthorize("@ss.hasPermi('system:activity:list')")
+    @PreAuthorize("@ss.hasPermi('system:activity:list')")
     @GetMapping("/list")
     public TableDataInfo list(Activity activity)
     {
@@ -51,53 +51,12 @@ public class ActivityController extends BaseController
         return getDataTable(list);
     }
 
-    @ApiOperation("查询所有活动列表")
-//    @PreAuthorize("@ss.hasPermi('system:activity:list')")
-    @GetMapping("/findAllActivity")
-    public ApiResult list()
-    {
-        List<ActivityVo> list = new ArrayList<>(16);
-        return new ApiResult<List<ActivityVo>>().setData(list);
-    }
-
-    @ApiOperation("根据用户Id查询活动列表")
-//    @PreAuthorize("@ss.hasPermi('system:activity:list')")
-    @ApiImplicitParam(name = "userId", value = "用户id", dataType = "Long", dataTypeClass = Long.class)
-    @GetMapping("/findActivityByUserId")
-    public ApiResult findActivityByUserId(@RequestParam("userId") Long userId)
-    {
-        /*
-          1.根据用户ID查询出社团
-          2.根据社团编号查询出所有活动信息（按时间倒序排列）
-          返回List<Activity>
-         */
-
-        List<ActivityVo> activities = activityService.findActivityByUserId(userId);
-        return new ApiResult<List<ActivityVo>>().setData(activities);
-    }
-
-    @ApiOperation("根据社团Id查询活动列表")
-//    @PreAuthorize("@ss.hasPermi('system:activity:list')")
-    @GetMapping("/findActivityByClubId")
-    public ApiResult findActivityByClubId(@RequestParam Long clubId)
-    {
-        /*
-          根据社团编号查询出所有活动信息（按时间倒序排列）
-          返回List<ActivityVo>
-         */
-        List<ActivityVo> activities = new ArrayList<ActivityVo>();
-//        Activity activity = new Activity();
-//        activity.setClubId(clubId);
-//        activities = activityService.selectActivityList(activity);
-        return new ApiResult<List<ActivityVo>>().setData(null);
-    }
-
 
     /**
      * 导出活动列表
      */
     @ApiOperation("导出活动列表")
-//    @PreAuthorize("@ss.hasPermi('system:activity:export')")
+    @PreAuthorize("@ss.hasPermi('system:activity:export')")
     @Log(title = "活动", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Activity activity)
@@ -112,39 +71,29 @@ public class ActivityController extends BaseController
      */
     @ApiOperation("获取活动详细信息")
     @ApiImplicitParam(name = "id", value = "活动id", dataType = "Long", dataTypeClass = Long.class)
-//    @PreAuthorize("@ss.hasPermi('system:activity:query')")
+    @PreAuthorize("@ss.hasPermi('system:activity:query')")
     @GetMapping(value = "/{id}")
-    public ApiResult getInfo(@PathVariable("id") Long id)
+    public AjaxResult getInfo(@PathVariable("id") Long id)
     {
         // 返回ActivityVo
-//        activityService.selectActivityById(id)
-        return new ApiResult<ActivityVo>().setData(null);
+
+        return AjaxResult.success(activityService.selectActivityById(id));
     }
 
 
-    /**
-     * 获取活动详细信息
-     */
-    @ApiOperation("获取活动详细信息vo")
-    @ApiImplicitParam(name = "id", value = "活动id", dataType = "Long", dataTypeClass = Long.class)
-//    @PreAuthorize("@ss.hasPermi('system:activity:query')")
-    @GetMapping(value = "/{id}/vo")
-    public AjaxResult getInfoActivityVo(@PathVariable("id") Long id)
-    {
-        return AjaxResult.success(activityService.selectActivityVoById(id));
-    }
+
 
     /**
      * 新增活动
      */
-//    @PreAuthorize("@ss.hasPermi('system:activity:add')")
+    @PreAuthorize("@ss.hasPermi('system:activity:add')")
     @ApiOperation("新增活动")
     @ApiImplicitParam(name = "activity", value = "活动信息", dataType = "Activity", dataTypeClass = Activity.class)
     @Log(title = "活动", businessType = BusinessType.INSERT)
     @PostMapping
-    public ApiResult add(@RequestBody Activity activity)
+    public AjaxResult add(@RequestBody Activity activity)
     {
-        return new ApiResult<Boolean>().setData(activityService.insertActivity(activity) > 0);
+        return AjaxResult.success(activityService.insertActivity(activity) > 0);
     }
 
     /**
@@ -152,7 +101,7 @@ public class ActivityController extends BaseController
      */
     @ApiOperation("修改活动")
     @ApiImplicitParam(name = "activity", value = "活动信息", dataType = "Activity", dataTypeClass = Activity.class)
-//    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
+    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
     @Log(title = "活动", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Activity activity)
@@ -161,7 +110,7 @@ public class ActivityController extends BaseController
     }
 
     @ApiOperation("删除活动")
-    //    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
+    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
     @Log(title = "活动", businessType = BusinessType.UPDATE)
     @DeleteMapping("/{id}")
     public ApiResult delete( @PathVariable Long id)
@@ -169,30 +118,5 @@ public class ActivityController extends BaseController
         return new ApiResult<Boolean>().setData(activityService.deleteActivityById(id) > 0);
     }
 
-    @ApiOperation("查询权限")
-    //    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
-//    @Log(title = "活动", businessType = BusinessType.UPDATE)
-    @GetMapping("/getPermissionByUserId")
-    public ApiResult getPermissionByUserId(@RequestParam Long userId,@RequestParam Long activityId)
-    {
 
-        /*
-         * 1.查询该用户是否为当前活动所属社团社长
-         * 2.返回结果 true or false
-         */
-        return new ApiResult<Boolean>().setData(activityService.getPermissionByUserId(userId,activityId));
-    }
-
-    /**
-     * 删除活动
-     */
-    @ApiOperation("删除活动")
-    @ApiImplicitParam(name = "ids", value = "社团成员id数组", required = true, dataType = "Long[]", paramType = "path", dataTypeClass = Long[].class)
-//    @PreAuthorize("@ss.hasPermi('system:activity:remove')")
-    @Log(title = "活动", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public ApiResult remove(@PathVariable Long[] ids)
-    {
-        return new ApiResult<Boolean>().setData(activityService.deleteActivityByIds(ids) > 0);
-    }
 }

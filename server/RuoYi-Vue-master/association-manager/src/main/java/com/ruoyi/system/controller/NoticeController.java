@@ -37,7 +37,7 @@ public class NoticeController extends BaseController
     /**
      * 查询公告列表
      */
-//    @PreAuthorize("@ss.hasPermi('system:notice:list')")
+    @PreAuthorize("@ss.hasPermi('system:notice:list')")
     @ApiOperation("查询公告列表")
     @GetMapping("/list")
     public TableDataInfo list(Notice notice)

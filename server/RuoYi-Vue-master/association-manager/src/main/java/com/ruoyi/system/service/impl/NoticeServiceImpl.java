@@ -3,6 +3,7 @@ package com.ruoyi.system.service.impl;
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.system.service.IClubMemberService;
+import com.ruoyi.system.vo.NoticeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.NoticeMapper;
@@ -102,5 +103,15 @@ public class NoticeServiceImpl implements INoticeService
         Notice notice = selectNoticeById(noticeId);
         Boolean permissionByUserId = iClubMemberService.getPermissionByUserId(userId, notice.getClubId());
         return permissionByUserId;
+    }
+
+    @Override
+    public List<NoticeVo> findNoticeByUserId(Long userId) {
+        return noticeMapper.findNoticeByUserId(userId);
+    }
+
+    @Override
+    public NoticeVo selectNoticeVoById(Long id) {
+        return noticeMapper.selectNoticeVoById(id);
     }
 }

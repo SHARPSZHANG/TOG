@@ -6,6 +6,7 @@ import com.ruoyi.system.domain.Notice;
 public class NoticeVo extends Notice {
 
     private String clubName;
+    private String userName;
 
     public String getClubName() {
         return clubName;
@@ -28,7 +29,7 @@ public class NoticeVo extends Notice {
         this.userName = userName;
     }
 
-    private String userName;
+
 
     public NoticeVo() {
     }

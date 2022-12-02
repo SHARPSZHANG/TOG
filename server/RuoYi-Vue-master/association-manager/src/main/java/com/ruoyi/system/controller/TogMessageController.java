@@ -37,7 +37,7 @@ public class TogMessageController extends BaseController
      * 查询消息列表
      */
     @ApiOperation("查询消息列表")
-//    @PreAuthorize("@ss.hasPermi('system:message:list')")
+    @PreAuthorize("@ss.hasPermi('system:message:list')")
     @GetMapping("/list")
     public TableDataInfo list(TogMessage togMessage)
     {
@@ -46,27 +46,12 @@ public class TogMessageController extends BaseController
         return getDataTable(list);
     }
 
-    @ApiOperation("查询消息列表")
-    //    @PreAuthorize("@ss.hasPermi('system:message:list')")
-    @GetMapping("/all/list")
-    public ApiResult list(@RequestParam Long userId)
-    {
-
-        /*
-         * 根据用户ID查询消息列表
-         * 返回结果List<TogMessage>
-         */
-        TogMessage togMessage = new TogMessage();
-        togMessage.setUserId(userId);
-        List<TogMessage> togMessages = togMessageService.selectTogMessageList(togMessage);
-        return new ApiResult<List<TogMessage>>().setData(togMessages);
-    }
 
     /**
      * 导出消息列表
      */
     @ApiOperation("导出消息列表")
-//    @PreAuthorize("@ss.hasPermi('system:message:export')")
+    @PreAuthorize("@ss.hasPermi('system:message:export')")
     @Log(title = "消息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, TogMessage togMessage)
@@ -81,11 +66,11 @@ public class TogMessageController extends BaseController
      */
     @ApiOperation("获取消息详细信息")
     @ApiImplicitParam(name = "id", value = "消息id", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
-//    @PreAuthorize("@ss.hasPermi('system:message:query')")
+    @PreAuthorize("@ss.hasPermi('system:message:query')")
     @GetMapping(value = "/{id}")
-    public ApiResult getInfo(@PathVariable("id") Long id)
+    public AjaxResult getInfo(@PathVariable("id") Long id)
     {
-        return new ApiResult<TogMessage>().setData(togMessageService.selectTogMessageById(id));
+        return AjaxResult.success(togMessageService.selectTogMessageById(id));
     }
 
     /**
@@ -104,7 +89,7 @@ public class TogMessageController extends BaseController
     /**
      * 修改消息
      */
-//    @PreAuthorize("@ss.hasPermi('system:message:edit')")
+    @PreAuthorize("@ss.hasPermi('system:message:edit')")
     @ApiOperation("修改消息")
     @ApiImplicitParam(name = "togMessage", value = "消息id数组", required = true, dataType = "TogMessage", paramType = "body", dataTypeClass = TogMessage.class)
     @Log(title = "消息", businessType = BusinessType.UPDATE)
@@ -119,7 +104,7 @@ public class TogMessageController extends BaseController
      */
     @ApiOperation("删除消息")
     @ApiImplicitParam(name = "ids", value = "消息id数组", required = true, dataType = "Long[]", paramType = "path", dataTypeClass = Long[].class)
-//    @PreAuthorize("@ss.hasPermi('system:message:remove')")
+    @PreAuthorize("@ss.hasPermi('system:message:remove')")
     @Log(title = "消息", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

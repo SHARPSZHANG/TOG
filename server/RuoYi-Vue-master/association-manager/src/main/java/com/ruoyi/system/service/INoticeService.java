@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.Notice;
+import com.ruoyi.system.vo.NoticeVo;
 
 /**
  * 公告Service接口
@@ -60,4 +61,8 @@ public interface INoticeService
     public int deleteNoticeById(Long id);
 
     Boolean getPermissionByUserId(Long userId, Long noticeId);
+
+    List<NoticeVo> findNoticeByUserId(Long userId);
+
+    NoticeVo selectNoticeVoById(Long id);
 }

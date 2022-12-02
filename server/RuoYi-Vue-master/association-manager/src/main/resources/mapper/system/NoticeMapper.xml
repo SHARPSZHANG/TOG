@@ -19,8 +19,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
     </resultMap>
 
+    <resultMap type="com.ruoyi.system.vo.NoticeVo" id="NoticeVoResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="image"    column="image"    />
+        <result property="userId"    column="user_id"    />
+        <result property="clubId"    column="club_id"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="clubName"    column="club_name"    />
+        <result property="userName"    column="nick_name"    />
+    </resultMap>
+
     <sql id="selectNoticeVo">
         select id, title, content, image, user_id, club_id, gmt_create, is_delete, create_time, create_by, update_by, update_time from notice
+    </sql>
+
+    <sql id="selectNoticeByUserId">
+        SELECT
+            n.* ,
+            c.club_name,
+            u.nick_name
+        FROM
+            notice n
+        JOIN club_member cm ON cm.club_id = n.club_id
+        JOIN club c ON c.id = n.club_id
+        JOIN sys_user u ON u.user_id = n.user_id
     </sql>
 
     <select id="selectNoticeList" parameterType="Notice" resultMap="NoticeResult">
@@ -40,7 +71,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectNoticeVo"/>
         where id = #{id}
     </select>
-        
+    <select id="findNoticeByUserId" parameterType="Long" resultMap="NoticeVoResult">
+        <include refid="selectNoticeByUserId"/>
+        where u.user_id = #{userId}
+    </select>
+    <select id="selectNoticeVoById" resultType="com.ruoyi.system.vo.NoticeVo">
+        <include refid="selectNoticeByUserId"/>
+        where n.id = #{id}
+    </select>
+
     <insert id="insertNotice" parameterType="Notice" useGeneratedKeys="true" keyProperty="id">
         insert into notice
         <trim prefix="(" suffix=")" suffixOverrides=",">

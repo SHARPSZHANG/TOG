@@ -38,6 +38,7 @@ public class ClubMemberController extends BaseController
     @Autowired
     private IClubMemberService clubMemberService;
 
+
     @Autowired
     private IClubService clubService;
 
@@ -45,34 +46,28 @@ public class ClubMemberController extends BaseController
      * 查询社团成员列表
      */
     @ApiOperation("查询社团成员列表")
-//    @PreAuthorize("@ss.hasPermi('system:member:list')")
+    @PreAuthorize("@ss.hasPermi('system:member:list')")
     @GetMapping("/list")
-    public ApiResult list(@RequestParam Long clubId)
+    public AjaxResult list(ClubMember clubMember)
     {
-        /*
-         * 1.根据clubId查询member列表，返回List<memberVo>
-         */
-//        clubMemberService
-        ClubMember clubMember = new ClubMember();
-        clubMember.setClubId(clubId);
-        List<ClubMemberVo> clubMemberVos = clubMemberService.selectClubMemberList(clubMember);
-        return new ApiResult<List<ClubMemberVo>>().setData(clubMemberVos);
+        return AjaxResult.success(clubMemberService.selectClubMemberList2(clubMember));
     }
+
 
     @ApiOperation("通过加入社团申请")
     @ApiImplicitParam(name = "id", value = "社团申请id", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
     @GetMapping(value = "/{id}/pass")
-    public ApiResult pass(@PathVariable("id") Long id)
+    public AjaxResult pass(@PathVariable("id") Long id)
     {
         clubMemberService.pass(id,getUsername());
-        return new ApiResult<Boolean>().setData(true);
+        return AjaxResult.success();
     }
 
 
     /**
      * 导出社团成员列表
      */
-//    @PreAuthorize("@ss.hasPermi('system:member:export')")
+    @PreAuthorize("@ss.hasPermi('system:member:export')")
     @Log(title = "社团成员", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, ClubMember clubMember)
@@ -87,7 +82,7 @@ public class ClubMemberController extends BaseController
      */
     @ApiOperation("获取社团成员详细信息")
     @ApiImplicitParam(name = "id", value = "社团申请id", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
-//    @PreAuthorize("@ss.hasPermi('system:member:query')")
+    @PreAuthorize("@ss.hasPermi('system:member:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -100,17 +95,17 @@ public class ClubMemberController extends BaseController
      */
     @ApiOperation("新增社团成员")
     @ApiImplicitParam(name = "ClubMember", value = "社团成员信息", required = true, dataType = "ClubMember", paramType = "body", dataTypeClass = ClubMember.class)
-//    @PreAuthorize("@ss.hasPermi('system:member:add')")
+    @PreAuthorize("@ss.hasPermi('system:member:add')")
     @Log(title = "社团成员", businessType = BusinessType.INSERT)
     @PostMapping
-    public ApiResult add(@RequestBody ClubMember clubMember)
+    public AjaxResult add(@RequestBody ClubMember clubMember)
     {
         ClubParams params = new ClubParams(getUserId(), "社长");
         Club club = clubService.findClubByParams(params);
         clubMember.setCreateBy(getUsername());
         clubMember.setCreateTime(DateUtils.getNowDate());
         clubMember.setClubId(club.getId());
-        return new ApiResult<Boolean>().setData(clubMemberService.insertClubMember(clubMember) > 0);
+        return AjaxResult.success(clubMemberService.insertClubMember(clubMember) > 0);
     }
 
     /**
@@ -118,7 +113,7 @@ public class ClubMemberController extends BaseController
      */
     @ApiOperation("修改社团成员")
     @ApiImplicitParam(name = "ClubMember", value = "社团成员信息", required = true, dataType = "ClubMember", paramType = "body", dataTypeClass = ClubMember.class)
-//    @PreAuthorize("@ss.hasPermi('system:member:edit')")
+    @PreAuthorize("@ss.hasPermi('system:member:edit')")
     @Log(title = "社团成员", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ClubMember clubMember)
@@ -133,7 +128,7 @@ public class ClubMemberController extends BaseController
      */
     @ApiOperation("删除社团成员")
     @ApiImplicitParam(name = "ids", value = "社团成员id数组", required = true, dataType = "Long[]", paramType = "path", dataTypeClass = Long[].class)
-//    @PreAuthorize("@ss.hasPermi('system:member:remove')")
+    @PreAuthorize("@ss.hasPermi('system:member:remove')")
     @Log(title = "社团成员", businessType = BusinessType.DELETE)
 	@DeleteMapping()
     public AjaxResult remove(@RequestParam Long[] ids)
@@ -144,35 +139,4 @@ public class ClubMemberController extends BaseController
         return AjaxResult.success(clubMemberService.deleteClubMemberByIds(ids) > 0);
     }
 
-
-
-    /**
-     * 删除社团成员
-     */
-    @ApiOperation("删除社团成员")
-    @ApiImplicitParam(name = "userId", value = "社团成员id数组", required = true, dataType = "Long[]", paramType = "path", dataTypeClass = Long[].class)
-    @Log(title = "社团成员", businessType = BusinessType.DELETE)
-    @PostMapping("/del/club/user")
-    public AjaxResult remove(@RequestParam Long userId, @RequestParam Long clubId)
-    {
-        /*
-         * 删除club_member 中 clubId所属的ids
-         */
-        clubMemberService.delClubUser(userId,clubId);
-        return AjaxResult.success();
-    }
-
-
-    @ApiOperation("查询权限")
-    //    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
-    @Log(title = "活动", businessType = BusinessType.UPDATE)
-    @GetMapping("/getPermissionByUserId")
-    public ApiResult getPermissionByUserId(@RequestParam Long userId, @RequestParam Long clubId) {
-
-        /*
-         * 1.查询该用户是否为社团社长
-         * 2.返回结果 true or false
-         */
-        return new ApiResult<Boolean>().setData(clubMemberService.getPermissionByUserId(userId,clubId));
-    }
 }

@@ -46,7 +46,7 @@ public class ClubController extends BaseController
      * 查询社团列表
      */
     @ApiOperation("查询社团列表")
-//    @PreAuthorize("@ss.hasPermi('system:club:list')")
+    @PreAuthorize("@ss.hasPermi('system:club:list')")
     @GetMapping("/list")
     public TableDataInfo list(Club club)
     {
@@ -55,53 +55,11 @@ public class ClubController extends BaseController
         return getDataTable(list);
     }
 
-    @ApiOperation("根据userId查询社团列表")
-    //    @PreAuthorize("@ss.hasPermi('system:club:list')")
-    @GetMapping("/listByUserId")
-    public ApiResult listByUserId(@RequestParam Long userId)
-    {
-        /*
-         * 查询用户所参加的社团列表
-         * 返回List<Club>
-         */
-        List<Club> club = clubService.listByUserId(userId);
-        return new ApiResult<List<Club>>().setData(club);
-    }
-
-    @ApiOperation("根据社长ID查询社团信息")
-    //    @PreAuthorize("@ss.hasPermi('system:club:list')")
-    @GetMapping("/findClubByUserId")
-    public ApiResult findClubByUserId(@RequestParam Long userId)
-    {
-        /*
-         * 根据社长ID查询社团信息
-         * 返回Club
-         */
-        ClubParams params = new ClubParams(userId, "社长");
-
-        Club clubs = clubService.findClubByParams(params);
-        return new ApiResult<Club>().setData(clubs);
-    }
-
-
-
-    @ApiOperation("查询社团列表")
-    //    @PreAuthorize("@ss.hasPermi('system:club:list')")
-    @GetMapping("/all/list")
-    public ApiResult list()
-    {
-        /*
-         * 查询所有社团列表
-         * 返回List<Club>
-         */
-        List<Club> clubs = clubService.selectClubList(new Club());
-        return new ApiResult<List<Club>>().setData(clubs);
-    }
 
     /**
      * 导出社团列表
      */
-//    @PreAuthorize("@ss.hasPermi('system:club:export')")
+    @PreAuthorize("@ss.hasPermi('system:club:export')")
     @Log(title = "社团", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Club club)
@@ -116,7 +74,7 @@ public class ClubController extends BaseController
      */
     @ApiOperation("获取社团详细信息")
     @ApiImplicitParam(name = "id", value = "社团ID", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
-//    @PreAuthorize("@ss.hasPermi('system:club:query')")
+    @PreAuthorize("@ss.hasPermi('system:club:query')")
     @GetMapping(value = "/{id}")
     public ApiResult getInfo(@PathVariable("id") Long id)
     {
