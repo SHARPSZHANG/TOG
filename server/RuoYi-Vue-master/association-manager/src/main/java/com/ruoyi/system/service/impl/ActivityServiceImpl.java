@@ -117,7 +117,7 @@ public class ActivityServiceImpl implements IActivityService
     @Override
     public Boolean getPermissionByUserId(Long userId, Long activityId) {
         Activity activity = selectActivityById(activityId);
-        Boolean permissionByUserId = iClubMemberService.getPermissionByUserId(userId,activityId);
+        Boolean permissionByUserId = iClubMemberService.getPermissionByUserId(userId,activity.getClubId());
         return permissionByUserId;
     }
 

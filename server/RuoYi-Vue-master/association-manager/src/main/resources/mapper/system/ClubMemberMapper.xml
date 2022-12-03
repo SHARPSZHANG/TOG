@@ -52,8 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT
             *
         FROM
-            club_member
-
+            club_member cm
     </sql>
 
     <select id="selectClubMemberList" parameterType="ClubMember" resultMap="ClubMemberVoResult">

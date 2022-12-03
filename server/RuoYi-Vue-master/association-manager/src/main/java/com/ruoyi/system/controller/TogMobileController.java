@@ -109,7 +109,7 @@ public class TogMobileController extends BaseController {
         return new ApiResult<Boolean>().setData(activityService.insertActivity(activity) > 0);
     }
 
-    @ApiOperation("查询权限")
+    @ApiOperation("查询活动权限")
     @GetMapping("/activity/getPermissionByUserId")
     public ApiResult getPermissionByUserId(@RequestParam Long userId,@RequestParam Long activityId)
     {
