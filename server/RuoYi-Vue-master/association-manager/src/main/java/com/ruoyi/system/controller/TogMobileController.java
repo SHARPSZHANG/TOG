@@ -358,9 +358,7 @@ public class TogMobileController extends BaseController {
     @PostMapping("/member/del")
         public ApiResult removeMember(@RequestBody List<Long> ids)
     {
-        /*
-         * 删除club_member 中 clubId所属的ids
-         */
+
 
         return new ApiResult<Boolean>().setData(clubMemberService.deleteClubMemberByIds(ids.toArray(new Long[ids.size()])) > 0);
     }
@@ -381,6 +379,11 @@ public class TogMobileController extends BaseController {
         return new ApiResult<List<NoticeVo>>().setData(noticeByUserId);
     }
 
+    /**
+     * 查询社团下面的公告
+     * @param clubId
+     * @return
+     */
     @GetMapping("/notice/findNoticeByClubId")
     public ApiResult findNoticeByClubId(@RequestParam Long clubId)
     {
@@ -464,6 +467,9 @@ public class TogMobileController extends BaseController {
     /* ========================================公告结束=====================================================*/
 
 
+
+    /* ========================================消息=====================================================*/
+
     @ApiOperation("查询消息列表")
     @GetMapping("/message/all/list")
     public ApiResult getMessageList(@RequestParam Long userId)
@@ -507,7 +513,7 @@ public class TogMobileController extends BaseController {
      */
     @ApiOperation("修改消息")
     @ApiImplicitParam(name = "togMessage", value = "消息id数组", required = true, dataType = "TogMessage", paramType = "body", dataTypeClass = TogMessage.class)
-    @PutMapping
+    @PutMapping("/message")
     public ApiResult editMessage(@RequestBody TogMessage togMessage)
     {
         return new ApiResult<Boolean>().setData(togMessageService.updateTogMessage(togMessage) >0);
