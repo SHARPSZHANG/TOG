@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null">create_by,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
-            <if test="sendId != null">setdId,</if>
+            <if test="sendId != null">sendId,</if>
             <if test="type != null">type,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
