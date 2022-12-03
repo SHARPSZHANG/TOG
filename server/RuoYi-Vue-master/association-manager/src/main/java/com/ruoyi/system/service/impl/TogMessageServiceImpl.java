@@ -41,7 +41,16 @@ public class TogMessageServiceImpl implements ITogMessageService
     @Override
     public List<TogMessage> selectTogMessageList(TogMessage togMessage)
     {
-        return togMessageMapper.selectTogMessageList(togMessage);
+        List<TogMessage> togMessages = togMessageMapper.selectTogMessageList(togMessage);
+        for (TogMessage message : togMessages) {
+            message.setStatus(1);
+            updateTogMessage(message);
+        }
+        return togMessages;
+    }
+
+    void doView(List<Long> ids){
+
     }
 
     /**

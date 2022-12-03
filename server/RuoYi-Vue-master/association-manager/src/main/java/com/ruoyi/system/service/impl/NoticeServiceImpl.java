@@ -22,6 +22,7 @@ public class NoticeServiceImpl implements INoticeService
     @Autowired
     private NoticeMapper noticeMapper;
 
+    @Autowired
     private IClubMemberService iClubMemberService;
 
     /**

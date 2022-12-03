@@ -49,7 +49,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             u.nick_name
         FROM
             notice n
-        JOIN club_member cm ON cm.club_id = n.club_id
         JOIN club c ON c.id = n.club_id
         JOIN sys_user u ON u.user_id = n.user_id
     </sql>

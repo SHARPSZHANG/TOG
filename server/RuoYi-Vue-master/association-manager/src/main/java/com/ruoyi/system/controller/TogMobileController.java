@@ -3,6 +3,8 @@ package com.ruoyi.system.controller;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
@@ -81,8 +83,8 @@ public class TogMobileController extends BaseController {
           根据社团编号查询出所有活动信息（按时间倒序排列）
           返回List<ActivityVo>
          */
-        List<ActivityVo> activities = new ArrayList<ActivityVo>();
-        return new ApiResult<List<ActivityVo>>().setData(null);
+        List<ActivityVo> activities = activityService.findActivityByClubId(clubId);
+        return new ApiResult<List<ActivityVo>>().setData(activities);
     }
 
 
@@ -106,7 +108,11 @@ public class TogMobileController extends BaseController {
     @PostMapping("/activity")
     public ApiResult addActivity(@RequestBody Activity activity)
     {
-        return new ApiResult<Boolean>().setData(activityService.insertActivity(activity) > 0);
+        LoginUser loginUser = getLoginUser();
+        SysUser sysUser = userService.selectUserById(loginUser.getUserId());
+        activity.setCreateBy(sysUser.getNickName());
+        activity.setCreateTime(DateUtils.getNowDate());
+        return new ApiResult<Long>().setData(Long.valueOf(activityService.insertActivity(activity)));
     }
 
     @ApiOperation("查询活动权限")

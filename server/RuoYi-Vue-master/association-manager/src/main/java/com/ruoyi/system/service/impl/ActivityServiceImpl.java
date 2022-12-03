@@ -73,7 +73,7 @@ public class ActivityServiceImpl implements IActivityService
     @Override
     public int insertActivity(Activity activity)
     {
-        activity.setCreateTime(DateUtils.getNowDate());
+//        activity.setCreateTime(DateUtils.getNowDate());
         return activityMapper.insertActivity(activity);
     }
 
