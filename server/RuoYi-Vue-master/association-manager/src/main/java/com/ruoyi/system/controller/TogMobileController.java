@@ -248,19 +248,19 @@ public class TogMobileController extends BaseController {
     /**
      * 修改活动
      */
-    @ApiOperation("修改活动")
+    @ApiOperation("修改社团")
     @ApiImplicitParam(name = "activity", value = "活动信息", dataType = "Activity", dataTypeClass = Activity.class)
-    @PutMapping("/club")
-    public ApiResult editClub(@RequestBody Activity activity)
+    @PostMapping("/club/update")
+    public ApiResult editClub(@RequestBody Club club)
     {
-        return new ApiResult<Boolean>().setData(activityService.updateActivity(activity) > 0);
+        return new ApiResult<Boolean>().setData(clubService.updateClub(club) > 0);
     }
 
-    @ApiOperation("删除活动")
+    @ApiOperation("删除社团")
     @DeleteMapping("/club/{id}")
     public ApiResult deleteClub( @PathVariable Long id)
     {
-        return new ApiResult<Boolean>().setData(activityService.deleteActivityById(id) > 0);
+        return new ApiResult<Boolean>().setData(clubService.deleteClubById(id) > 0);
     }
 
     /* ========================================社团结束=====================================================*/
