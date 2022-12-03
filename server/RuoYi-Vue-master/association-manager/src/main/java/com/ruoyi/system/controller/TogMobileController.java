@@ -153,7 +153,6 @@ public class TogMobileController extends BaseController {
 
 /* ========================================社团=====================================================*/
     @ApiOperation("根据userId查询社团列表")
-    //    @PreAuthorize("@ss.hasPermi('system:club:list')")
     @GetMapping("/club/listByUserId")
     public ApiResult listByUserId(@RequestParam Long userId)
     {
@@ -178,7 +177,6 @@ public class TogMobileController extends BaseController {
         Club clubs = clubService.findClubByParams(params);
         return new ApiResult<Club>().setData(clubs);
     }
-
 
     @ApiOperation("查询社团列表")
     @GetMapping("/club/all/list")
@@ -240,6 +238,10 @@ public class TogMobileController extends BaseController {
     public ApiResult addClub(@RequestBody Club club, @RequestParam("userId") Long userId)
     {
 
+        LoginUser loginUser = getLoginUser();
+        SysUser sysUser = userService.selectUserById(loginUser.getUserId());
+        club.setCreateBy(sysUser.getNickName());
+        club.setCreateTime(DateUtils.getNowDate());
         return new ApiResult<Boolean>().setData(clubService.insertClub(club,userId) > 0);
     }
 
@@ -417,6 +419,10 @@ public class TogMobileController extends BaseController {
     @PostMapping("/notice")
     public ApiResult addNotice(@RequestBody Notice notice)
     {
+        LoginUser loginUser = getLoginUser();
+        SysUser sysUser = userService.selectUserById(loginUser.getUserId());
+        notice.setCreateBy(sysUser.getNickName());
+        notice.setCreateTime(DateUtils.getNowDate());
         return new ApiResult<Boolean>().setData(noticeService.insertNotice(notice) > 0);
     }
 
@@ -505,6 +511,10 @@ public class TogMobileController extends BaseController {
     @PostMapping("/message")
     public ApiResult addMessage(@RequestBody TogMessage togMessage)
     {
+        LoginUser loginUser = getLoginUser();
+        SysUser sysUser = userService.selectUserById(loginUser.getUserId());
+        togMessage.setCreateBy(sysUser.getNickName());
+        togMessage.setCreateTime(DateUtils.getNowDate());
         return new ApiResult<Boolean>().setData(togMessageService.insertTogMessage(togMessage) > 0);
     }
 
