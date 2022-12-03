@@ -205,7 +205,7 @@ public class TogMobileController extends BaseController {
         Long userId = getUserId();
         ClubMember clubMember = new ClubMember();
         clubMember.setUserId(userId);
-        clubMember.setUserId(clubId);
+        clubMember.setClubId(clubId);
         List<ClubMember> clubMembers = clubMemberService.selectClubMemberList2(clubMember);
         if (clubMembers != null && clubMembers.size()>0){
             return new ApiResult<Boolean>().setData(true);
