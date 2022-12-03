@@ -185,7 +185,9 @@ public class TogMobileController extends BaseController {
          * 查询所有社团列表
          * 返回List<Club>
          */
-        List<Club> clubs = clubService.selectClubList(new Club());
+        Club club = new Club();
+        club.setState(1);
+        List<Club> clubs = clubService.selectClubList(club);
         return new ApiResult<List<Club>>().setData(clubs);
     }
 
@@ -511,7 +513,7 @@ public class TogMobileController extends BaseController {
 
     /* ========================================消息=====================================================*/
 
-    @ApiOperation("查询消息列表")
+    @ApiOperation("查询用户的消息列表")
     @GetMapping("/message/all/list")
     public ApiResult getMessageList(@RequestParam Long userId)
     {

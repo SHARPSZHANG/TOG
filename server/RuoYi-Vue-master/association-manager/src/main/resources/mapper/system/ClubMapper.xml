@@ -30,6 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="selectClubByUserId">
         SELECT c.* from club c
         LEFT join club_member cm on cm.club_id = c.id
+
     </sql>
 
     <select id="selectClubList" parameterType="Club" resultMap="ClubResult">
@@ -54,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="userId != null  and userId != ''"> and cm.user_id = #{userId}</if>
         </where>
+        and c.state = 1
     </select>
     <select id="findClubByParams" parameterType="com.ruoyi.system.params.ClubParams" resultMap="ClubResult">
         <include refid="selectClubByUserId"/>

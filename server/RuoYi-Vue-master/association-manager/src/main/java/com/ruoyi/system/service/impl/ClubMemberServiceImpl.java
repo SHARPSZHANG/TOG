@@ -101,7 +101,9 @@ public class ClubMemberServiceImpl implements IClubMemberService
         clubMember.setCreateTime(DateUtils.getNowDate());
 
         int i = clubMemberMapper.insertClubMember(clubMember);
+        // 查询社长
         ClubMember clubMember1 = selectClubLeader(clubMember.getClubId());
+
         TogMessage togMessage = new TogMessage();
         togMessage.setCreateTime(DateUtils.getNowDate());
         togMessage.setStatus(0);
