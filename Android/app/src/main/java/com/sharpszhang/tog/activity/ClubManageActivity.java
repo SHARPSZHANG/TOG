@@ -138,6 +138,7 @@ public class ClubManageActivity extends BaseActivity implements View.OnClickList
                     public void onSuccess(Boolean aBoolean) {
                         if (aBoolean) {
                             XToastUtils.toast("移除成功！");
+                            getMemberList();
                         } else {
                             XToastUtils.toast("移除失败！");
                         }
@@ -189,7 +190,7 @@ public class ClubManageActivity extends BaseActivity implements View.OnClickList
                                 new Integer[]{0, 1},
                                 (dialog, which, text) -> {
                                     for (int i = 0; i < which.length; i ++){
-                                        ids.add(memberList.get(i).getUserId());
+                                        ids.add(memberList.get(i).getId());
                                     }
                                     return true;
                                 })

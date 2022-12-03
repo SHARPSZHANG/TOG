@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sharpszhang.tog.Bean.ClubMember;
+import com.sharpszhang.tog.Bean.ClubMemberVo;
 import com.sharpszhang.tog.Bean.TogMessage;
 import com.sharpszhang.tog.R;
 import com.sharpszhang.tog.base.BaseActivity;
@@ -17,6 +18,7 @@ import com.xuexiang.xhttp2.exception.ApiException;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.button.roundbutton.RoundButton;
 import com.xuexiang.xui.widget.edittext.MultiLineEditText;
+import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,6 +27,9 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
 
     private TitleBar titleBar;
     private TextView username;
+    private MaterialEditText speciality;
+    private MaterialEditText hobby;
+    private MaterialEditText number;
     private MultiLineEditText content;
     private RoundButton refuse;
     private RoundButton agree;
@@ -34,7 +39,7 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
     private String sendId;
     private String token;
 
-    private TogMessage message;
+    private ClubMemberVo member;
 
 
     @Override
@@ -53,6 +58,9 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
     public void initView() {
         username = findViewById(R.id.username);
         content = findViewById(R.id.message_content);
+        hobby = findViewById(R.id.hobby);
+        speciality = findViewById(R.id.speciality);
+        number = findViewById(R.id.phone);
         refuse = findViewById(R.id.refuse);
         agree = findViewById(R.id.agree);
         refuse.setOnClickListener(this);
@@ -69,21 +77,24 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     public void initData() {
-        XHttp.get("/prod-api/system/mobile/message/" + messageId)
+        XHttp.get("/prod-api/system/mobile/member/" + messageId)
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
                 .timeStamp(true)
                 .headers("Authorization", "Bearer " + token)
-                .execute(new SimpleCallBack<TogMessage>() {
+                .execute(new SimpleCallBack<ClubMemberVo>() {
                     @Override
-                    public void onSuccess(TogMessage response) throws Throwable {
+                    public void onSuccess(ClubMemberVo response) throws Throwable {
                         if (response != null) {
-                            message = response;
-                            username.setText(response.getTitle());
-                            content.setContentText(response.getContent());
+                            member = response;
+                            username.setText(member.getUserName());
+                            content.setContentText(member.getApply());
+                            hobby.setText(member.getHobby());
+                            speciality.setText(member.getSpeciality());
+                            number.setText(member.getQqNumber());
                             content.setVisibility(View.GONE);
-                            if(message.getStatus() == 1) {
+                            if(member.getState() != 2) {
                                 agree.setVisibility(View.GONE);
                                 refuse.setVisibility(View.GONE);
                             }
@@ -99,16 +110,11 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     public void doAgree() {
-        ClubMember clubMember = new ClubMember();
-        clubMember.setPosition("成员");
-        clubMember.setUserId(Long.valueOf(sendId));
-        clubMember.setGmtCreate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        XHttp.post("/prod-api/system/mobile/")
+        XHttp.get("/prod-api/system/mobile/member/" + member.getId() + "/pass")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
                 .timeStamp(true)
-                .upJson(JSONObject.toJSONString(clubMember))
                 .headers("Authorization", "Bearer " + token)
                 .execute(new SimpleCallBack<Boolean>() {
                     @Override

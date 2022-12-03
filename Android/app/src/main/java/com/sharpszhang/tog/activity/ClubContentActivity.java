@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sharpszhang.tog.Bean.Club;
 import com.sharpszhang.tog.R;
 import com.sharpszhang.tog.base.BaseActivity;
@@ -25,12 +26,16 @@ public class ClubContentActivity extends BaseActivity {
     private TextView clubName;
     private TextView clubDetails;
 
+    private String token;
+    private String clubId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club_details);
         Intent intent = getIntent();
-        String clubId = intent.getStringExtra("clubId");
+        clubId = intent.getStringExtra("clubId");
+        token = intent.getStringExtra("token");
 
         clubName = findViewById(R.id.clubName);
         clubDetails = findViewById(R.id.clubDetails);
@@ -49,8 +54,9 @@ public class ClubContentActivity extends BaseActivity {
                     Club club = new Club();
                     club.setId(Long.valueOf(clubId));
                     club.setClubDetail(content.getContentText());
-                    XHttp.post("/api/club/saveClub")
-                            .params("club", club)
+                    XHttp.post("/prod-api/system/mobile/")
+                            .upJson(JSONObject.toJSONString(club))
+                            .headers("Authorization", "Bearer " + token)
                             .execute(new SimpleCallBack<Boolean>() {
                                 @Override
                                 public void onSuccess(Boolean aBoolean) {
@@ -73,10 +79,11 @@ public class ClubContentActivity extends BaseActivity {
     }
 
     public void getClubData(String clubId) {
-        XHttp.get("/api/club/findClubById?id=" + clubId)
+        XHttp.get("/prod-api/system/mobile/club" + clubId)
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
+                .headers("Authorization", "Bearer " + token)
                 .timeStamp(true)
                 .execute(new SimpleCallBack<Club>() {
                     @Override

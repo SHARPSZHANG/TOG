@@ -84,6 +84,8 @@ public class NoticesManageActivity extends BaseActivity implements RecyclerViewH
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
+                .params("clubId", clubId)
+                .headers("Authorization", "Bearer " + token)
                 .timeStamp(true)
                 .execute(new SimpleCallBack<List<NoticeVo>>() {
                     @Override

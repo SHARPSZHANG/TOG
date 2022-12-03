@@ -2,6 +2,7 @@ package com.sharpszhang.tog.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -15,15 +16,17 @@ import com.sharpszhang.tog.base.BaseActivity;
 import com.sharpszhang.tog.fragment.ClubActivityFragment;
 import com.sharpszhang.tog.fragment.ClubDetailsFragment;
 import com.sharpszhang.tog.fragment.ClubOrgFragment;
+import com.umeng.commonsdk.debug.I;
 import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xhttp2.callback.SimpleCallBack;
 import com.xuexiang.xhttp2.exception.ApiException;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
+import com.xuexiang.xui.widget.button.ButtonView;
 import com.xuexiang.xui.widget.tabbar.EasyIndicator;
 
 import butterknife.ButterKnife;
 
-public class ClubActivity extends BaseActivity implements EasyIndicator.OnTabClickListener {
+public class ClubActivity extends BaseActivity implements EasyIndicator.OnTabClickListener, View.OnClickListener {
 
     private ClubActivityFragment clubActivityFragment;
     private ClubOrgFragment clubOrgFragment;
@@ -33,6 +36,7 @@ public class ClubActivity extends BaseActivity implements EasyIndicator.OnTabCli
 
     private TextView clubName;
     private TextView clubDetails;
+    ButtonView addClub;
 
     // 登陆用户
     private String clubId;
@@ -62,6 +66,8 @@ public class ClubActivity extends BaseActivity implements EasyIndicator.OnTabCli
 
         clubName = findViewById(R.id.clubName);
         clubDetails = findViewById(R.id.clubDetails);
+        addClub = findViewById(R.id.addClub);
+        addClub.setOnClickListener(this);
 
 
     }
@@ -101,7 +107,27 @@ public class ClubActivity extends BaseActivity implements EasyIndicator.OnTabCli
                             clubDetails.setText(club.getClubDesc());
                         }
                     }
+                    @Override
+                    public void onError(ApiException e) {
+                        setContentView(R.layout.empty_activity);
+                    }
+                });
+    }
 
+    private void getMember () {
+        XHttp.get("/prod-api/system/mobile/club/getMember" + clubId)
+                .syncRequest(false)
+                .onMainThread(true)
+                .timeOut(1000)
+                .timeStamp(true)
+                .headers("Authorization", "Bearer " + token)
+                .execute(new SimpleCallBack<Boolean>() {
+                    @Override
+                    public void onSuccess(Boolean response) throws Throwable {
+                        if (response) {
+                            addClub.setVisibility(View.GONE);
+                        }
+                    }
                     @Override
                     public void onError(ApiException e) {
                         setContentView(R.layout.empty_activity);
@@ -145,5 +171,17 @@ public class ClubActivity extends BaseActivity implements EasyIndicator.OnTabCli
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         /*页面跳转，参数类型：主FragmentID，需要跳转的FragmentID*/
         fragmentTransaction.replace(R.id.home_page_container, targetFragment).commit();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.addClub:
+                startActivity(new Intent(this, ApplyClubActivity.class)
+                .putExtra("userId", userId)
+                .putExtra("token", token)
+                .putExtra("clubId", clubId));
+                break;
+        }
     }
 }

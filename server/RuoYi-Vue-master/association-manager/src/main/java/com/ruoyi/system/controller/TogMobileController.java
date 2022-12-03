@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -192,6 +193,18 @@ public class TogMobileController extends BaseController {
         return new ApiResult<List<Club>>().setData(clubs);
     }
 
+    @GetMapping("/club/getMember")
+    public ApiResult getMember(@RequestParam Long clubId)
+    {
+        /*
+            查询当前用户是否已经加入改社团
+            根据userID 和 clubId 查询member表
+         */
+        Long userId = getUserId();
+
+        return new ApiResult<Boolean>().setData(true);
+    }
+
 
     /**
      * 获取社团详细信息
@@ -281,6 +294,16 @@ public class TogMobileController extends BaseController {
         return new ApiResult<List<ClubMemberVo>>().setData(clubMemberVos);
     }
 
+    @ApiOperation("查询社团成员")
+    @GetMapping("/member/id")
+    public ApiResult listMemberById(@RequestParam Long memberId)
+    {
+        /*
+         * 1.根据idd查询member，返回memberVo
+         */
+        return new ApiResult<ClubMemberVo>().setData(clubMemberService.selectClubMemberById(memberId));
+    }
+
     @ApiOperation("通过加入社团申请")
     @ApiImplicitParam(name = "id", value = "社团申请id", required = true, dataType = "Long", paramType = "path", dataTypeClass = Long.class)
     @GetMapping(value = "/member/{id}/pass")
@@ -299,12 +322,20 @@ public class TogMobileController extends BaseController {
     @PostMapping
     public ApiResult addMember(@RequestBody ClubMember clubMember)
     {
-        ClubParams params = new ClubParams(getUserId(), "社长");
-        Club club = clubService.findClubByParams(params);
-        clubMember.setCreateBy(getUsername());
-        clubMember.setCreateTime(DateUtils.getNowDate());
-        clubMember.setClubId(club.getId());
-        return new ApiResult<Boolean>().setData(clubMemberService.insertClubMember(clubMember) > 0);
+        TogMessage message = new TogMessage();
+        // 返回插入ID
+        Long memberId = ;
+        message.setSendId(memberId);
+
+        message.setTitle(getUsername());
+        message.setContent("申请加入社团");
+        // 根据社团id查找社长ID
+        message.setUserId();
+        message.setStatus(0);
+        message.setGmtCreate(new Date());
+        message.setType(0);
+
+        return new ApiResult<Boolean>().setData(true);
     }
 
     /**
