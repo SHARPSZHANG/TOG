@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -321,22 +320,14 @@ public class TogMobileController extends BaseController {
     @ApiOperation("新增社团成员")
     @ApiImplicitParam(name = "ClubMember", value = "社团成员信息", required = true, dataType = "ClubMember", paramType = "body", dataTypeClass = ClubMember.class)
     @Log(title = "社团成员", businessType = BusinessType.INSERT)
-    @PostMapping
+    @PostMapping("/member/add")
     public ApiResult addMember(@RequestBody ClubMember clubMember)
     {
-        TogMessage message = new TogMessage();
-        // 返回插入ID
-        Long memberId = ;
-        message.setSendId(memberId);
-
-        message.setTitle(getUsername());
-        message.setContent("申请加入社团");
-        // 根据社团id查找社长ID
-        message.setUserId();
-        message.setStatus(0);
-        message.setGmtCreate(new Date());
-        message.setType(0);
-
+        SysUser sysUser = userService.selectUserById(getUserId());
+        clubMember.setCreateBy(sysUser.getNickName());
+        clubMember.setCreateTime(DateUtils.getNowDate());
+        clubMember.setState(0);
+        clubMemberService.insertClubMember(clubMember);
         return new ApiResult<Boolean>().setData(true);
     }
 
@@ -397,6 +388,8 @@ public class TogMobileController extends BaseController {
     }
 
     /* ========================================社团成员结束=====================================================*/
+
+
 
 
     /* ========================================公告=====================================================*/

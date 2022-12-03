@@ -52,7 +52,7 @@ public class ClubMember extends BaseEntity
 
     /** 状态 */
     @Excel(name = "状态")
-    private Integer state;
+    private Integer state;  // 0不通过，1通过
 
     /** QQ号 */
     @Excel(name = "QQ号")

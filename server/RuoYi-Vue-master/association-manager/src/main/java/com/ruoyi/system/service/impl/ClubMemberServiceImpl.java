@@ -2,6 +2,8 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.system.domain.TogMessage;
+import com.ruoyi.system.service.ITogMessageService;
 import com.ruoyi.system.vo.ClubMemberVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class ClubMemberServiceImpl implements IClubMemberService
     @Autowired
     private ClubMemberMapper clubMemberMapper;
 
+    @Autowired
+    private ITogMessageService iTogMessageService;
 
     @Override
     public void delClubUser(Long userId, Long clubId) {
@@ -78,13 +82,54 @@ public class ClubMemberServiceImpl implements IClubMemberService
      * 
      * @param clubMember 社团成员
      * @return 结果
+     * //        TogMessage message = new TogMessage();
+     * //        // 返回插入ID
+     * //        Long memberId = ;
+     * //        message.setSendId(memberId);
+     * //
+     * //        message.setTitle(getUsername());
+     * //        message.setContent("申请加入社团");
+     * //        // 根据社团id查找社长ID
+     * //        message.setUserId();
+     * //        message.setStatus(0);
+     * //        message.setGmtCreate(new Date());
+     * //        message.setType(0);
      */
     @Override
     public int insertClubMember(ClubMember clubMember)
     {
         clubMember.setCreateTime(DateUtils.getNowDate());
-        return clubMemberMapper.insertClubMember(clubMember);
+
+        int i = clubMemberMapper.insertClubMember(clubMember);
+        ClubMember clubMember1 = selectClubLeader(clubMember.getClubId());
+        TogMessage togMessage = new TogMessage();
+        togMessage.setCreateTime(DateUtils.getNowDate());
+        togMessage.setStatus(0);
+        togMessage.setSendId(clubMember.getId());
+        togMessage.setType(0);
+        togMessage.setTitle("新的申请");
+        togMessage.setContent("申请加入社团");
+        togMessage.setSendId(clubMember.getId());
+        togMessage.setUserId(clubMember1.getUserId());
+        togMessage.setCreateTime(DateUtils.getNowDate());
+        togMessage.setGmtCreate(DateUtils.getNowDate());
+        iTogMessageService.insertTogMessage(togMessage);
+        return i;
     }
+
+
+    ClubMember selectClubLeader(Long clubId){
+        ClubMember clubMember = new ClubMember();
+        clubMember.setClubId(clubId);
+        clubMember.setPosition("社长");
+        List<ClubMember> clubMembers = selectClubMemberList2(clubMember);
+        if (clubMembers != null && clubMembers.size()>0){
+            return clubMembers.get(0);
+        }
+        return null;
+    }
+
+
 
     /**
      * 修改社团成员
