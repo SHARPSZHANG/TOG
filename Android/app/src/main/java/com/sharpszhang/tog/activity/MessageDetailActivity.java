@@ -18,6 +18,7 @@ import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.button.roundbutton.RoundButton;
 import com.xuexiang.xui.widget.edittext.MultiLineEditText;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MessageDetailActivity extends BaseActivity implements View.OnClickListener {
@@ -82,6 +83,10 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
                             username.setText(response.getTitle());
                             content.setContentText(response.getContent());
                             content.setVisibility(View.GONE);
+                            if(message.getStatus() == 1) {
+                                agree.setVisibility(View.GONE);
+                                refuse.setVisibility(View.GONE);
+                            }
                         } else {
                             setContentView(R.layout.empty_activity);
                         }
@@ -97,7 +102,7 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
         ClubMember clubMember = new ClubMember();
         clubMember.setPosition("成员");
         clubMember.setUserId(Long.valueOf(sendId));
-        clubMember.setGmtCreate(new Date().toString());
+        clubMember.setGmtCreate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         XHttp.post("/prod-api/system/mobile/")
                 .syncRequest(false)
                 .onMainThread(true)

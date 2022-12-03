@@ -26,6 +26,10 @@ import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @author xuexiang
  * @since 2018/7/17 下午5:25
@@ -37,7 +41,12 @@ public class ActivityAdapter extends BaseRecyclerAdapter<ActivityVo> {
     protected void bindData(@NonNull @NotNull RecyclerViewHolder holder, int position, ActivityVo item) {
         holder.text(R.id.activity_title, item.getTitle());
         holder.text(R.id.activity_content, item.getContent());
-        holder.text(R.id.activity_time, item.getStartTime() + "-" +item.getEndTime());
+        holder.text(R.id.activity_time, item.getStartTime());
+        try {
+            holder.text(R.id.activity_type, (new SimpleDateFormat("yyyy-MM-dd").parse(item.getStartTime())).getTime() - new Date().getTime() >= 0 ? "待进行" : "");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         holder.text(R.id.org_name, ""+item.getClubName());
     }
 

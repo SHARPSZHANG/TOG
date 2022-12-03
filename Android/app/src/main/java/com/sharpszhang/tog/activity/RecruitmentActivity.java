@@ -56,7 +56,7 @@ public class RecruitmentActivity extends BaseActivity {
             @Override
             public void performAction(View view) {
                 if(action.isChecked()) {
-                    XHttp.post("/system/club/mobile/enRecruit")
+                    XHttp.post("/prod-api/system/mobile/enRecruit")
                             .params("clubId", club.getId())
                             .params("notice", notice.isChecked())
                             .params("activity", activity.isChecked())
@@ -83,7 +83,7 @@ public class RecruitmentActivity extends BaseActivity {
     }
 
     public void initData() {
-        XHttp.get("/system/club/mobile/findClubByUserId")
+        XHttp.get("/prod-api/system/mobile/findClubByUserId")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)

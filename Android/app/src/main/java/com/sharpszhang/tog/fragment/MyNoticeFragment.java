@@ -129,7 +129,7 @@ public class MyNoticeFragment extends Fragment implements RecyclerViewHolder.OnI
         Intent intent = new Intent(this.getContext(), NoticesContentActivity.class);
         intent.putExtra("noticeId", "" + ((NoticeVo) item).getId());
         intent.putExtra("userId", userId);
-        intent.putExtra("tokenId", token);
+        intent.putExtra("token", token);
         startActivity(intent);
     }
 }

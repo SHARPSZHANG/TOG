@@ -11,6 +11,6 @@ public class APP extends Application {
         super.onCreate();
         XHttpSDK.init(this);
         XHttpSDK.debug();
-        XHttpSDK.setBaseUrl("http://139.155.244.28");
+        XHttpSDK.setBaseUrl("http://192.168.1.110:8080");
     }
 }
