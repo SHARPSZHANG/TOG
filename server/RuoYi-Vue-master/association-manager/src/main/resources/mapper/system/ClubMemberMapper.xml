@@ -44,8 +44,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             cm.*
         FROM
             club_member cm
-                LEFT JOIN club c ON c.id = cm.club_id
-                LEFT JOIN sys_user u ON u.user_id = cm.user_id
+        LEFT JOIN club c ON c.id = cm.club_id
+        LEFT JOIN sys_user u ON u.user_id = cm.user_id
     </sql>
 
     <sql id="selectClubMember">
@@ -99,6 +99,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="reason != null">reason,</if>
+            <if test="state != null">state,</if>
+            <if test="qqNumber != null">qq_number,</if>
+            <if test="hobby != null">hobby,</if>
+            <if test="speciality != null">speciality,</if>
+            <if test="apply != null">apply,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">#{userId},</if>
@@ -112,6 +117,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="reason != null">#{reason},</if>
+            <if test="state != null">#{state},</if>
+            <if test="qqNumber != null">#{qqNumber},</if>
+            <if test="hobby != null">#{hobby},</if>
+            <if test="speciality != null">#{speciality},</if>
+            <if test="apply != null">#{apply},</if>
          </trim>
     </insert>
 

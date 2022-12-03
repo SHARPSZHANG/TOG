@@ -111,11 +111,11 @@
           <span>{{ parseTime(scope.row.gmtCreate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="离开社团时间" align="center" prop="gmtDelete" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.gmtDelete, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="离开社团时间" align="center" prop="gmtDelete" width="180">-->
+<!--        <template slot-scope="scope">-->
+<!--          <span>{{ parseTime(scope.row.gmtDelete, '{y}-{m}-{d}') }}</span>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="职位" align="center" prop="position" />
 <!--      <el-table-column label="是否删除" align="center" prop="isDelete" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
