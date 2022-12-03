@@ -111,7 +111,7 @@ public class TogMobileController extends BaseController {
         SysUser sysUser = userService.selectUserById(loginUser.getUserId());
         activity.setCreateBy(sysUser.getNickName());
         activity.setCreateTime(DateUtils.getNowDate());
-        return new ApiResult<Long>().setData(Long.valueOf(activityService.insertActivity(activity)));
+        return new ApiResult<Boolean>().setData(activityService.insertActivity(activity) > 0);
     }
 
     @ApiOperation("查询活动权限")
