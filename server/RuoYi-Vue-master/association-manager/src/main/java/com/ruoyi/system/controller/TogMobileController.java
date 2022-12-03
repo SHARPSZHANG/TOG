@@ -154,7 +154,6 @@ public class TogMobileController extends BaseController {
 
 /* ========================================社团=====================================================*/
     @ApiOperation("根据userId查询社团列表")
-    //    @PreAuthorize("@ss.hasPermi('system:club:list')")
     @GetMapping("/club/listByUserId")
     public ApiResult listByUserId(@RequestParam Long userId)
     {
@@ -179,7 +178,6 @@ public class TogMobileController extends BaseController {
         Club clubs = clubService.findClubByParams(params);
         return new ApiResult<Club>().setData(clubs);
     }
-
 
     @ApiOperation("查询社团列表")
     @GetMapping("/club/all/list")
@@ -253,25 +251,29 @@ public class TogMobileController extends BaseController {
     public ApiResult addClub(@RequestBody Club club, @RequestParam("userId") Long userId)
     {
 
+        LoginUser loginUser = getLoginUser();
+        SysUser sysUser = userService.selectUserById(loginUser.getUserId());
+        club.setCreateBy(sysUser.getNickName());
+        club.setCreateTime(DateUtils.getNowDate());
         return new ApiResult<Boolean>().setData(clubService.insertClub(club,userId) > 0);
     }
 
     /**
      * 修改活动
      */
-    @ApiOperation("修改活动")
+    @ApiOperation("修改社团")
     @ApiImplicitParam(name = "activity", value = "活动信息", dataType = "Activity", dataTypeClass = Activity.class)
-    @PutMapping("/club")
-    public ApiResult editClub(@RequestBody Activity activity)
+    @PostMapping("/club/update")
+    public ApiResult editClub(@RequestBody Club club)
     {
-        return new ApiResult<Boolean>().setData(activityService.updateActivity(activity) > 0);
+        return new ApiResult<Boolean>().setData(clubService.updateClub(club) > 0);
     }
 
-    @ApiOperation("删除活动")
+    @ApiOperation("删除社团")
     @DeleteMapping("/club/{id}")
     public ApiResult deleteClub( @PathVariable Long id)
     {
-        return new ApiResult<Boolean>().setData(activityService.deleteActivityById(id) > 0);
+        return new ApiResult<Boolean>().setData(clubService.deleteClubById(id) > 0);
     }
 
     /* ========================================社团结束=====================================================*/
@@ -389,9 +391,7 @@ public class TogMobileController extends BaseController {
     @PostMapping("/member/del")
         public ApiResult removeMember(@RequestBody List<Long> ids)
     {
-        /*
-         * 删除club_member 中 clubId所属的ids
-         */
+
 
         return new ApiResult<Boolean>().setData(clubMemberService.deleteClubMemberByIds(ids.toArray(new Long[ids.size()])) > 0);
     }
@@ -412,6 +412,11 @@ public class TogMobileController extends BaseController {
         return new ApiResult<List<NoticeVo>>().setData(noticeByUserId);
     }
 
+    /**
+     * 查询社团下面的公告
+     * @param clubId
+     * @return
+     */
     @GetMapping("/notice/findNoticeByClubId")
     public ApiResult findNoticeByClubId(@RequestParam Long clubId)
     {
@@ -445,6 +450,10 @@ public class TogMobileController extends BaseController {
     @PostMapping("/notice")
     public ApiResult addNotice(@RequestBody Notice notice)
     {
+        LoginUser loginUser = getLoginUser();
+        SysUser sysUser = userService.selectUserById(loginUser.getUserId());
+        notice.setCreateBy(sysUser.getNickName());
+        notice.setCreateTime(DateUtils.getNowDate());
         return new ApiResult<Boolean>().setData(noticeService.insertNotice(notice) > 0);
     }
 
@@ -495,6 +504,9 @@ public class TogMobileController extends BaseController {
     /* ========================================公告结束=====================================================*/
 
 
+
+    /* ========================================消息=====================================================*/
+
     @ApiOperation("查询消息列表")
     @GetMapping("/message/all/list")
     public ApiResult getMessageList(@RequestParam Long userId)
@@ -530,6 +542,10 @@ public class TogMobileController extends BaseController {
     @PostMapping("/message")
     public ApiResult addMessage(@RequestBody TogMessage togMessage)
     {
+        LoginUser loginUser = getLoginUser();
+        SysUser sysUser = userService.selectUserById(loginUser.getUserId());
+        togMessage.setCreateBy(sysUser.getNickName());
+        togMessage.setCreateTime(DateUtils.getNowDate());
         return new ApiResult<Boolean>().setData(togMessageService.insertTogMessage(togMessage) > 0);
     }
 
@@ -538,7 +554,7 @@ public class TogMobileController extends BaseController {
      */
     @ApiOperation("修改消息")
     @ApiImplicitParam(name = "togMessage", value = "消息id数组", required = true, dataType = "TogMessage", paramType = "body", dataTypeClass = TogMessage.class)
-    @PutMapping
+    @PutMapping("/message")
     public ApiResult editMessage(@RequestBody TogMessage togMessage)
     {
         return new ApiResult<Boolean>().setData(togMessageService.updateTogMessage(togMessage) >0);
