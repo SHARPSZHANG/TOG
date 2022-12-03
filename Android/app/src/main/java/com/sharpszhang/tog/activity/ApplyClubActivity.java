@@ -65,6 +65,7 @@ public class ApplyClubActivity extends BaseActivity implements View.OnClickListe
         clubName = findViewById(R.id.clubName);
         clubDetails = findViewById(R.id.clubDetails);
         release.setOnClickListener(this);
+        noticeContent = findViewById(R.id.notice_content);
 
         titleBar = findViewById(R.id.title_bar);
         titleBar.setLeftClickListener(view -> {
@@ -75,7 +76,7 @@ public class ApplyClubActivity extends BaseActivity implements View.OnClickListe
     }
 
     public void initData() {
-        XHttp.get("/prod-api/system/mobile/club/findClubByUserId")
+        XHttp.get("/prod-api/system/mobile/club/" + clubId)
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
@@ -115,7 +116,7 @@ public class ApplyClubActivity extends BaseActivity implements View.OnClickListe
                 member.setHobby(hobby.getEditValue());
                 member.setSpeciality(speciality.getEditValue());
                 member.setApply(noticeContent.getContentText());
-                XHttp.post("/prod-api/system/mobile")
+                XHttp.post("/prod-api/system/mobile/member/add")
                         .upJson(JSONObject.toJSONString(member))
                         .headers("Authorization", "Bearer " + token)
                         .execute(new SimpleCallBack<Boolean>() {

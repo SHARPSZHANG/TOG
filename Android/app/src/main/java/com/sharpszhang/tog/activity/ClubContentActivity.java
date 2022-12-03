@@ -54,7 +54,7 @@ public class ClubContentActivity extends BaseActivity {
                     Club club = new Club();
                     club.setId(Long.valueOf(clubId));
                     club.setClubDetail(content.getContentText());
-                    XHttp.post("/prod-api/system/mobile/")
+                    XHttp.post("/prod-api/system/mobile/club/update")
                             .upJson(JSONObject.toJSONString(club))
                             .headers("Authorization", "Bearer " + token)
                             .execute(new SimpleCallBack<Boolean>() {
@@ -79,7 +79,7 @@ public class ClubContentActivity extends BaseActivity {
     }
 
     public void getClubData(String clubId) {
-        XHttp.get("/prod-api/system/mobile/club" + clubId)
+        XHttp.get("/prod-api/system/mobile/club/" + clubId)
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)

@@ -15,7 +15,7 @@ public class MessageAdapter extends BaseRecyclerAdapter<TogMessage> {
     protected void bindData(@NonNull @NotNull RecyclerViewHolder holder, int position, TogMessage item) {
         holder.text(R.id.message_title, item.getTitle());
         holder.text(R.id.message, item.getContent());
-        holder.text(R.id.message_status, item.getStatus() == 0 ? "已处理" : "待处理");
+        holder.text(R.id.message_status, item.getStatus() == 1 ? "已处理" : "待处理");
         holder.backgroundResId(R.id.message_layout, item.getStatus() == 1 ? R.color.transparent : R.color.ivory);
     }
 

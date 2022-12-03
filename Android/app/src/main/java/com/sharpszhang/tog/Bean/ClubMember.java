@@ -33,10 +33,10 @@ public class ClubMember extends BaseEntity
     private String reason;
 
     /** 是否删除（1：删除 0：未删除） */
-    private Integer isDelete;
+    private int isDelete;
 
     /** 状态 */
-    private Integer state;
+    private int state;
 
     /** QQ号 */
     private String qqNumber;
@@ -106,12 +106,12 @@ public class ClubMember extends BaseEntity
     {
         return position;
     }
-    public void setIsDelete(Integer isDelete) 
+    public void setIsDelete(int isDelete)
     {
         this.isDelete = isDelete;
     }
 
-    public Integer getIsDelete() 
+    public int getIsDelete()
     {
         return isDelete;
     }
@@ -124,11 +124,11 @@ public class ClubMember extends BaseEntity
         this.reason = reason;
     }
 
-    public Integer getState() {
+    public int getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    public void setState(int state) {
         this.state = state;
     }
 

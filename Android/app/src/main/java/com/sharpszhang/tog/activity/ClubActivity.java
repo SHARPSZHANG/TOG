@@ -55,6 +55,7 @@ public class ClubActivity extends BaseActivity implements EasyIndicator.OnTabCli
         token = intent.getStringExtra("token");
         ButterKnife.bind(this);
         getDataList();
+        getMember();
         initFragment();
         initView();
     }
@@ -115,11 +116,12 @@ public class ClubActivity extends BaseActivity implements EasyIndicator.OnTabCli
     }
 
     private void getMember () {
-        XHttp.get("/prod-api/system/mobile/club/getMember" + clubId)
+        XHttp.get("/prod-api/system/mobile/club/getMember")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
                 .timeStamp(true)
+                .params("clubId", clubId)
                 .headers("Authorization", "Bearer " + token)
                 .execute(new SimpleCallBack<Boolean>() {
                     @Override
