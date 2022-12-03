@@ -55,7 +55,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             c.club_name
         from
             activity a
-        JOIN club_member cm on cm.club_id = a.club_id
         JOIN club c on c.id = a.club_id
     </sql>
 
