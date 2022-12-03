@@ -142,5 +142,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
+        and position != '社长'
     </delete>
 </mapper>
