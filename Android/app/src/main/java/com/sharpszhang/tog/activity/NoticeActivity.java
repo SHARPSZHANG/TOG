@@ -19,6 +19,7 @@ import com.xuexiang.xui.widget.button.roundbutton.RoundButton;
 import com.xuexiang.xui.widget.edittext.MultiLineEditText;
 import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -102,7 +103,7 @@ public class NoticeActivity extends BaseActivity implements View.OnClickListener
                 notice.setTitle(noticeTitle.getText().toString());
                 notice.setContent(noticeContent.getContentText().toString());
                 notice.setUserId(Long.valueOf(userId));
-                notice.setGmtCreate(new Date().toString());
+                notice.setGmtCreate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                 notice.setIsDelete(0);
                 XHttp.post("/prod-api/system/mobile/notice")
                         .upJson(JSONObject.toJSONString(notice))

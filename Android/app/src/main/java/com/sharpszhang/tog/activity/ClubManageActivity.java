@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sharpszhang.tog.Bean.Activity;
 import com.sharpszhang.tog.Bean.ClubMemberVo;
 import com.sharpszhang.tog.R;
@@ -128,9 +129,9 @@ public class ClubManageActivity extends BaseActivity implements View.OnClickList
                 });
     }
 
-    public void deleteMembers(Long[] ids) {
-        XHttp.delete("/prod-api/system/mobile/member/")
-                .params("ids", ids)
+    public void deleteMembers(List<Long> ids) {
+        XHttp.post("/prod-api/system/mobile/member/del")
+                .upJson(JSONObject.toJSONString(ids))
                 .headers("Authorization", "Bearer " + token)
                 .execute(new SimpleCallBack<Boolean>() {
                     @Override
@@ -204,7 +205,7 @@ public class ClubManageActivity extends BaseActivity implements View.OnClickList
                                     .negativeText("取消")
                                     .positiveText("确定")
                                     .onPositive((dialog1, which1) -> {
-                                        deleteMembers(ids.toArray(new Long[ids.size()]));
+                                        deleteMembers(ids);
                                     })
                                     .show();
                         })

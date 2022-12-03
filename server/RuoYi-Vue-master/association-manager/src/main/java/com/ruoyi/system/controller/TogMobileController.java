@@ -355,13 +355,14 @@ public class TogMobileController extends BaseController {
      */
     @ApiOperation("删除社团成员")
     @ApiImplicitParam(name = "ids", value = "社团成员id数组", required = true, dataType = "Long[]", paramType = "path", dataTypeClass = Long[].class)
-    @DeleteMapping("/member/del")
-    public ApiResult removeMember(@RequestParam Long[] ids)
+    @PostMapping("/member/del")
+        public ApiResult removeMember(@RequestBody List<Long> ids)
     {
         /*
          * 删除club_member 中 clubId所属的ids
          */
-        return new ApiResult<Boolean>().setData(clubMemberService.deleteClubMemberByIds(ids) > 0);
+
+        return new ApiResult<Boolean>().setData(clubMemberService.deleteClubMemberByIds(ids.toArray(new Long[ids.size()])) > 0);
     }
 
     /* ========================================社团成员结束=====================================================*/

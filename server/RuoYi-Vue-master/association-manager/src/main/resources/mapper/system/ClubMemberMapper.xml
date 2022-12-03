@@ -137,7 +137,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from club_member where id = #{id}
     </delete>
 
-    <delete id="deleteClubMemberByIds" parameterType="String">
+    <delete id="deleteClubMemberByIds" parameterType="Long">
         delete from club_member where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
