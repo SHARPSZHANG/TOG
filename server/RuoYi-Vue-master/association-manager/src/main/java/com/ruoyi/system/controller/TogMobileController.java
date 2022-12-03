@@ -42,7 +42,6 @@ public class TogMobileController extends BaseController {
     private ISysUserService userService;
     @Autowired
     private IClubService clubService;
-
     @Autowired
     private IClubMemberService clubMemberService;
     @Autowired
@@ -190,6 +189,12 @@ public class TogMobileController extends BaseController {
         return new ApiResult<List<Club>>().setData(clubs);
     }
 
+    /**
+     * 查询当前用户是否已经加入改社团
+     * @param clubId
+     * @return
+     */
+    @ApiOperation("查询当前用户是否已经加入改社团")
     @GetMapping("/club/getMember")
     public ApiResult getMember(@RequestParam Long clubId)
     {
@@ -198,8 +203,15 @@ public class TogMobileController extends BaseController {
             根据userID 和 clubId 查询member表
          */
         Long userId = getUserId();
-
-        return new ApiResult<Boolean>().setData(true);
+        ClubMember clubMember = new ClubMember();
+        clubMember.setUserId(userId);
+        clubMember.setUserId(clubId);
+        List<ClubMember> clubMembers = clubMemberService.selectClubMemberList2(clubMember);
+        if (clubMembers != null && clubMembers.size()>0){
+            return new ApiResult<Boolean>().setData(true);
+        }else {
+            return new ApiResult<Boolean>().setData(false);
+        }
     }
 
 
@@ -295,7 +307,7 @@ public class TogMobileController extends BaseController {
         return new ApiResult<List<ClubMemberVo>>().setData(clubMemberVos);
     }
 
-    @ApiOperation("查询社团成员")
+    @ApiOperation("查询社团成员,返回memberVo")
     @GetMapping("/member/id")
     public ApiResult listMemberById(@RequestParam Long memberId)
     {
@@ -319,7 +331,6 @@ public class TogMobileController extends BaseController {
      */
     @ApiOperation("新增社团成员")
     @ApiImplicitParam(name = "ClubMember", value = "社团成员信息", required = true, dataType = "ClubMember", paramType = "body", dataTypeClass = ClubMember.class)
-    @Log(title = "社团成员", businessType = BusinessType.INSERT)
     @PostMapping("/member/add")
     public ApiResult addMember(@RequestBody ClubMember clubMember)
     {
@@ -336,7 +347,7 @@ public class TogMobileController extends BaseController {
      */
     @ApiOperation("修改社团成员")
     @ApiImplicitParam(name = "ClubMember", value = "社团成员信息", required = true, dataType = "ClubMember", paramType = "body", dataTypeClass = ClubMember.class)
-    @PutMapping("/member")
+    @PostMapping("/member/update")
     public ApiResult editMember(@RequestBody ClubMember clubMember)
     {
         clubMember.setUpdateBy(getUsername());
