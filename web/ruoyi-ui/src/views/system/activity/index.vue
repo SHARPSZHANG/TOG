@@ -17,38 +17,38 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="活动开始时间" prop="startTime">
-        <el-date-picker clearable
-          v-model="queryParams.startTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择活动开始时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="活动结束时间" prop="endTime">
-        <el-date-picker clearable
-          v-model="queryParams.endTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择活动结束时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="是否删除" prop="isDelete">
-        <el-input
-          v-model="queryParams.isDelete"
-          placeholder="请输入是否删除"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="所属社团id" prop="clubId">
-        <el-input
-          v-model="queryParams.clubId"
-          placeholder="请输入所属社团id"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="活动开始时间" prop="startTime">-->
+<!--        <el-date-picker clearable-->
+<!--          v-model="queryParams.startTime"-->
+<!--          type="date"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          placeholder="请选择活动开始时间">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="活动结束时间" prop="endTime">-->
+<!--        <el-date-picker clearable-->
+<!--          v-model="queryParams.endTime"-->
+<!--          type="date"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          placeholder="请选择活动结束时间">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="是否删除" prop="isDelete">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.isDelete"-->
+<!--          placeholder="请输入是否删除"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="所属社团id" prop="clubId">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.clubId"-->
+<!--          placeholder="请输入所属社团id"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -122,9 +122,15 @@
           <span>{{ parseTime(scope.row.endTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="活动状态" align="center" prop="status" />
-      <el-table-column label="是否删除" align="center" prop="isDelete" />
-      <el-table-column label="所属社团id" align="center" prop="clubId" />
+      <el-table-column label="活动状态" align="center" prop="status" >
+        <template slot-scope="scope">
+          <span v-show="scope.row.status === 0">未开始</span>
+          <span v-show="scope.row.status === 1">进行中</span>
+          <span v-show="scope.row.status === 2">已结束</span>
+        </template>
+      </el-table-column>
+<!--      <el-table-column label="是否删除" align="center" prop="isDelete" />-->
+<!--      <el-table-column label="所属社团id" align="center" prop="clubId" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -144,7 +150,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"

@@ -151,7 +151,7 @@ public class TogMobileController extends BaseController {
     /* ========================================活动结束=====================================================*/
 
 /* ========================================社团=====================================================*/
-    @ApiOperation("根据userId查询社团列表")
+    @ApiOperation("查询用户加入的社团")
     @GetMapping("/club/listByUserId")
     public ApiResult listByUserId(@RequestParam Long userId)
     {

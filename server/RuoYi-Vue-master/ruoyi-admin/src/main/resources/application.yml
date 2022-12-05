@@ -21,8 +21,8 @@ server:
   # 服务器的HTTP端口，默认为8080
   port: 8080
   servlet:
-    # 应用的访问路径
-    context-path: /prod-api/
+    # 应用的访问路径prod-api/
+    context-path: /
   tomcat:
     # tomcat的URI编码
     uri-encoding: UTF-8

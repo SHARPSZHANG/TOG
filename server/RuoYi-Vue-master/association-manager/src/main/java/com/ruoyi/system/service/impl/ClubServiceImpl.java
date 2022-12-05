@@ -29,6 +29,7 @@ public class ClubServiceImpl implements IClubService
     @Override
     public List<Club> listByUserId(Long userId) {
 
+
         List<Club> clubs = clubMapper.listByUserId(userId);
         return clubs;
     }

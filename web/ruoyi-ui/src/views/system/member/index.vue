@@ -25,14 +25,14 @@
           placeholder="请选择加入社团时间">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="离开社团时间" prop="gmtDelete">
-        <el-date-picker clearable
-          v-model="queryParams.gmtDelete"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择离开社团时间">
-        </el-date-picker>
-      </el-form-item>
+<!--      <el-form-item label="离开社团时间" prop="gmtDelete">-->
+<!--        <el-date-picker clearable-->
+<!--          v-model="queryParams.gmtDelete"-->
+<!--          type="date"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          placeholder="请选择离开社团时间">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
       <el-form-item label="职位" prop="position">
         <el-input
           v-model="queryParams.position"
@@ -106,9 +106,9 @@
       <el-table-column label="id" align="center" prop="id" />
 <!--      <el-table-column label="用户id" align="center" prop="userId" />-->
 <!--      <el-table-column label="社团id" align="center" prop="clubId" />-->
-      <el-table-column label="加入社团时间" align="center" prop="gmtCreate" width="180">
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.gmtCreate, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
 <!--      <el-table-column label="离开社团时间" align="center" prop="gmtDelete" width="180">-->
@@ -222,6 +222,7 @@ export default {
         gmtDelete: null,
         position: null,
         isDelete: null,
+
       },
       // 表单参数
       form: {},
