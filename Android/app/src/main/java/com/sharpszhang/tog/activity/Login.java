@@ -300,6 +300,7 @@ public class Login extends BaseActivity implements View.OnClickListener, TextWat
             moveTaskToBack(true);
             return true;
         }
+
         return super.onKeyDown(keyCode, event);
     }
 
