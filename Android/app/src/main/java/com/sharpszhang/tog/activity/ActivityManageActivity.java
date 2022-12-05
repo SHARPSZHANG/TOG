@@ -127,6 +127,9 @@ public class ActivityManageActivity extends BaseActivity implements RecyclerView
         if (!RefreshState.None.equals(refreshLayout.getState())) {
             return;
         }
-        startActivity(new Intent(this, NoticesContentActivity.class).putExtra("activityId", ((ActivityVo) item).getId()).putExtra("userId", userId).putExtra("token", token));
+        startActivity(new Intent(this, ActivityContentActivity.class)
+                .putExtra("activityId", "" + ((ActivityVo) item).getId())
+                .putExtra("userId", userId)
+                .putExtra("token", token));
     }
 }

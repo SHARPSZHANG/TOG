@@ -111,7 +111,7 @@ public class TogMobileController extends BaseController {
         SysUser sysUser = userService.selectUserById(loginUser.getUserId());
         activity.setCreateBy(sysUser.getNickName());
         activity.setCreateTime(DateUtils.getNowDate());
-        return new ApiResult<Boolean>().setData(activityService.insertActivity(activity) > 0);
+        return new ApiResult<Boolean>().setData(Long.valueOf(activityService.insertActivity(activity)) > 0);
     }
 
     @ApiOperation("查询活动权限")
@@ -207,7 +207,7 @@ public class TogMobileController extends BaseController {
         Long userId = getUserId();
         ClubMember clubMember = new ClubMember();
         clubMember.setUserId(userId);
-        clubMember.setClubId(clubId);
+        clubMember.setUserId(clubId);
         List<ClubMember> clubMembers = clubMemberService.selectClubMemberList2(clubMember);
         if (clubMembers != null && clubMembers.size()>0){
             return new ApiResult<Boolean>().setData(true);
@@ -310,7 +310,7 @@ public class TogMobileController extends BaseController {
     }
 
     @ApiOperation("查询社团成员,返回memberVo")
-    @GetMapping("/member/id")
+    @GetMapping("/member/")
     public ApiResult listMemberById(@RequestParam Long memberId)
     {
         /*

@@ -65,6 +65,10 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
         agree = findViewById(R.id.agree);
         refuse.setOnClickListener(this);
         agree.setOnClickListener(this);
+        content.setVisibility(View.GONE);
+        hobby.setVisibility(View.GONE);
+        speciality.setVisibility(View.GONE);
+        number.setVisibility(View.GONE);
 
 
 
@@ -77,10 +81,11 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     public void initData() {
-        XHttp.get("/prod-api/system/mobile/member/" + messageId)
+        XHttp.get("/prod-api/system/mobile/member/")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
+                .params("memberId", sendId)
                 .timeStamp(true)
                 .headers("Authorization", "Bearer " + token)
                 .execute(new SimpleCallBack<ClubMemberVo>() {
@@ -94,7 +99,7 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
                             speciality.setText(member.getSpeciality());
                             number.setText(member.getQqNumber());
                             content.setVisibility(View.GONE);
-                            if(member.getState() != 2) {
+                            if(member.getState() != 0) {
                                 agree.setVisibility(View.GONE);
                                 refuse.setVisibility(View.GONE);
                             }
