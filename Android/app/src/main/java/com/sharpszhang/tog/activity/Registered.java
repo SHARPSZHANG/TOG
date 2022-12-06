@@ -45,6 +45,9 @@ public class Registered extends BaseActivity implements View.OnClickListener, Te
     // 定义结果
     private final int OK = 1;
     private final int NO = -1;
+    // 账号栏  清除按钮
+    private EditText accountEdit;
+    private ImageView accountDel;
     // 用户名栏  清除按钮
     private EditText usernameEdit;
     private ImageView usernameDel;
@@ -75,6 +78,10 @@ public class Registered extends BaseActivity implements View.OnClickListener, Te
      */
     private void initView(){
         // 顶部栏  返回按钮
+        // 账号栏  清除按钮
+        accountEdit = findViewById(R.id.register_account_edit);
+        accountDel = findViewById(R.id.register_account_del);
+
         // 用户名栏  清除按钮
         usernameEdit = findViewById(R.id.register_username_edit);
         usernameDel = findViewById(R.id.register_username_del);
@@ -91,6 +98,7 @@ public class Registered extends BaseActivity implements View.OnClickListener, Te
 
         // 设置点击事件监听
         submit.setOnClickListener(this);
+        accountDel.setOnClickListener(this);
         usernameDel.setOnClickListener(this);
         passwordDel.setOnClickListener(this);
         passwordConfirmDel.setOnClickListener(this);
@@ -100,7 +108,7 @@ public class Registered extends BaseActivity implements View.OnClickListener, Te
         });
 
         // 设置文本监听
-        usernameEdit.addTextChangedListener(this);
+        accountEdit.addTextChangedListener(this);
         passwordEdit.addTextChangedListener(this);
         passwordConfirmEdit.addTextChangedListener(this);
 
@@ -113,14 +121,17 @@ public class Registered extends BaseActivity implements View.OnClickListener, Te
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.register_username_del:
-                usernameEdit.setText(null);
+            case R.id.register_account_del:
+                accountEdit.setText(null);
                 break;
             case R.id.register_password_del:
                 passwordEdit.setText(null);
                 break;
             case R.id.register_password_conf_del:
                 passwordConfirmEdit.setText(null);
+                break;
+            case R.id.register_username_del:
+                usernameEdit.setText(null);
                 break;
             case R.id.register_submit_bt:
                 try {
@@ -148,14 +159,20 @@ public class Registered extends BaseActivity implements View.OnClickListener, Te
 
     @Override
     public void afterTextChanged(Editable s) {
-        String username = usernameEdit.getText().toString().trim();
+        String account = accountEdit.getText().toString().trim();
         String password = passwordEdit.getText().toString().trim();
+        String username = usernameEdit.getText().toString().trim();
         String passwordConfirm = passwordConfirmEdit.getText().toString().trim();
         // 是否显示清除按钮
+        if (account.length() > 0) {
+            accountDel.setVisibility(View.VISIBLE);
+        } else {
+            accountDel.setVisibility(View.INVISIBLE);
+        }
         if (username.length() > 0) {
             usernameDel.setVisibility(View.VISIBLE);
         } else {
-            usernameDel.setVisibility(View.INVISIBLE);
+            accountDel.setVisibility(View.INVISIBLE);
         }
         if (password.length() > 0) {
             passwordDel.setVisibility(View.VISIBLE);
@@ -187,11 +204,9 @@ public class Registered extends BaseActivity implements View.OnClickListener, Te
         String passwordConfirm = passwordConfirmEdit.getText().toString().trim();
         if(password.equals(passwordConfirm)){
             LoginBody login = new LoginBody();
-            login.setUsername(usernameEdit.getText().toString());
+            login.setUsername(accountEdit.getText().toString());
+            login.setNiceName(usernameEdit.getText().toString());
             login.setPassword(passwordEdit.getText().toString());
-            Map<String, Object> lo = new HashMap<>(16);
-            lo.put("username", username);
-            lo.put("password", password);
             XHttp.post("/prod-api/register")
                     .headers("Content-Type", "application/json")
                     .upJson(JSONObject.toJSONString(login))
