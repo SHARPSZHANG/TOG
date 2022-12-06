@@ -7,5 +7,13 @@ package com.ruoyi.common.core.domain.model;
  */
 public class RegisterBody extends LoginBody
 {
+    private String nickName;
 
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 }
