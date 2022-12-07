@@ -22,6 +22,16 @@ public class LoginBody
      */
     private String code;
 
+    private String niceName;
+
+    public String getNiceName() {
+        return niceName;
+    }
+
+    public void setNiceName(String niceName) {
+        this.niceName = niceName;
+    }
+
     /**
      * 唯一标识
      */
