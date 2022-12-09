@@ -5,9 +5,12 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.domain.model.LoginUser;
+import com.ruoyi.common.core.domain.model.RegisterBody;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.web.service.SysRegisterService;
 import com.ruoyi.system.api.ApiResult;
 import com.ruoyi.system.domain.*;
 import com.ruoyi.system.params.ClubParams;
@@ -48,8 +51,27 @@ public class TogMobileController extends BaseController {
     private ITogMessageService togMessageService;
     @Autowired
     private INoticeService noticeService;
+    @Autowired
+    private SysRegisterService registerService;
 
-/*====================================活动=============================================    */
+    @Autowired
+    private ISysConfigService configService;
+
+
+    @ApiOperation("移动：查询所有活动列表")
+    @PostMapping("/register/new")
+    public ApiResult registerNew(@RequestBody RegisterBody user)
+    {
+        if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser"))))
+        {
+            return ApiResult.error(4000,"当前系统没有开启注册功能！");
+        }
+        String msg = registerService.register2(user);
+        return new ApiResult<String>().setData(msg);
+    }
+
+
+    /*====================================活动=============================================    */
     @ApiOperation("移动：查询所有活动列表")
     @GetMapping("/activity/findAllActivity")
     public ApiResult findAllActivity()

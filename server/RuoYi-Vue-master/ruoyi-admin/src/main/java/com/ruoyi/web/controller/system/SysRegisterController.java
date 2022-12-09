@@ -39,16 +39,6 @@ public class SysRegisterController extends BaseController
     }
 
 
-    @PostMapping("/register/new")
-    public AjaxResult registerNew(@RequestBody RegisterBody user)
-    {
-        if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser"))))
-        {
-            return error("当前系统没有开启注册功能！");
-        }
-        String msg = registerService.register2(user);
-        return StringUtils.isEmpty(msg) ? success() : error(msg);
-    }
 
     @PostMapping("/toRegister")
     public ApiResult toRegister(@RequestBody RegisterBody user)

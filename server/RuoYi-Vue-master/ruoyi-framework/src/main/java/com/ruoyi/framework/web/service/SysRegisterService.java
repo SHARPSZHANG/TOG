@@ -97,7 +97,11 @@ public class SysRegisterService
      */
     public String register2(RegisterBody registerBody)
     {
-        String msg = "", username = registerBody.getUsername(), password = registerBody.getPassword(),nickName = registerBody.getNickName();
+        String msg = "",
+                username = registerBody.getUsername(),
+                password = registerBody.getPassword(),
+                nickName = registerBody.getNickName();
+
         SysUser sysUser = new SysUser();
         sysUser.setUserName(username);
 
