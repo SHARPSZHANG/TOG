@@ -22,14 +22,14 @@ public class LoginBody
      */
     private String code;
 
-    private String niceName;
+    private String nickName;
 
-    public String getNiceName() {
-        return niceName;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNiceName(String niceName) {
-        this.niceName = niceName;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     /**

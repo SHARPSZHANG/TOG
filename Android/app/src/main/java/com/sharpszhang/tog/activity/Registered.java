@@ -205,9 +205,9 @@ public class Registered extends BaseActivity implements View.OnClickListener, Te
         if(password.equals(passwordConfirm)){
             LoginBody login = new LoginBody();
             login.setUsername(accountEdit.getText().toString());
-            login.setNiceName(usernameEdit.getText().toString());
+            login.setNickName(usernameEdit.getText().toString());
             login.setPassword(passwordEdit.getText().toString());
-            XHttp.post("/prod-api/register")
+            XHttp.post("/prod-api/system/mobile/register/new")
                     .headers("Content-Type", "application/json")
                     .upJson(JSONObject.toJSONString(login))
                     .execute(new SimpleCallBack<Boolean>() {
