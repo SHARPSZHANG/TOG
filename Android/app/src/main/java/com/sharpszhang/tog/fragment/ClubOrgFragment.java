@@ -1,16 +1,19 @@
 package com.sharpszhang.tog.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.sharpszhang.tog.Bean.Activity;
+import com.sharpszhang.tog.Bean.ClubMemberVo;
 import com.sharpszhang.tog.Bean.OrgElement;
 import com.sharpszhang.tog.R;
 import com.sharpszhang.tog.adapet.ClubOrgAdapter;
@@ -23,12 +26,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClubOrgFragment extends Fragment {
-    private ExpandableListView expandableListView;
+    private ListView expandableListView;
     private ClubOrgAdapter orgAdapter;
 
     private String clubId;
     private String userId;
     private String token;
+    private Context context;
+
+    private List<String> members = new ArrayList<>();
 
 
     @Override
@@ -45,19 +51,8 @@ public class ClubOrgFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.club_org, null);
         expandableListView = view.findViewById(R.id.elv_org);
+        context = this.getContext();
         getDataList();
-        List<OrgItem> orgItems = new ArrayList<>(16);
-        for(String title: OrgElement.getOrgNames()) {
-            List<String> members = new ArrayList<>(16);
-            for (int i= 0; i < 7; i++) {
-                members.add("member" + 1);
-            }
-            orgItems.add(new OrgItem(title, members));
-        }
-
-        orgAdapter = new ClubOrgAdapter(this.getContext(), orgItems);
-        expandableListView.setAdapter(orgAdapter);
-
         return view;
     }
 
@@ -73,18 +68,25 @@ public class ClubOrgFragment extends Fragment {
                 .params("clubId", clubId)
                 .headers("Authorization", "Bearer " + token)
                 .timeStamp(true)
-                .execute(new SimpleCallBack<List<Activity>>() {
+                .execute(new SimpleCallBack<List<ClubMemberVo>>() {
                     @Override
-                    public void onSuccess(List<Activity> response) throws Throwable {
+                    public void onSuccess(List<ClubMemberVo> response) throws Throwable {
                         if (response != null && response.size() > 0) {
-
+                            for (ClubMemberVo memberVo:response) {
+                                members.add(memberVo.getUserName());
+                            }
+                            orgAdapter = new ClubOrgAdapter(context, members);
+                            expandableListView.setAdapter(orgAdapter);
                         } else {
+                            members.add("出错了");
 
                         }
                     }
                     @Override
                     public void onError(ApiException e) {
-
+                        members.add("出错了");
+                        orgAdapter = new ClubOrgAdapter(context, members);
+                        expandableListView.setAdapter(orgAdapter);
                     }
                 });
     }

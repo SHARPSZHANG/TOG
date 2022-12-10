@@ -57,7 +57,7 @@ public class ClubMemberServiceImpl implements IClubMemberService
         clubMember.setState(1);
         clubMember.setUpdateBy(userName);
         clubMember.setUpdateTime(DateUtils.getNowDate());
-        clubMemberMapper.insertClubMember(clubMember);
+        clubMemberMapper.updateClubMember(clubMember);
     }
 
     /**

@@ -29,7 +29,10 @@ public class TogMessageServiceImpl implements ITogMessageService
     @Override
     public TogMessage selectTogMessageById(Long id)
     {
-        return togMessageMapper.selectTogMessageById(id);
+        TogMessage message = togMessageMapper.selectTogMessageById(id);
+        message.setStatus(1);
+        updateTogMessage(message);
+        return message;
     }
 
     /**
@@ -42,10 +45,6 @@ public class TogMessageServiceImpl implements ITogMessageService
     public List<TogMessage> selectTogMessageList(TogMessage togMessage)
     {
         List<TogMessage> togMessages = togMessageMapper.selectTogMessageList(togMessage);
-        for (TogMessage message : togMessages) {
-            message.setStatus(1);
-            updateTogMessage(message);
-        }
         return togMessages;
     }
 

@@ -27,10 +27,10 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
 
     private TitleBar titleBar;
     private TextView username;
-    private MaterialEditText speciality;
-    private MaterialEditText hobby;
-    private MaterialEditText number;
-    private MultiLineEditText content;
+    private TextView speciality;
+    private TextView hobby;
+    private TextView number;
+    private TextView content;
     private RoundButton refuse;
     private RoundButton agree;
 
@@ -38,7 +38,6 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
     private String userId;
     private String sendId;
     private String token;
-
     private ClubMemberVo member;
 
 
@@ -52,6 +51,7 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
         messageId = intent.getStringExtra("messageId");
         token = intent.getStringExtra("token");
         initData();
+        change();
         initView();
     }
 
@@ -65,10 +65,6 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
         agree = findViewById(R.id.agree);
         refuse.setOnClickListener(this);
         agree.setOnClickListener(this);
-        content.setVisibility(View.GONE);
-        hobby.setVisibility(View.GONE);
-        speciality.setVisibility(View.GONE);
-        number.setVisibility(View.GONE);
 
 
 
@@ -81,7 +77,7 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     public void initData() {
-        XHttp.get("/prod-api/system/mobile/member/")
+        XHttp.get("/prod-api/system/mobile/member")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)
@@ -94,11 +90,10 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
                         if (response != null) {
                             member = response;
                             username.setText(member.getUserName());
-                            content.setContentText(member.getApply());
+                            content.setText(member.getApply());
                             hobby.setText(member.getHobby());
                             speciality.setText(member.getSpeciality());
                             number.setText(member.getQqNumber());
-                            content.setVisibility(View.GONE);
                             if(member.getState() != 0) {
                                 agree.setVisibility(View.GONE);
                                 refuse.setVisibility(View.GONE);
@@ -137,29 +132,21 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
                 });
     }
 
-    public void doRefuse() {
-//        XHttp.get("/system/tog/message/" + messageId)
-//                .syncRequest(false)
-//                .onMainThread(true)
-//                .timeOut(1000)
-//                .timeStamp(true)
-//                .headers("token", token)
-//                .execute(new SimpleCallBack<Activity>() {
-//                    @Override
-//                    public void onSuccess(Activity response) throws Throwable {
-//                        if (response != null) {
-//                            username.setText(response.getTitle());
-//                            content.setContentText(response.getDescription());
-//                        } else {
-//                            setContentView(R.layout.empty_activity);
-//                        }
-//                    }
-//                    @Override
-//                    public void onError(ApiException e) {
-//                        setContentView(R.layout.empty_activity);
-//                    }
-//                });
-        finish();
+    public void change() {
+        XHttp.get("/prod-api/system/mobile/message/" + messageId)
+                .syncRequest(false)
+                .onMainThread(true)
+                .timeOut(1000)
+                .timeStamp(true)
+                .headers("Authorization", "Bearer " + token)
+                .execute(new SimpleCallBack<Boolean>() {
+                    @Override
+                    public void onSuccess(Boolean response) throws Throwable {
+                    }
+                    @Override
+                    public void onError(ApiException e) {
+                    }
+                });
     }
 
 
@@ -167,7 +154,7 @@ public class MessageDetailActivity extends BaseActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.refuse:
-                doRefuse();
+                finish();
                 break;
             case R.id.agree:
                 doAgree();

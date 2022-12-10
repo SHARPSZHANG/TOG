@@ -1,10 +1,13 @@
 package com.sharpszhang.tog.Bean;
 
+
+
 public class ClubMemberVo  extends ClubMember {
 
     private String clubName;
 
     private String userName;
+
 
     public String getClubName() {
         return clubName;
@@ -22,11 +25,4 @@ public class ClubMemberVo  extends ClubMember {
         this.userName = userName;
     }
 
-    public ClubMemberVo() {
-    }
-
-    public ClubMemberVo(String clubName, String userName) {
-        this.clubName = clubName;
-        this.userName = userName;
-    }
 }

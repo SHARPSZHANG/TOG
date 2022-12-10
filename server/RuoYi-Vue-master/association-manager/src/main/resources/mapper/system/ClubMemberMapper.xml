@@ -39,8 +39,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <sql id="selectClubMemberVo">
         SELECT
-            u.user_name,
-            c.club_NAME,
+            u.nick_name as user_name,
+            c.club_name,
             cm.*
         FROM
             club_member cm

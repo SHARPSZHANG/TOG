@@ -36,16 +36,12 @@
             android:gravity="center_vertical"
             android:text="特        长:"
             />
-        <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+        <TextView
             android:id="@+id/speciality"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:hint="请输入个人特长..."
-            app:met_clearButton="true"
-            app:met_maxCharacters="20"
-            app:met_baseColor="@color/black"
-            app:met_allowEmpty="false"
             android:textColor="@color/black"
             android:textAlignment="viewStart" />
     </LinearLayout>
@@ -63,16 +59,12 @@
             android:gravity="center_vertical"
             android:text="爱        好:"
             />
-        <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+        <TextView
             android:id="@+id/hobby"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:hint="请输入个人爱好..."
-            app:met_clearButton="true"
-            app:met_maxCharacters="20"
-            app:met_baseColor="@color/black"
-            app:met_allowEmpty="false"
             android:textColor="@color/black"
             android:textAlignment="viewStart" />
     </LinearLayout>
@@ -90,16 +82,12 @@
             android:gravity="center_vertical"
             android:text="Q  Q号码:"
             />
-        <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+        <TextView
             android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:hint="请输入联系电话..."
-            app:met_clearButton="true"
-            app:met_maxCharacters="20"
-            app:met_baseColor="@color/black"
-            app:met_allowEmpty="false"
             android:textColor="@color/black"
             android:textAlignment="viewStart" />
     </LinearLayout>
@@ -123,8 +111,9 @@
 
     </LinearLayout>
 
-    <com.xuexiang.xui.widget.edittext.MultiLineEditText
+    <TextView
         android:id="@+id/message_content"
+        android:height="120dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_width="match_parent"

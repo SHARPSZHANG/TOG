@@ -230,6 +230,7 @@ public class TogMobileController extends BaseController {
         ClubMember clubMember = new ClubMember();
         clubMember.setUserId(userId);
         clubMember.setClubId(clubId);
+        clubMember.setState(1);
         List<ClubMember> clubMembers = clubMemberService.selectClubMemberList2(clubMember);
         if (clubMembers != null && clubMembers.size()>0){
             return new ApiResult<Boolean>().setData(true);
@@ -290,6 +291,7 @@ public class TogMobileController extends BaseController {
         Long userId = loginUser.getUserId();
         SysUser sysUser = userService.selectUserById(loginUser.getUserId());
         club.setCreateBy(sysUser.getNickName());
+        club.setState(1);
         club.setCreateTime(DateUtils.getNowDate());
         return new ApiResult<Boolean>().setData(clubService.insertClub(club,userId) > 0);
     }
@@ -333,7 +335,7 @@ public class TogMobileController extends BaseController {
     }
 
     @ApiOperation("查询社团成员,返回memberVo")
-    @GetMapping("/member/")
+    @GetMapping("/member")
     public ApiResult listMemberById(@RequestParam Long memberId)
     {
         /*
@@ -559,7 +561,8 @@ public class TogMobileController extends BaseController {
     @GetMapping(value = "/message/{id}")
     public ApiResult getMessageInfo(@PathVariable("id") Long id)
     {
-        return new ApiResult<TogMessage>().setData(togMessageService.selectTogMessageById(id));
+        togMessageService.selectTogMessageById(id);
+        return new ApiResult<Boolean>().setData(true);
     }
 
     /**

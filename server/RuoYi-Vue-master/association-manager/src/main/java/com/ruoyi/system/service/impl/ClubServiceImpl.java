@@ -93,7 +93,7 @@ public class ClubServiceImpl implements IClubService
         club.setState(0);
         int i = clubMapper.insertClub(club);
         ClubMember clubMember = new ClubMember();
-        clubMember.setClubId(Long.valueOf(i));
+        clubMember.setClubId(club.getId());
         clubMember.setUserId(userId);
         clubMember.setPosition("社长");
         clubMember.setState(1);
