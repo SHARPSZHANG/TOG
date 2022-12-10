@@ -8,6 +8,7 @@ import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.core.domain.model.RegisterBody;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.web.service.SysRegisterService;
@@ -607,6 +608,7 @@ public class TogMobileController extends BaseController {
     @PostMapping("/editPassword")
     public ApiResult editPassword(@RequestBody SysUser user)
     {
+        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
         return new ApiResult<Boolean>().setData(userService.updateUser(user) > 0);
     }
 }
