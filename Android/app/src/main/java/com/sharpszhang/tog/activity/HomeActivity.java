@@ -128,15 +128,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         manageFragment.setArguments(bundle);
         // 获取底部导航
         bottomNavigationView = findViewById(R.id.home_button);
-        // 为底部导航页中的消息按钮天际角标
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
-        View view = menuView.getChildAt(2);
-        BottomNavigationItemView itemView = (BottomNavigationItemView) view;
-        View badge = LayoutInflater.from(this).inflate(R.layout.menu, menuView, false);
-        itemView.addView(badge);
-        TextView count = (TextView) badge.findViewById(R.id.tv_msg_count);
-        // 设置消息数
-        count.setText(String.valueOf(33));
         // 设置启动默认视图为发现页
         switchFragment(activityFragment);
     }

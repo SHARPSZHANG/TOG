@@ -16,6 +16,7 @@ import com.sharpszhang.tog.R;
 import com.sharpszhang.tog.activity.AddClubActivity;
 import com.sharpszhang.tog.activity.ApplicationActivity;
 import com.sharpszhang.tog.activity.ClubListActivity;
+import com.sharpszhang.tog.activity.EditUserActivity;
 import com.sharpszhang.tog.activity.NoticeActivity;
 import com.sharpszhang.tog.activity.RecruitmentActivity;
 import com.sharpszhang.tog.utils.XToastUtils;
@@ -35,6 +36,7 @@ public class ManageFragment extends Fragment implements View.OnClickListener {
 
     private TextView userName;
     private TextView signature;
+    private TextView exit;
 
     private RoundButton button;
 
@@ -60,6 +62,7 @@ public class ManageFragment extends Fragment implements View.OnClickListener {
         signature = (TextView) view.findViewById(R.id.signature);
         button = (RoundButton) view.findViewById(R.id.userInfo_btn);
         notice = view.findViewById(R.id.manage_notice);
+        exit = view.findViewById(R.id.exit);
         activity = view.findViewById(R.id.manage_activity);
         clubSettings = view.findViewById(R.id.manage_settings);
         recruitment = view.findViewById(R.id.manage_recruitment);
@@ -69,6 +72,7 @@ public class ManageFragment extends Fragment implements View.OnClickListener {
         recruitment.setOnClickListener(this);
         clubSettings.setOnClickListener(this);
         addClub.setOnClickListener(this);
+        exit.setOnClickListener(this);
 
 
         button.setOnClickListener(this);
@@ -96,8 +100,8 @@ public class ManageFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onSuccess(SysUser response) throws Throwable {
                         if (response != null) {
-                            userName.setText(response.getUserName());
-                            signature.setText(response.getRemark());
+                            userName.setText(response.getNickName());
+                            signature.setText(response.getUserName());
                         } else {
                             view = inf.inflate(R.layout.empty_activity, null);
                         }
@@ -114,7 +118,10 @@ public class ManageFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.userInfo_btn:
-                XToastUtils.toast("请前往后台修改");
+                Intent intent = new Intent(this.getContext(), EditUserActivity.class);
+                intent.putExtra("userId", userId);
+                intent.putExtra("token", token);
+                startActivity(intent);
                 break;
             case R.id.manage_notice:
                 Intent intent1 = new Intent(this.getContext(), NoticeActivity.class);
@@ -142,6 +149,9 @@ public class ManageFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.addClub:
                 startActivity(new Intent(this.getContext(), AddClubActivity.class).putExtra("userId", userId).putExtra("token", token));
+                break;
+            case R.id.exit:
+                this.getActivity().finish();
         }
 
     }

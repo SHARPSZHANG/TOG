@@ -83,7 +83,7 @@ public class RecruitmentActivity extends BaseActivity {
     }
 
     public void initData() {
-        XHttp.get("/prod-api/system/mobile/findClubByUserId")
+        XHttp.get("/prod-api/system/mobile/club/findClubByUserId")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)

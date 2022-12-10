@@ -58,7 +58,7 @@ public class TogMobileController extends BaseController {
     private ISysConfigService configService;
 
 
-    @ApiOperation("移动：查询所有活动列表")
+    @ApiOperation("用户注册")
     @PostMapping("/register/new")
     public ApiResult registerNew(@RequestBody RegisterBody user)
     {
@@ -229,7 +229,7 @@ public class TogMobileController extends BaseController {
         Long userId = getUserId();
         ClubMember clubMember = new ClubMember();
         clubMember.setUserId(userId);
-        clubMember.setUserId(clubId);
+        clubMember.setClubId(clubId);
         List<ClubMember> clubMembers = clubMemberService.selectClubMemberList2(clubMember);
         if (clubMembers != null && clubMembers.size()>0){
             return new ApiResult<Boolean>().setData(true);
@@ -283,10 +283,11 @@ public class TogMobileController extends BaseController {
     @ApiOperation("创建社团、并将当前用户设置为社长")
     @ApiImplicitParam(name = "club", value = "社团信息", required = true, dataType = "Long", paramType = "body", dataTypeClass = Club.class)
     @PostMapping("/club")
-    public ApiResult addClub(@RequestBody Club club, @RequestParam("userId") Long userId)
+    public ApiResult addClub(@RequestBody Club club)
     {
 
         LoginUser loginUser = getLoginUser();
+        Long userId = loginUser.getUserId();
         SysUser sysUser = userService.selectUserById(loginUser.getUserId());
         club.setCreateBy(sysUser.getNickName());
         club.setCreateTime(DateUtils.getNowDate());
@@ -597,5 +598,12 @@ public class TogMobileController extends BaseController {
     public ApiResult remove(@PathVariable Long[] ids)
     {
         return new ApiResult<Boolean>().setData(togMessageService.deleteTogMessageByIds(ids) >0);
+    }
+
+    @ApiOperation("修改用户密码")
+    @PostMapping("/editPassword")
+    public ApiResult editPassword(@RequestBody SysUser user)
+    {
+        return new ApiResult<Boolean>().setData(userService.updateUser(user) > 0);
     }
 }

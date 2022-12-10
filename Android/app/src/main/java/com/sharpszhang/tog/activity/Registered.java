@@ -188,7 +188,7 @@ public class Registered extends BaseActivity implements View.OnClickListener, Te
         // 登录按钮是否可用
         // 用户名、密码均不为空的时候按钮可用
         // getColor() 方法在API 23中过时 采用ContextCompat.getColor(context,R.color.name))替代
-        if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(username) && !TextUtils.isEmpty(passwordConfirm)) {
+        if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(username) && !TextUtils.isEmpty(passwordConfirm)&& !TextUtils.isEmpty(account)) {
             submit.setEnabled(true);
             submit.setBackgroundResource(R.drawable.submit_unlock);
         } else {
@@ -213,7 +213,7 @@ public class Registered extends BaseActivity implements View.OnClickListener, Te
                     .execute(new SimpleCallBack<Boolean>() {
                         @Override
                         public void onSuccess(Boolean aBoolean) {
-                            setResult(RESULT_OK, new Intent().putExtra("username", username).putExtra("password", password));
+                            setResult(RESULT_OK, new Intent().putExtra("username", accountEdit.getText()).putExtra("password", password));
                             XToastUtils.toast("注册成功！");
                             finish();
                         }

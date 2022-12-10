@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -38,7 +39,7 @@ public class ApplicationActivity extends BaseActivity implements View.OnClickLis
     private MaterialEditText activityTitle;
     private TextView activityTimeText;
     private XUIAlphaButton activityTime;
-    private RoundButton release;
+    private Button release;
     private MultiLineEditText activityContent;
     private TimePickerView mDatePicker;
 

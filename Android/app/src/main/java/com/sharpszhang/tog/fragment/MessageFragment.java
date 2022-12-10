@@ -94,7 +94,7 @@ public class MessageFragment extends Fragment implements RecyclerViewHolder.OnIt
         XHttp.get("/prod-api/system/mobile/message/all/list")
                 .syncRequest(false)
                 .onMainThread(true)
-                .timeOut(1000)
+                .timeOut(3000)
                 .timeStamp(true)
                 .params("userId", userId)
                 .headers("Authorization", "Bearer " + token)

@@ -19,6 +19,7 @@ import com.xuexiang.xhttp2.exception.ApiException;
 import com.xuexiang.xui.adapter.recyclerview.BaseRecyclerAdapter;
 import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
 import com.xuexiang.xui.utils.WidgetUtils;
+import com.xuexiang.xui.widget.actionbar.TitleBar;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class ClubListActivity extends BaseActivity implements RecyclerViewHolder
     private SmartRefreshLayout refreshLayout;
     private BaseRecyclerAdapter<Club> adapter;
 
-
+    private TitleBar titleBar;
     private RecyclerView recyclerView;
 
     private View emptyView;
@@ -49,6 +50,11 @@ public class ClubListActivity extends BaseActivity implements RecyclerViewHolder
         refreshLayout = findViewById(R.id.refreshLayout);
         // 数据展示视图
         recyclerView = findViewById(R.id.recyclerView);
+        titleBar = findViewById(R.id.title_bar);
+        titleBar.setLeftClickListener(view -> {
+            finish();
+            overridePendingTransition(R.anim.slid_left_in, R.anim.slid_right_out);
+        });
         // 初始化视图
         WidgetUtils.initRecyclerView(recyclerView);
         initView();

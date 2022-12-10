@@ -42,6 +42,8 @@
             android:theme="@style/XUITheme.Phone"/>
         <activity android:name=".activity.AddClubActivity"
             android:theme="@style/XUITheme.Phone"/>
+        <activity android:name=".activity.EditUserActivity"
+            android:theme="@style/XUITheme.Phone"/>
         <activity
             android:name=".activity.HomeActivity"
             android:theme="@style/XUITheme.Phone">

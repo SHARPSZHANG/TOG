@@ -48,6 +48,12 @@ public class EditUserActivity extends BaseActivity {
             finish();
             overridePendingTransition(R.anim.slid_left_in, R.anim.slid_right_out);
         });
+        titleBar.addAction(new TitleBar.TextAction("保存") {
+            @Override
+            public void performAction(View view) {
+                editUser();
+            }
+        });
 
 
         Intent intent = getIntent();
@@ -83,7 +89,7 @@ public class EditUserActivity extends BaseActivity {
         SysUser user = new SysUser();
         user.setUserId(Long.valueOf(userId));
         user.setPassword(passwordEditText.getText().toString());
-        XHttp.post("/prod-api/system/mobile/edit")
+        XHttp.post("/prod-api/system/mobile/editPassword")
                 .syncRequest(false)
                 .onMainThread(true)
                 .timeOut(1000)

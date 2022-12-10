@@ -73,7 +73,7 @@ public class AddClubActivity extends BaseActivity implements View.OnClickListene
                 club.setClubDetail(clubDetails.getContentText().toString());
                 club.setGmtCreate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
                 club.setIsDelete(0);
-                XHttp.post("/prod-api/system/club")
+                XHttp.post("/prod-api/system/mobile/club")
                         .syncRequest(false)
                         .onMainThread(true)
                         .timeOut(1000)
